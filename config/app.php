@@ -178,6 +178,8 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         // Laravel Auditing
         OwenIt\Auditing\AuditingServiceProvider::class,
+        // Bouncer 
+        Silber\Bouncer\BouncerServiceProvider::class,
 
     ],
 
@@ -235,6 +237,8 @@ return [
         'Flash'     => Laracasts\Flash\Flash::class,
         // Laravel Debugbar
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        // Bouncer 
+        'Bouncer' => Silber\Bouncer\BouncerFacade::class,
 
     ],
 

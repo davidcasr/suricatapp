@@ -176,6 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         // Laravel Debugbar
         Barryvdh\Debugbar\ServiceProvider::class,
+        // Laravel Auditing
+        OwenIt\Auditing\AuditingServiceProvider::class,
 
     ],
 

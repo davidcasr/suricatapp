@@ -10,11 +10,12 @@
     "require": {
         "php": "^7.2",
         "fideloper/proxy": "^4.0",
+        "infyomlabs/adminlte-templates": "6.0.x-dev",
+        "infyomlabs/laravel-generator": "6.0.x-dev",
         "laravel/framework": "^6.2",
         "laravel/tinker": "^2.0",
-        "infyomlabs/laravel-generator": "6.0.x-dev",
         "laravelcollective/html": "^6.0",
-        "infyomlabs/adminlte-templates": "6.0.x-dev"
+        "owen-it/laravel-auditing": "^9.3"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

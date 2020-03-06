@@ -9,7 +9,7 @@
 
     <div class="form-group row">
         <div class="col-md-12">
-            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('E-Mail Address') }}">
+            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('Correo electrónico') }}">
 
             @error('email')
                 <span class="invalid-feedback" role="alert">
@@ -22,7 +22,7 @@
     <div class="form-group row">
 
         <div class="col-md-12">
-            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="{{ __('Password') }}">
+            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="{{ __('Contraseña') }}">
 
             @error('password')
                 <span class="invalid-feedback" role="alert">
@@ -35,14 +35,14 @@
     <div class="form-group row">
 
         <div class="col-md-12">
-            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="{{ __('Confirm Password') }}">
+            <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password" placeholder="{{ __('Confirmar Contraseña') }}">
         </div>
     </div>
 
     <div class="form-group row mb-0">
         <div class="col-md-12 text-center">
             <button type="submit" class="btn btn-primary btn-lg">
-                {{ __('Reset Password') }}
+                {{ __('Resetear constraseña') }}
             </button>
         </div>
     </div>

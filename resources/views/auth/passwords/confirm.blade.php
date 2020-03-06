@@ -8,7 +8,7 @@
     <div class="form-group row">
 
         <div class="col-md-12">
-            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
+            <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Contraseña') }}">
 
             @error('password')
                 <span class="invalid-feedback" role="alert">
@@ -23,12 +23,12 @@
 
             @if (Route::has('password.request'))
                 <a class="btn btn-link btn-lg" href="{{ route('password.request') }}">
-                    {{ __('Forgot Your Password?') }}
+                    {{ __('Olvidaste tu contraseña?') }}
                 </a>
             @endif
 
             <button type="submit" class="btn btn-primary btn-lg">
-                {{ __('Confirm Password') }}
+                {{ __('Confirmar contraseña') }}
             </button>
         </div>
     </div>

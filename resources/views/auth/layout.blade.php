@@ -38,7 +38,7 @@
                                     <div class="h5 modal-title text-center">
                                         <h4 class="mt-2">
                                             <div>Suricatapp</div>
-                                            <span>Hola gestiona gente</span>
+                                            <span>Gestiona y guía tu comunidad</span>
                                         </h4>
                                     </div>
                                     @yield('content')

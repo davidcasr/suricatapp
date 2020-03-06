@@ -47,17 +47,27 @@
                                     <button type="button" tabindex="0" class="dropdown-item">Cuenta</button>
                                     <button type="button" tabindex="0" class="dropdown-item">Ajustes</button>
                                     <div tabindex="-1" class="dropdown-divider"></div>
-                                    <button type="button" tabindex="0" class="dropdown-item">Cerrar sesión</button>
+                                    <a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __(' Cerrar sesión') }}
+                                    </a>
+
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
                                 </div>
                             </div>
                         </div>
                         <div class="widget-content-left  ml-3 header-user-info">
-                            <div class="widget-heading">
-                                Alina Mclourd
-                            </div>
-                            <div class="widget-subheading">
-                                VP People Manager
-                            </div>
+                            @auth
+                                <div class="widget-heading">
+                                    {{ Auth::user()->username }}
+                                </div>
+                                <div class="widget-subheading">
+                                    {{ Auth::user()->first_name ." ". Auth::user()->last_name}}
+                                </div>
+                            @endauth
                         </div>
                         
                     </div>

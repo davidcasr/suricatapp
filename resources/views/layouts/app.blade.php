@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
+
     
 </head>
 <body>
@@ -32,6 +33,6 @@
     
     <!-- Scripts -->
     <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
-
+    @yield('scripts')
 </body>
 </html>

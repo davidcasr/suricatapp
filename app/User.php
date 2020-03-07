@@ -56,4 +56,9 @@ class User extends Authenticatable
         'password' => 'required|string|min:8|confirmed',
         'phone' => 'nullable|string|max:100'
     ];
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = bcrypt($value);
+    }
 }

@@ -35,6 +35,22 @@ return [
         'longitude' => 'Longitud'
     ],
 
+    'people'   => 'Persona|Personas',
+
+    'people_var'   => [
+        'identification' => 'Identificación',
+        'first_name' => 'Nombres',
+        'last_name' => 'Apellidos',
+        'email' => 'Correo electrónico',
+        'sex' => 'Sexo',
+        'address' => 'Dirección',
+        'birth' => 'Fecha de cumpleaños',
+        'city' => 'Ciudad',
+        'country' => 'País',
+        'phone' => 'Teléfono',
+        'photo' => 'Foto'
+    ],
+
     'users'   => 'Usuario|Usuarios',
 
     'users_var'   => [

@@ -1,4 +1,4 @@
-<div class="table-responsive">
+<div class="table-responsive table-striped">
     <table class="table" id="communities-table">
         <thead>
             <tr>
@@ -6,8 +6,7 @@
                 <th>{{ __('functionalities.communities_var.name') }}</th>
                 <th>{{ __('functionalities.communities_var.description') }}</th>
                 <th>{{ __('functionalities.communities_var.address') }}</th>
-                <th>{{ __('functionalities.communities_var.latitude') }}</th>
-                <th>{{ __('functionalities.communities_var.longitude') }}</th>
+                
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
         </thead>
@@ -18,8 +17,7 @@
                 <td>{{ $community->name }}</td>
                 <td>{{ $community->description }}</td>
                 <td>{{ $community->address }}</td>
-                <td>{{ $community->latitude }}</td>
-                <td>{{ $community->longitude }}</td>
+                
                 <td>
                     {!! Form::open(['route' => ['communities.destroy', $community->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

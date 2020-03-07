@@ -9,33 +9,23 @@
                     </i>
                 </div>
                 <div>@choice('functionalities.communities', 1)
-                    <div class="page-title-subheading">¿Sabías que? Las suricatas tienen una manera curiosa de organirzarse en comunidades
+                    <div class="page-title-subheading">¿Sabías que? Las suricatas tienen una manera curiosa de organizarse en comunidades
                     </div>
                 </div>
             </div>
             <div class="page-title-actions">
-                <a class="btn btn-primary pull-right" href="{{ route('communities.create') }}">{{ __('functionalities.create') }} @choice('functionalities.communities', 1)</a>
-                
+                <a class="btn btn-primary" href="{{ route('communities.create') }}">{{ __('functionalities.create') }} @choice('functionalities.communities', 1)</a>  
             </div>   
         </div>
     </div>
     
-    <div class="main-card card">
-        <div class="card-body">
-            <div class="content">
-                <div class="clearfix"></div>
-
-                @include('flash::message')
-
-                <div class="clearfix"></div>
-                <div class="box box-primary">
-                    <div class="box-body">
-                        @include('communities.table')
-                    </div>
-                </div>
-                <div class="text-center">
-                
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="main-card mb-3 card">
+                <div class="card-body">
+                    @include('flash::message')
+                    @include('communities.table')
+                </div>  
             </div>
         </div>
     </div>

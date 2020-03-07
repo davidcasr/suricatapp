@@ -8,11 +8,13 @@
                 <div class="box box-primary">
                     <div class="box-body">
                         <div class="row">
-                            {!! Form::open(['route' => 'communities.store']) !!}
+                            <div class="col-sm-6">
+                                {!! Form::open(['route' => 'communities.store']) !!}
 
-                                @include('communities.fields')
+                                    @include('communities.fields')
 
-                            {!! Form::close() !!}
+                                {!! Form::close() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

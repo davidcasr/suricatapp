@@ -60,6 +60,13 @@ return [
         'description' => 'Descripción'
     ],
 
+    'features'   => 'Característica|Características',
+
+    'features_var'   => [
+        'name' => 'Nombre',
+        'description' => 'Descripción'
+    ],
+
     'users'   => 'Usuario|Usuarios',
 
     'users_var'   => [

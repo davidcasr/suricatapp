@@ -20,4 +20,10 @@
     </a>
 </li>
 
+<li class="{{ Request::is('features*') ? 'active' : '' }}">
+    <a href="{{ route('features.index') }}">
+        <i class="metismenu-icon pe-7s-news-paper"></i>
+        <span>@choice('functionalities.features', 2)</span>
+    </a>
+</li>
 

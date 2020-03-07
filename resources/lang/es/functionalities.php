@@ -51,6 +51,15 @@ return [
         'photo' => 'Foto'
     ],
 
+    'groups'   => 'Grupo|Grupos',
+
+    'groups_var'   => [
+        'parent_id' => 'Id Padre',
+        'identification' => 'Identificación',
+        'name' => 'Nombre',
+        'description' => 'Descripción'
+    ],
+
     'users'   => 'Usuario|Usuarios',
 
     'users_var'   => [

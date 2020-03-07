@@ -13,4 +13,11 @@
     </a>
 </li>
 
+<li class="{{ Request::is('groups*') ? 'active' : '' }}">
+    <a href="{{ route('groups.index') }}">
+        <i class="metismenu-icon pe-7s-graph1"></i>
+        <span>@choice('functionalities.groups', 2)</span>
+    </a>
+</li>
+
 

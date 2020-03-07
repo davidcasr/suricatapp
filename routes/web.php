@@ -22,5 +22,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('communities', 'CommunityController');
 	Route::resource('people', 'PersonController');
+	Route::resource('groups', 'GroupController');
 });
+
+
 

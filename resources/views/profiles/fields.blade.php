@@ -1,0 +1,17 @@
+<!-- Name Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('name', __('functionalities.profiles_var.name')) !!}
+    {!! Form::text('name', null, ['class' => 'form-control','maxlength' => 100]) !!}
+</div>
+
+<!-- Description Field -->
+<div class="form-group col-sm-12 col-lg-12">
+    {!! Form::label('description', __('functionalities.profiles_var.description')) !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control','maxlength' => 250]) !!}
+</div>
+
+<!-- Submit Field -->
+<div class="form-group col-sm-12">
+    {!! Form::submit(__('buttons.save'), ['class' => 'btn btn-primary']) !!}
+    <a href="{{ route('profiles.index') }}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
+</div>

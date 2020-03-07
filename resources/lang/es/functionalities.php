@@ -67,6 +67,13 @@ return [
         'description' => 'Descripción'
     ],
 
+    'profiles'   => 'Perfil|Perfiles',
+
+    'profiles_var'   => [
+        'name' => 'Nombre',
+        'description' => 'Descripción'
+    ],
+
     'users'   => 'Usuario|Usuarios',
 
     'users_var'   => [

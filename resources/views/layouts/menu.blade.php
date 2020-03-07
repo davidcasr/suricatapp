@@ -27,3 +27,9 @@
     </a>
 </li>
 
+<li class="{{ Request::is('profiles*') ? 'active' : '' }}">
+    <a href="{{ route('profiles.index') }}">
+        <i class="metismenu-icon pe-7s-note"></i>
+        <span>@choice('functionalities.profiles', 2)</span>
+    </a>
+</li>

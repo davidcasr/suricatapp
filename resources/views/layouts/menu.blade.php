@@ -1,4 +1,12 @@
 <li class="app-sidebar__heading"></li>
+
+<li class="{{ Request::is('dashboard*') ? 'active' : '' }}">
+    <a href="{{ route('dashboard.index') }}">
+        <i class="metismenu-icon pe-7s-display1"></i>
+        <span>@choice('functionalities.dashboard', 2)</span>
+    </a>
+</li>
+
 <li class="{{ Request::is('communities*') ? 'active' : '' }}">
     <a href="{{ route('communities.index') }}">
         <i class="metismenu-icon pe-7s-users"></i>
@@ -31,5 +39,12 @@
     <a href="{{ route('profiles.index') }}">
         <i class="metismenu-icon pe-7s-note"></i>
         <span>@choice('functionalities.profiles', 2)</span>
+    </a>
+</li>
+
+<li class="{{ Request::is('meetings*') ? 'active' : '' }}">
+    <a href="{{ route('meetings.index') }}">
+        <i class="metismenu-icon pe-7s-map-2"></i>
+        <span>@choice('functionalities.meetings', 2)</span>
     </a>
 </li>

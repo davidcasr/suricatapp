@@ -23,6 +23,8 @@ return [
         'general' => 'General',
         'plans' => 'Gestión de Planes',
     ],
+
+    'dashboard'   => 'Dashboard',
    
     'communities'   => 'Comunidad|Comunidades',
 
@@ -72,6 +74,19 @@ return [
     'profiles_var'   => [
         'name' => 'Nombre',
         'description' => 'Descripción'
+    ],
+
+    'meetings'   => 'Reunión|Reuniones',
+
+    'meetings_var'   => [
+        'user_id' => 'user_id',
+        'person_id' => 'person_id',
+        'name' => 'Título',
+        'description' => 'Descripción',
+        'date' => 'Fecha de la reunión',
+        'address' => 'Dirección',
+        'latitude' => 'Latitud',
+        'longitude' => 'Longitud'
     ],
 
     'users'   => 'Usuario|Usuarios',

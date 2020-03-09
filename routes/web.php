@@ -20,16 +20,12 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
+	Route::resource('dashboard', 'DashboardController');
 	Route::resource('communities', 'CommunityController');
 	Route::resource('people', 'PersonController');
 	Route::resource('groups', 'GroupController');
 	Route::resource('features', 'FeatureController');
+	Route::resource('profiles', 'ProfileController');
+	Route::resource('meetings', 'MeetingController');
 });
 
-
-
-
-
-
-
-Route::resource('profiles', 'ProfileController');

@@ -27,5 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('features', 'FeatureController');
 	Route::resource('profiles', 'ProfileController');
 	Route::resource('meetings', 'MeetingController');
+	Route::resource('meeting_reports', 'MeetingReportController');
 });
+
+
 

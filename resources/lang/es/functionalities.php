@@ -98,6 +98,15 @@ return [
         'description' => 'Descripción'
     ],
 
+    'assistants'   => 'Asistente|Asistentes',
+
+    'assistants_var'   => [
+        'person_id' => 'person_id',
+        'group_id' => 'group_id',
+        'meeting_id' => 'meeting_id',
+        'confirmation' => 'Confirmación'
+    ],
+
     'users'   => 'Usuario|Usuarios',
 
     'users_var'   => [

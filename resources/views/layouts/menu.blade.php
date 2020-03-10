@@ -56,4 +56,10 @@
     </a>
 </li>
 
+<li class="{{ Request::is('assistants*') ? 'active' : '' }}">
+    <a href="{{ route('assistants.index') }}">
+        <i class="metismenu-icon pe-7s-add-user"></i>
+        <span>@choice('functionalities.assistants', 2)</span>
+    </a>
+</li>
 

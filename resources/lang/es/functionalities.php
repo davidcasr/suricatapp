@@ -141,17 +141,17 @@ return [
         'scope' => 'scope',
     ],
 
-    'gen_group' => 'Grupo|Grupos',
+    'gen_groups' => 'Grupo|Grupos',
 
-    'gen_group_var'   => [
+    'gen_groups_var'   => [
         'group_cod' => 'group_cod',
         'group_description' => 'group_description',
         'enabled' => 'enabled'
     ],
 
-    'gen_list' => 'Lista|Listas',
+    'gen_lists' => 'Lista|Listas',
 
-    'gen_list_var'   => [
+    'gen_lists_var'   => [
         'group_id' => 'group_id',
         'item_id' => 'item_id',
         'item_description' => 'item_description',
@@ -170,9 +170,9 @@ return [
         'q_communities' => 'Cant. Comunidades'
     ],
 
-    'plan_user' => 'Planes vs Usuarios',
+    'plan_users' => 'Planes vs Usuarios',
 
-    'plan_user_var'   => [
+    'plan_users_var'   => [
         'user_id' => 'Usuario',
         'plan_id' => 'Plan',
         'status' => 'Estatus',

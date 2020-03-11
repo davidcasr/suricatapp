@@ -1,57 +1,71 @@
-<li class="app-sidebar__heading">Administrator</li>
+<li class="app-sidebar__heading">Administración</li>
 <li>
     <a href="#">
-        <i class="metismenu-icon pe-7s-diamond"></i>
-        Elements
+        <i class="metismenu-icon pe-7s-users icon-gradient bg-premium-dark"></i>
+        {{ __('functionalities.menu_admin.user_management') }}
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
     <ul>
-        <li>
-            <a href="elements-buttons-standard.html">
+        <li class="{{ Request::is('users*') ? 'active' : '' }}">
+            <a href="{!! route('users.index') !!}">
                 <i class="metismenu-icon"></i>
-                Buttons
+                @choice('functionalities.users', 2)
             </a>
         </li>
-        <li>
-            <a href="elements-dropdowns.html">
-                <i class="metismenu-icon">
-                </i>Dropdowns
+        <li class="{{ Request::is('roles*') ? 'active' : '' }}">
+            <a href="{!! route('roles.index') !!}">
+                <i class="metismenu-icon"></i>
+                @choice('functionalities.roles', 2)
             </a>
         </li>
-        <li>
-            <a href="elements-icons.html">
-                <i class="metismenu-icon">
-                </i>Icons
+        <li class="{{ Request::is('abilities*') ? 'active' : '' }}">
+            <a href="{!! route('abilities.index') !!}">
+                <i class="metismenu-icon"></i>
+                @choice('functionalities.abilities', 2)
             </a>
         </li>
-        <li>
-            <a href="elements-badges-labels.html">
-                <i class="metismenu-icon">
-                </i>Badges
+    </ul>
+</li>
+
+<li>
+    <a href="#">
+        <i class="metismenu-icon pe-7s-tools icon-gradient bg-premium-dark"></i>
+        {{ __('functionalities.menu_admin.general') }}
+        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+    </a>
+    <ul>
+        <li class="{{ Request::is('gen_groups*') ? 'active' : '' }}">
+            <a href="{!! route('gen_groups.index') !!}">
+                <i class="metismenu-icon"></i>
+                @choice('functionalities.gen_groups', 2)
             </a>
         </li>
-        <li>
-            <a href="elements-cards.html">
-                <i class="metismenu-icon">
-                </i>Cards
+        <li class="{{ Request::is('gen_lists*') ? 'active' : '' }}">
+            <a href="{!! route('gen_lists.index') !!}">
+                <i class="metismenu-icon"></i>
+                @choice('functionalities.gen_lists', 2)
             </a>
         </li>
-        <li>
-            <a href="elements-list-group.html">
-                <i class="metismenu-icon">
-                </i>List Groups
+    </ul>
+</li>
+
+<li>
+    <a href="#">
+        <i class="metismenu-icon pe-7s-cash icon-gradient bg-premium-dark"></i>
+        {{ __('functionalities.menu_admin.plans') }}
+        <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+    </a>
+    <ul>
+        <li class="{{ Request::is('plans*') ? 'active' : '' }}">
+            <a href="{!! route('plans.index') !!}">
+                <i class="metismenu-icon"></i>
+                @choice('functionalities.plans', 2)
             </a>
         </li>
-        <li>
-            <a href="elements-navigation.html">
-                <i class="metismenu-icon">
-                </i>Navigation Menus
-            </a>
-        </li>
-        <li>
-            <a href="elements-utilities.html">
-                <i class="metismenu-icon">
-                </i>Utilities
+        <li class="{{ Request::is('plan_users*') ? 'active' : '' }}">
+            <a href="{!! route('plan_users.index') !!}">
+                <i class="metismenu-icon"></i>
+               @choice('functionalities.plan_users', 2)
             </a>
         </li>
     </ul>

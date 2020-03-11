@@ -18,7 +18,15 @@
 <body>
     <div id="app">
        <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
-        @include('layouts.header')      
+        @include('layouts.header')
+            <div class="ui-theme-settings">  
+                <div class="theme-settings__inner">
+                    <div class="scrollbar-container">
+                        <div class="theme-settings__options-wrapper"> 
+                        </div>
+                    </div>
+                </div>
+            </div>      
             <div class="app-main">
                 @include('layouts.sidebar')  
                 <div class="app-main__outer">

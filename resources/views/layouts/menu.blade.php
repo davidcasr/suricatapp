@@ -1,3 +1,5 @@
+@can('admin_all')
+
 <li class="app-sidebar__heading"></li>
 
 <li class="{{ Request::is('dashboard*') ? 'mm-active' : '' }}">
@@ -62,4 +64,6 @@
         <span>@choice('functionalities.assistants', 2)</span>
     </a>
 </li>
+
+@endcan
 

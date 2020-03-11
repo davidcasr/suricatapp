@@ -1,4 +1,6 @@
-<li class="app-sidebar__heading">Administración</li>
+@can('super_all')
+
+<li class="app-sidebar__heading">@choice('functionalities.menu_admin.administration', 2)</li>
 <li>
     <a href="#">
         <i class="metismenu-icon pe-7s-users icon-gradient bg-premium-dark"></i>
@@ -70,3 +72,5 @@
         </li>
     </ul>
 </li>
+
+@endcan

@@ -18,7 +18,7 @@ return [
    	'updated_at' => 'Actualizado en',
 
     'menu_admin'   => [
-        'administrator' => 'Administrador',    
+        'administration' => 'Administración',    
         'user_management' => 'Gestión de usuarios',    
         'general' => 'General',
         'plans' => 'Gestión de Planes',

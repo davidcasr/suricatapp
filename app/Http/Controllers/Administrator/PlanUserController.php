@@ -10,7 +10,7 @@ use Flash;
 use App\Http\Controllers\AppBaseController;
 use Response;
 use Illuminate\Http\Request;
-use App\Models\User;
+use App\User;
 use App\Models\Plan;
 use App\Models\PlanUser;
 
@@ -64,9 +64,9 @@ class PlanUserController extends AppBaseController
 
         $planUser = $this->planUserRepository->create($input);
 
-        Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.plan_user', 1)]));
+        Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.plan_users', 1)]));
 
-        return redirect(route('planUsers.index'));
+        return redirect(route('plan_users.index'));
     }
 
     /**
@@ -81,9 +81,9 @@ class PlanUserController extends AppBaseController
         $planUser = $this->planUserRepository->find($id);
 
         if (empty($planUser)) {
-            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.plan_user', 1)]));
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.plan_users', 1)]));
 
-            return redirect(route('planUsers.index'));
+            return redirect(route('plan_users.index'));
         }
 
         return view('administrator.plan_users.show')->with('planUser', $planUser);
@@ -103,9 +103,9 @@ class PlanUserController extends AppBaseController
         $plans = Plan::get()->pluck('name','id');
 
         if (empty($planUser)) {
-             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.plan_user', 1)]));
+             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.plan_users', 1)]));
 
-            return redirect(route('planUsers.index'));
+            return redirect(route('plan_users.index'));
         }
 
         return view('administrator.plan_users.edit', compact('planUser', 'users', 'plans'));
@@ -124,16 +124,16 @@ class PlanUserController extends AppBaseController
         $planUser = $this->planUserRepository->find($id);
 
         if (empty($planUser)) {
-            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.plan_user', 1)]));
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.plan_users', 1)]));
 
-            return redirect(route('planUsers.index'));
+            return redirect(route('plan_users.index'));
         }
 
         $planUser = $this->planUserRepository->update($request->all(), $id);
 
-        Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.plan_user', 1)]));
+        Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.plan_users', 1)]));
 
-        return redirect(route('planUsers.index'));
+        return redirect(route('plan_users.index'));
     }
 
     /**
@@ -148,15 +148,15 @@ class PlanUserController extends AppBaseController
         $planUser = $this->planUserRepository->find($id);
 
         if (empty($planUser)) {
-            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.plan_user', 1)]));
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.plan_users', 1)]));
 
-            return redirect(route('planUsers.index'));
+            return redirect(route('plan_users.index'));
         }
 
         $this->planUserRepository->delete($id);
 
-        Flash::success(trans('flash.destroy', ['model' => trans_choice('functionalities.plan_user', 1)]));
+        Flash::success(trans('flash.destroy', ['model' => trans_choice('functionalities.plan_users', 1)]));
 
-        return redirect(route('planUsers.index'));
+        return redirect(route('plan_users.index'));
     }
 }

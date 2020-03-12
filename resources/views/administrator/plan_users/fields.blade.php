@@ -19,24 +19,24 @@
 <!-- Date Activation Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('date_activation',  __('functionalities.plan_users_var.date_activation')) !!}
-    {!! Form::text('date_activation', null, ['class' => 'form-control','id'=>'date_activation']) !!}
+    {!! Form::date('date_activation', null, ['class' => 'form-control','id'=>'date_activation']) !!}
 </div>
 
 <!-- Date Deadline Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('date_deadline',  __('functionalities.plan_users_var.date_deadline')) !!}
-    {!! Form::text('date_deadline', null, ['class' => 'form-control','id'=>'date_deadline']) !!}
+    {!! Form::date('date_deadline', null, ['class' => 'form-control','id'=>'date_deadline']) !!}
 </div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('buttons.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('planUsers.index') !!}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
+    <a href="{!! route('plan_users.index') !!}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
 </div>
 
 @section('scripts')
    <script type="text/javascript">
-          $(document).ready(function () {
+         $(document).ready(function () {
                  $('#user_id').select2({
                      width: '100%',
                  });

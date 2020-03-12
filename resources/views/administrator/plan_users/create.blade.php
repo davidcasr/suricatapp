@@ -9,7 +9,7 @@
                     <div class="box-body">
                         <div class="row">
                             <div class="col-sm-6">
-                                {!! Form::open(['route' => 'planUsers.store']) !!}
+                                {!! Form::open(['route' => 'plan_users.store']) !!}
 
                                    @include('administrator.plan_users.fields')
 

@@ -8,7 +8,7 @@
              <div class="box box-primary">
                  <div class="box-body">
                      <div class="row">
-                         {!! Form::model($planUser, ['route' => ['planUsers.update', $planUser->id], 'method' => 'patch']) !!}
+                         {!! Form::model($planUser, ['route' => ['plan_users.update', $planUser->id], 'method' => 'patch']) !!}
 
                          @include('administrator.plan_users.fields')
 

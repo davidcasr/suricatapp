@@ -9,6 +9,9 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use App\User;
+use App\Models\CommunityUsers;
 
 class CommunityController extends AppBaseController
 {
@@ -29,10 +32,22 @@ class CommunityController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $communities = $this->communityRepository->all();
+        $communities = $this->communityRepository
+            ->makeModel()
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->paginate(config('global.per_page'));
 
-        return view('communities.index')
-            ->with('communities', $communities);
+        $q_communities_register = CommunityUsers::qCommunityUsers(Auth::id());
+        $q_communities_plan = User::infoPlan(Auth::id())->get(['q_communities'])->pluck('q_communities')[0];
+
+        if($q_communities_register >= $q_communities_plan){
+            $button_create = false;
+        }else{
+            $button_create = true;
+        }
+
+        return view('communities.index', compact('communities', 'button_create'));
     }
 
     /**
@@ -42,7 +57,15 @@ class CommunityController extends AppBaseController
      */
     public function create()
     {
-        return view('communities.create');
+        $q_communities_register = CommunityUsers::qCommunityUsers(Auth::id());
+        $q_communities_plan = User::infoPlan(Auth::id())->get(['q_communities'])->pluck('q_communities')[0];
+
+        if($q_communities_register >= $q_communities_plan){
+            abort(401);
+        }else{
+            return view('communities.create');
+        }
+        
     }
 
     /**
@@ -55,8 +78,10 @@ class CommunityController extends AppBaseController
     public function store(CreateCommunityRequest $request)
     {
         $input = $request->all();
-
+        
         $community = $this->communityRepository->create($input);
+
+        $community->users()->attach(Auth::user()->id);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.communities', 1)]));
 
@@ -72,8 +97,16 @@ class CommunityController extends AppBaseController
      */
     public function show($id)
     {
-        $community = $this->communityRepository->find($id);
+        $communities = $this->communityRepository
+            ->makeModel()
+            ->qCommunities(Auth::id(), $id);
 
+        if ($communities > 0){
+            $community = $this->communityRepository->find($id);
+        }else{
+            abort(401);
+        }
+            
         if (empty($community)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.communities', 1)]));
 
@@ -92,7 +125,15 @@ class CommunityController extends AppBaseController
      */
     public function edit($id)
     {
-        $community = $this->communityRepository->find($id);
+        $communities = $this->communityRepository
+            ->makeModel()
+            ->qCommunities(Auth::id(), $id);;
+
+        if ($communities > 0){
+            $community = $this->communityRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($community)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.communities', 1)]));
@@ -113,7 +154,15 @@ class CommunityController extends AppBaseController
      */
     public function update($id, UpdateCommunityRequest $request)
     {
-        $community = $this->communityRepository->find($id);
+        $communities = $this->communityRepository
+            ->makeModel()
+            ->qCommunities(Auth::id(), $id);
+
+        if ($communities > 0){
+            $community = $this->communityRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($community)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.communities', 1)]));
@@ -139,7 +188,16 @@ class CommunityController extends AppBaseController
      */
     public function destroy($id)
     {
-        $community = $this->communityRepository->find($id);
+        /*
+        $communities = $this->communityRepository
+            ->makeModel()
+            ->qCommunities(Auth::id(), $id);
+
+        if ($communities > 0){
+            $community = $this->communityRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($community)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.communities', 1)]));
@@ -152,5 +210,6 @@ class CommunityController extends AppBaseController
         Flash::success(trans('flash.destroy', ['model' => trans_choice('functionalities.communities', 1)]));
 
         return redirect(route('communities.index'));
+        */
     }
 }

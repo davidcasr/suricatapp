@@ -12,7 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
     
 </head>
 <body>
@@ -41,6 +41,8 @@
     
     <!-- Scripts -->
     <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     @yield('scripts')
 </body>
 </html>

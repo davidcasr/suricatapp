@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
+use App\Models\Community;
 
 class User extends Authenticatable
 {
@@ -60,5 +61,19 @@ class User extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
+    }
+
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'community_users');
+    }
+
+    public function scopeInfoPlan($query, $user_id)
+    {
+        return $query
+            ->join('plan_users', 'plan_users.user_id', '=', 'users.id')
+            ->join('plans', 'plan_users.plan_id','=', 'plans.id')
+            ->where('plan_users.user_id', $user_id)
+            ->where('plan_users.status', 1);
     }
 }

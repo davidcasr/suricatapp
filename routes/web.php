@@ -30,12 +30,16 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('meeting_reports', 'MeetingReportController');
 	Route::resource('assistants', 'AssistantController');
 
-	// Features for the administrator 
-	Route::resource('admin/users', 'Administrator\\UserController');
-	Route::resource('admin/roles', 'Administrator\\RoleController');
-	Route::resource('admin/abilities', 'Administrator\\AbilityController');
-	Route::resource('admin/gen_groups', 'Administrator\\GenGroupController');
-	Route::resource('admin/gen_lists', 'Administrator\\GenListController');
-	Route::resource('admin/plans', 'Administrator\\PlanController');
-	Route::resource('admin/plan_users', 'Administrator\\PlanUserController');
+
+	Route::group(['middleware' => 'can:super_all'], function () {
+		// Features for the administrator 
+		Route::resource('admin/users', 'Administrator\\UserController');
+		Route::resource('admin/roles', 'Administrator\\RoleController');
+		Route::resource('admin/abilities', 'Administrator\\AbilityController');
+		Route::resource('admin/gen_groups', 'Administrator\\GenGroupController');
+		Route::resource('admin/gen_lists', 'Administrator\\GenListController');
+		Route::resource('admin/plans', 'Administrator\\PlanController');
+		Route::resource('admin/plan_users', 'Administrator\\PlanUserController');
+	});	
+
 });

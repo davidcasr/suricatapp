@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 use App\User;
+use App\Person;
 
 /**
  * Class Community
@@ -71,6 +72,11 @@ class Community extends Model implements AuditableContract
         return $this->belongsToMany(User::class, 'community_users');
     }
 
+    public function people()
+    {
+        return $this->belongsToMany(Person::class, 'community_people');
+    }
+
     public function scopeQCommunities($query, $user_id, $community_id)
     {
         return $query
@@ -79,6 +85,14 @@ class Community extends Model implements AuditableContract
             ->where('community_users.community_id', $community_id)
             ->get()
             ->count();
+    }
+
+    public function scopeCommunities($query, $user_id)
+    {
+        return $query
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->get();
     }
     
 }

@@ -16,4 +16,6 @@ return [
     'destroy' => ':model elimnad@ correctamente',
     'error' => ':model no encontrad@',
 
+    'error_no_community' => 'No existe ninguna comunidad. Por favor cree una.'
+
 ];

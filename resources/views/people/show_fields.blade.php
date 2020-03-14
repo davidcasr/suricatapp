@@ -1,6 +1,6 @@
 <!-- Identification Field -->
 <div class="form-group col-sm-12">
-    <b>{!! Form::label('identification', __('functionalities.people_var.identification')) </b>!!}
+    <b>{!! Form::label('identification', __('functionalities.people_var.identification')) !!}</b>
     <p>{{ $person->identification }}</p>
 </div>
 
@@ -37,7 +37,7 @@
 <!-- Birth Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('birth', __('functionalities.people_var.birth')) !!}</b>
-    <p>{{ $person->birth }}</p>
+    <p>{{ $person->birth->toDateString() }}</p>
 </div>
 
 <!-- City Field -->
@@ -58,11 +58,13 @@
     <p>{{ $person->phone }}</p>
 </div>
 
-<!-- Photo Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('photo', __('functionalities.people_var.photo')) !!}</b>
-    <p>{{ $person->photo }}</p>
-</div>
+{{--  
+    <!-- Photo Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('photo', __('functionalities.people_var.photo')) !!}</b>
+        <p>{{ $person->photo }}</p>
+    </div>
+--}}
 
 <!-- Created At Field -->
 <div class="form-group col-sm-12">

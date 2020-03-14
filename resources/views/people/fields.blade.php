@@ -1,3 +1,11 @@
+<!-- Communities Field -->
+@if($communities != null)
+    <div class="form-group col-sm-12">
+        {!! Form::label('communities', 'Comunidad') !!}
+        {!! Form::select('communities', $communities, null, ['class' => 'form-control']) !!}
+    </div>
+@endif
+
 <!-- Identification Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('identification', __('functionalities.people_var.identification')) !!}
@@ -22,12 +30,13 @@
     {!! Form::text('email', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Sex Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('sex', __('functionalities.people_var.sex')) !!}
-    {!! Form::text('sex', null, ['class' => 'form-control']) !!}
-</div>
-
+@if($sexes != null)
+    <!-- Sex Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('sex', __('functionalities.people_var.sex')) !!}
+        {!! Form::select('sex',$sexes, null, ['class' => 'form-control']) !!}
+    </div>
+@endif
 <!-- Address Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('address', __('functionalities.people_var.address')) !!}
@@ -39,15 +48,6 @@
     {!! Form::label('birth', __('functionalities.people_var.birth')) !!}
     {!! Form::date('birth', null, ['class' => 'form-control','id'=>'birth']) !!}
 </div>
-
-@push('scripts')
-    <script type="text/javascript">
-        $('#birth').datetimepicker({
-            format: 'YYYY-MM-DD',
-            useCurrent: false
-        })
-    </script>
-@endpush
 
 <!-- City Field -->
 <div class="form-group col-sm-12">
@@ -67,14 +67,25 @@
     {!! Form::text('phone', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Photo Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('photo', __('functionalities.people_var.photo')) !!}
-    {!! Form::text('photo', null, ['class' => 'form-control']) !!}
-</div>
+{{--
+    <!-- Photo Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('photo', __('functionalities.people_var.photo')) !!}
+        {!! Form::text('photo', null, ['class' => 'form-control']) !!}
+    </div>
+--}}
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('buttons.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('people.index') }}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
 </div>
+
+@push('scripts')
+    <script type="text/javascript">
+        $('#birth').datetimepicker({
+            format: 'YYYY-MM-DD',
+            useCurrent: true
+        })
+    </script>
+@endpush

@@ -16,7 +16,6 @@
             </tr>
         </thead>
         <tbody>
-
         @foreach($people as $person)
             <tr>
                 <td>{{ $person->identification }}</td>
@@ -25,8 +24,11 @@
                 <td>{{ $person->email }}</td>
                
                 <td>{{ $person->address }}</td>
-                <td>{{ $person->birth }}</td>
-                
+                <td>
+                    @if($person->birth != null)
+                        {{ $person->birth->toDateString() }}
+                    @endif
+                </td>
                 <td>{{ $person->phone }}</td>
                 
                 <td>

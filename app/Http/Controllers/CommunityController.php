@@ -39,14 +39,20 @@ class CommunityController extends AppBaseController
             ->paginate(config('global.per_page'));
 
         $q_communities_register = CommunityUsers::qCommunityUsers(Auth::id());
-        $q_communities_plan = User::infoPlan(Auth::id())->get(['q_communities'])->pluck('q_communities')[0];
-
-        if($q_communities_register >= $q_communities_plan){
-            $button_create = false;
-        }else{
+        $q_communities_per_user = User::infoPlan(Auth::id())->count();
+        
+        if($q_communities_per_user == 0){
             $button_create = true;
+        }else{
+            $q_communities_plan = User::infoPlan(Auth::id())->get(['q_communities'])->pluck('q_communities')[0];
+           
+            if($q_communities_register >= $q_communities_plan){
+                $button_create = false;
+            }else{
+                $button_create = true;
+            }
         }
-
+        
         return view('communities.index', compact('communities', 'button_create'));
     }
 
@@ -81,7 +87,7 @@ class CommunityController extends AppBaseController
         
         $community = $this->communityRepository->create($input);
 
-        $community->users()->attach(Auth::user()->id);
+        $community->users()->attach(Auth::id());
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.communities', 1)]));
 
@@ -127,7 +133,7 @@ class CommunityController extends AppBaseController
     {
         $communities = $this->communityRepository
             ->makeModel()
-            ->qCommunities(Auth::id(), $id);;
+            ->qCommunities(Auth::id(), $id);
 
         if ($communities > 0){
             $community = $this->communityRepository->find($id);

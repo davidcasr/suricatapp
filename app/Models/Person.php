@@ -85,5 +85,21 @@ class Person extends Model implements AuditableContract
         'photo' => 'nullable'
     ];
 
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'community_people');
+    }
+
+    public function scopeQPeople($query, $user_id, $person_id)
+    {
+        return $query
+            ->join('community_people','community_people.person_id', '=','people.id')
+            ->join('communities', 'community_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->where('community_people.person_id', $person_id)
+            ->get()
+            ->count();
+    }
     
 }

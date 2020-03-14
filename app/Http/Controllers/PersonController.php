@@ -9,6 +9,9 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\GenList;
+use App\Models\Community;
 
 class PersonController extends AppBaseController
 {
@@ -29,10 +32,16 @@ class PersonController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $people = $this->personRepository->all();
+        $people = $this->personRepository
+            ->makeModel()
+            ->join('community_people','community_people.person_id', '=','people.id')
+            ->join('communities', 'community_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->select('people.*')
+            ->paginate(config('global.per_page'));
 
-        return view('people.index')
-            ->with('people', $people);
+        return view('people.index', compact('people'));
     }
 
     /**
@@ -42,7 +51,19 @@ class PersonController extends AppBaseController
      */
     public function create()
     {
-        return view('people.create');
+        $communities_auth = Community::communities(Auth::id());
+        
+        if($communities_auth->count() > 0){
+            $communities = $communities_auth->pluck('name','id');
+
+            $sexes = GenList::where('group_id','1')->get(['id', 'item_description'])->pluck('item_description','id');
+
+            return view('people.create', compact('communities','sexes'));
+        }else{
+            Flash::error(trans('flash.error_no_community'));
+            return redirect(route('people.index'));
+        }        
+        
     }
 
     /**
@@ -57,6 +78,7 @@ class PersonController extends AppBaseController
         $input = $request->all();
 
         $person = $this->personRepository->create($input);
+        $person->communities()->attach($request->communities);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.people', 1)]));
 
@@ -72,8 +94,16 @@ class PersonController extends AppBaseController
      */
     public function show($id)
     {
-        $person = $this->personRepository->find($id);
+        $people = $this->personRepository
+            ->makeModel()
+            ->qPeople(Auth::id(), $id);
 
+        if ($people > 0){
+            $person = $this->personRepository->find($id);
+        }else{
+            abort(401);
+        }
+        
         if (empty($person)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.people', 1)]));
 
@@ -92,7 +122,19 @@ class PersonController extends AppBaseController
      */
     public function edit($id)
     {
-        $person = $this->personRepository->find($id);
+        $people = $this->personRepository
+            ->makeModel()
+            ->qPeople(Auth::id(), $id);
+
+        if ($people > 0){
+            $person = $this->personRepository->find($id);
+        }else{
+            abort(401);
+        }
+
+        $communities_auth = Community::communities(Auth::id());
+        $communities = $communities_auth->pluck('name','id');
+        $sexes = GenList::where('group_id','1')->get(['id', 'item_description'])->pluck('item_description','id');
 
         if (empty($person)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.people', 1)]));
@@ -100,7 +142,7 @@ class PersonController extends AppBaseController
             return redirect(route('people.index'));
         }
 
-        return view('people.edit')->with('person', $person);
+        return view('people.edit', compact('person', 'communities', 'sexes'));
     }
 
     /**
@@ -113,7 +155,15 @@ class PersonController extends AppBaseController
      */
     public function update($id, UpdatePersonRequest $request)
     {
-        $person = $this->personRepository->find($id);
+        $people = $this->personRepository
+            ->makeModel()
+            ->qPeople(Auth::id(), $id);
+
+        if ($people > 0){
+            $person = $this->personRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($person)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.people', 1)]));
@@ -139,7 +189,15 @@ class PersonController extends AppBaseController
      */
     public function destroy($id)
     {
-        $person = $this->personRepository->find($id);
+        $people = $this->personRepository
+            ->makeModel()
+            ->qPeople(Auth::id(), $id);
+
+        if ($people > 0){
+            $person = $this->personRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($person)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.people', 1)]));

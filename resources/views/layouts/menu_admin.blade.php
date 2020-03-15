@@ -1,6 +1,14 @@
 @can('super_all')
 
 <li class="app-sidebar__heading">@choice('functionalities.menu_admin.administration', 2)</li>
+
+<li class="{{ Request::is('admin_dashboard*') ? 'mm-active' : '' }}">
+    <a href="{{ route('admin_dashboard.index') }}">
+        <i class="metismenu-icon pe-7s-display1"></i>
+        <span>@choice('functionalities.dashboard', 2)</span>
+    </a>
+</li>
+
 <li>
     <a href="#">
         <i class="metismenu-icon pe-7s-users icon-gradient bg-premium-dark"></i>

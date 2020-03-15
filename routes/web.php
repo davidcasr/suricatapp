@@ -33,6 +33,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 	Route::group(['middleware' => 'can:super_all'], function () {
 		// Features for the administrator 
+		Route::resource('admin/admin_dashboard', 'Administrator\\DashboardController');
 		Route::resource('admin/users', 'Administrator\\UserController');
 		Route::resource('admin/roles', 'Administrator\\RoleController');
 		Route::resource('admin/abilities', 'Administrator\\AbilityController');

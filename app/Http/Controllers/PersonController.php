@@ -12,6 +12,7 @@ use Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\GenList;
 use App\Models\Community;
+use App\Models\Feature;
 
 class PersonController extends AppBaseController
 {
@@ -58,7 +59,9 @@ class PersonController extends AppBaseController
 
             $sexes = GenList::where('group_id','1')->get(['id', 'item_description'])->pluck('item_description','id');
 
-            return view('people.create', compact('communities','sexes'));
+            $features = Feature::featuresByUser(Auth::id())->pluck('name', 'id');
+
+            return view('people.create', compact('communities','sexes', 'features'));
         }else{
             Flash::error(trans('flash.error_no_community'));
             return redirect(route('people.index'));
@@ -75,10 +78,12 @@ class PersonController extends AppBaseController
      */
     public function store(CreatePersonRequest $request)
     {
+
         $input = $request->all();
 
         $person = $this->personRepository->create($input);
         $person->communities()->attach($request->communities);
+        $person->features()->attach($request->features, ['community_id' => $request->communities]);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.people', 1)]));
 
@@ -100,6 +105,7 @@ class PersonController extends AppBaseController
 
         if ($people > 0){
             $person = $this->personRepository->find($id);
+            $person->load('features');
         }else{
             abort(401);
         }
@@ -128,6 +134,7 @@ class PersonController extends AppBaseController
 
         if ($people > 0){
             $person = $this->personRepository->find($id);
+            $person->load('features');
         }else{
             abort(401);
         }
@@ -135,6 +142,7 @@ class PersonController extends AppBaseController
         $communities_auth = Community::communities(Auth::id());
         $communities = $communities_auth->pluck('name','id');
         $sexes = GenList::where('group_id','1')->get(['id', 'item_description'])->pluck('item_description','id');
+        $features = Feature::featuresByUser(Auth::id())->pluck('name', 'id');
 
         if (empty($person)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.people', 1)]));
@@ -142,7 +150,7 @@ class PersonController extends AppBaseController
             return redirect(route('people.index'));
         }
 
-        return view('people.edit', compact('person', 'communities', 'sexes'));
+        return view('people.edit', compact('person', 'communities', 'sexes', 'features'));
     }
 
     /**
@@ -161,6 +169,7 @@ class PersonController extends AppBaseController
 
         if ($people > 0){
             $person = $this->personRepository->find($id);
+            $person->load('features');
         }else{
             abort(401);
         }
@@ -195,6 +204,7 @@ class PersonController extends AppBaseController
 
         if ($people > 0){
             $person = $this->personRepository->find($id);
+            $person->load('features');
         }else{
             abort(401);
         }

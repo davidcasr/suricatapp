@@ -69,4 +69,15 @@ class Feature extends Model implements AuditableContract
             ->get()
             ->count();
     }
+
+    public function scopeFeaturesByUser($query, $user_id)
+    {
+        return $query
+            ->join('feature_people','feature_people.feature_id', '=','features.id')
+            ->join('communities', 'feature_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->select('features.*')
+            ->get();
+    }
 }

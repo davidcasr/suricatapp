@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         // Dummy Data 
         $this->call(UsersDummyTableSeeder::class);
         $this->call(PlanUsersDummyTableSeeder::class);
-        $this->call(CommunitiesDummyTablerSeeder::class);
+        $this->call(CommunitiesDummyTableSeeder::class);
+        $this->call(FeaturesDummyTableSeeder::class);
     }
 }

@@ -7,7 +7,6 @@
                 <th>{{ __('functionalities.people_var.last_name') }}</th>
                 <th>{{ __('functionalities.people_var.email') }}</th>
                 
-                <th>{{ __('functionalities.people_var.address') }}</th>
                 <th>{{ __('functionalities.people_var.birth') }}</th>
                 
                 <th>{{ __('functionalities.people_var.phone') }}</th>
@@ -23,7 +22,6 @@
                 <td>{{ $person->last_name }}</td>
                 <td>{{ $person->email }}</td>
                
-                <td>{{ $person->address }}</td>
                 <td>
                     @if($person->birth != null)
                         {{ $person->birth->toDateString() }}

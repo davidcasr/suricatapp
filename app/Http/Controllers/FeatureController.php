@@ -37,6 +37,7 @@ class FeatureController extends AppBaseController
             ->join('communities', 'feature_people.community_id', '=', 'communities.id')
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
+            ->whereNull('feature_people.person_id')
             ->select('features.*')
             ->paginate(config('global.per_page'));
 

@@ -75,17 +75,33 @@
     </div>
 --}}
 
+<!-- features Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('features', trans_choice('functionalities.features', 2)) !!}
+    @if(isset($person))
+        <br>
+        {!! Form::select('features[]', $features, old('features') ? old('role') : $person->features()->pluck('name', 'id'), ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'features']) !!}
+    @else
+        {!! Form::select('features[]', $features, null, ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'features']) !!}
+    @endif
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('buttons.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('people.index') }}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
 </div>
 
-@push('scripts')
-    <script type="text/javascript">
-        $('#birth').datetimepicker({
-            format: 'YYYY-MM-DD',
-            useCurrent: true
-        })
+@section('scripts')
+   <script>
+        $(document).ready(function () {
+               $('#features').select2({
+                   width: '100%',
+               });
+               $('#birth').datetimepicker({
+                format: 'YYYY-MM-DD',
+                useCurrent: true
+            })
+        });     
     </script>
-@endpush
+@endsection

@@ -70,6 +70,16 @@
     </div>
 --}}
 
+<!-- features Field -->
+<div class="form-group col-sm-12">
+    <b>{!! Form::label('features', trans_choice('functionalities.features', 2)) !!}</b>
+    <p>
+    @foreach($person->features->pluck('name') as $feature)
+        <span class="badge badge-info">{{ $feature }}</span>
+    @endforeach
+    </p>
+</div>
+
 <!-- Created At Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b>

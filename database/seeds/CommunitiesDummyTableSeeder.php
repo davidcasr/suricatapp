@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\Models\Community;
 
-class CommunitiesDummyTablerSeeder extends Seeder
+class CommunitiesDummyTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

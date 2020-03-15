@@ -1,12 +1,12 @@
 <!-- Name Field -->
 <div class="form-group col-sm-12">
-    <b>{!! Form::label('name', __('functionalities.feature_var.name')) !!}</b>
+    <b>{!! Form::label('name', __('functionalities.features_var.name')) !!}</b>
     <p>{{ $feature->name }}</p>
 </div>
 
 <!-- Description Field -->
 <div class="form-group col-sm-12">
-    <b>{!! Form::label('description', __('functionalities.feature_var.description')) !!}</b>
+    <b>{!! Form::label('description', __('functionalities.features_var.description')) !!}</b>
     <p>{{ $feature->description }}</p>
 </div>
 

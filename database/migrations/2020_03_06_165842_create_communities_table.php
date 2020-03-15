@@ -17,7 +17,7 @@ class CreateCommunitiesTable extends Migration
             $table->increments('id');
             $table->string('identification', 100)->nullable();
             $table->string('name', 250);
-            $table->string('description')->nullable();
+            $table->text('description')->nullable();
             $table->string('address', 250)->nullable();
             $table->double('latitude')->nullable();
             $table->double('longitude')->nullable();

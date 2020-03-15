@@ -37,7 +37,11 @@
 <!-- Birth Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('birth', __('functionalities.people_var.birth')) !!}</b>
-    <p>{{ $person->birth->toDateString() }}</p>
+    <p>
+        @if($person->birth != null)
+            {{ $person->birth->toDateString() }}
+        @endif
+    </p>
 </div>
 
 <!-- City Field -->

@@ -90,6 +90,11 @@ class Person extends Model implements AuditableContract
         return $this->belongsToMany(Community::class, 'community_people');
     }
 
+    public function features()
+    {
+        return $this->belongsToMany(Feature::class, 'feature_people');
+    }
+
     public function scopeQPeople($query, $user_id, $person_id)
     {
         return $query

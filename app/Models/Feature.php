@@ -49,5 +49,24 @@ class Feature extends Model implements AuditableContract
         'description' => 'nullable|string|max:250'
     ];
 
-    
+    public function people()
+    {
+        return $this->belongsToMany(Person::class, 'feature_people');
+    }
+
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'feature_people');
+    }
+
+     public function scopeQFeature($query, $user_id)
+    {
+        return $query
+            ->join('feature_people','feature_people.feature_id', '=','features.id')
+            ->join('communities', 'feature_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->get()
+            ->count();
+    }
 }

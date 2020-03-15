@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Community;
 
 class FeatureController extends AppBaseController
 {
@@ -29,10 +31,16 @@ class FeatureController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $features = $this->featureRepository->all();
+        $features = $this->featureRepository
+            ->makeModel()
+            ->join('feature_people','feature_people.feature_id', '=','features.id')
+            ->join('communities', 'feature_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->select('features.*')
+            ->paginate(config('global.per_page'));
 
-        return view('features.index')
-            ->with('features', $features);
+        return view('features.index', compact('features'));
     }
 
     /**
@@ -56,7 +64,10 @@ class FeatureController extends AppBaseController
     {
         $input = $request->all();
 
+        $community = Community::communities(Auth::id());
+
         $feature = $this->featureRepository->create($input);
+        $feature->communities()->attach($community);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.features', 1)]));
 
@@ -72,7 +83,15 @@ class FeatureController extends AppBaseController
      */
     public function show($id)
     {
-        $feature = $this->featureRepository->find($id);
+        $features = $this->featureRepository
+            ->makeModel()
+            ->qFeature(Auth::id());
+
+        if ($features > 0){
+            $feature = $this->featureRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($feature)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.features', 1)]));
@@ -92,7 +111,15 @@ class FeatureController extends AppBaseController
      */
     public function edit($id)
     {
-        $feature = $this->featureRepository->find($id);
+        $features = $this->featureRepository
+            ->makeModel()
+            ->qFeature(Auth::id());
+
+        if ($features > 0){
+            $feature = $this->featureRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($feature)) {
              Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.features', 1)]));
@@ -113,7 +140,15 @@ class FeatureController extends AppBaseController
      */
     public function update($id, UpdateFeatureRequest $request)
     {
-        $feature = $this->featureRepository->find($id);
+        $features = $this->featureRepository
+            ->makeModel()
+            ->qFeature(Auth::id());
+
+        if ($features > 0){
+            $feature = $this->featureRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($feature)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.features', 1)]));
@@ -139,7 +174,15 @@ class FeatureController extends AppBaseController
      */
     public function destroy($id)
     {
-        $feature = $this->featureRepository->find($id);
+        $features = $this->featureRepository
+            ->makeModel()
+            ->qFeature(Auth::id());
+
+        if ($features > 0){
+            $feature = $this->featureRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($feature)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.features', 1)]));

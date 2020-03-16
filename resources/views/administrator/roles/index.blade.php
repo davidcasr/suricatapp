@@ -25,6 +25,7 @@
                 <div class="card-body">
                     @include('flash::message')
                     @include('administrator.roles.table')
+                    {{ $roles->links() }}
                 </div>  
             </div>
         </div>

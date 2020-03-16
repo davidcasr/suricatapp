@@ -25,6 +25,7 @@
                 <div class="card-body">
                     @include('flash::message')
                     @include('administrator.gen_groups.table')
+                    {{ $gen_groups->links() }}
                 </div>  
             </div>
         </div>

@@ -25,6 +25,7 @@
                 <div class="card-body">
                     @include('flash::message')
                     @include('administrator.gen_lists.table')
+                    {{ $gen_lists->links() }}
                 </div>  
             </div>
         </div>

@@ -25,6 +25,7 @@
                 <div class="card-body">
                     @include('flash::message')
                     @include('assistants.table')
+                    {{ $assistants->links() }}
                 </div>  
             </div>
         </div>

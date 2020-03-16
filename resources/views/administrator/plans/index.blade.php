@@ -25,6 +25,7 @@
                 <div class="card-body">
                     @include('flash::message')
                     @include('administrator.plans.table')
+                    {{ $plans->links() }}
                 </div>  
             </div>
         </div>

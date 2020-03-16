@@ -29,6 +29,7 @@
                 <div class="card-body">
                     @include('flash::message')
                     @include('communities.table')
+                    {{ $communities->links() }}
                 </div>  
             </div>
         </div>

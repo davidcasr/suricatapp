@@ -8,16 +8,16 @@ use Faker\Generator as Faker;
 $factory->define(Person::class, function (Faker $faker) {
 
     return [
-        'identification' => $faker->word,
-        'first_name' => $faker->word,
-        'last_name' => $faker->word,
-        'email' => $faker->word,
-        'sex' => $faker->randomDigitNotNull,
-        'address' => $faker->word,
-        'birth' => $faker->word,
-        'city' => $faker->word,
-        'country' => $faker->word,
-        'phone' => $faker->word,
+        'identification' => $faker->ein,
+        'first_name' => $faker->firstName($gender = null),
+        'last_name' => $faker->lastName,
+        'email' => $faker->email,
+        'sex' => $faker->numberBetween($min = 1, $max = 2),
+        'address' => $faker->address,
+        'birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'city' => $faker->city,
+        'country' => $faker->country,
+        'phone' => $faker->phoneNumber,
         'photo' => $faker->word,
         'created_at' => $faker->date('Y-m-d H:i:s'),
         'updated_at' => $faker->date('Y-m-d H:i:s')

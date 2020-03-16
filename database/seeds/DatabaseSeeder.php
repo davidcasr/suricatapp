@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PlanUsersDummyTableSeeder::class);
         $this->call(CommunitiesDummyTableSeeder::class);
         $this->call(FeaturesDummyTableSeeder::class);
+        $this->call(PeopleDummyTableSeeder::class);
     }
 }

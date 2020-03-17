@@ -34,8 +34,8 @@ class GroupController extends AppBaseController
     {
         $groups = $this->groupRepository
             ->makeModel()
-            ->join('community_people','community_people.group_id', '=','groups.id')
-            ->join('communities', 'community_people.community_id', '=', 'communities.id')
+            ->join('community_groups','community_groups.group_id', '=','groups.id')
+            ->join('communities', 'community_groups.community_id', '=', 'communities.id')
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
             ->select('groups.*')

@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Community;
 
 class ProfileController extends AppBaseController
 {
@@ -29,10 +31,16 @@ class ProfileController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $profiles = $this->profileRepository->all();
+        $profiles = $this->profileRepository
+            ->makeModel()
+            ->join('community_profiles','community_profiles.profile_id', '=','profiles.id')
+            ->join('communities', 'community_profiles.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->select('profiles.*')
+            ->paginate(config('global.per_page'));
 
-        return view('profiles.index')
-            ->with('profiles', $profiles);
+        return view('profiles.index', compact('profiles'));
     }
 
     /**
@@ -56,7 +64,10 @@ class ProfileController extends AppBaseController
     {
         $input = $request->all();
 
+        $community = Community::communities(Auth::id());
+
         $profile = $this->profileRepository->create($input);
+        $profile->communities()->attach($community);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.profiles', 1)]));
 
@@ -72,7 +83,16 @@ class ProfileController extends AppBaseController
      */
     public function show($id)
     {
-        $profile = $this->profileRepository->find($id);
+
+        $profiles = $this->profileRepository
+            ->makeModel()
+            ->qProfile(Auth::id());
+
+        if ($profiles > 0){
+            $profile = $this->profileRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($profile)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.profiles', 1)]));
@@ -92,7 +112,15 @@ class ProfileController extends AppBaseController
      */
     public function edit($id)
     {
-        $profile = $this->profileRepository->find($id);
+        $profiles = $this->profileRepository
+            ->makeModel()
+            ->qProfile(Auth::id());
+
+        if ($profiles > 0){
+            $profile = $this->profileRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($profile)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.profiles', 1)]));
@@ -113,7 +141,15 @@ class ProfileController extends AppBaseController
      */
     public function update($id, UpdateProfileRequest $request)
     {
-        $profile = $this->profileRepository->find($id);
+        $profiles = $this->profileRepository
+            ->makeModel()
+            ->qProfile(Auth::id());
+
+        if ($profiles > 0){
+            $profile = $this->profileRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($profile)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.profiles', 1)]));
@@ -139,7 +175,15 @@ class ProfileController extends AppBaseController
      */
     public function destroy($id)
     {
-        $profile = $this->profileRepository->find($id);
+        $profiles = $this->profileRepository
+            ->makeModel()
+            ->qProfile(Auth::id());
+
+        if ($profiles > 0){
+            $profile = $this->profileRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($profile)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.profiles', 1)]));

@@ -7,26 +7,22 @@ use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
 /**
- * Class CommunityPeople
+ * Class CommunityProfiles
  * @package App\Models
- * @version March 12, 2020,
+ * @version March 17, 2020,
  *
  * @property integer community_id
- * @property integer person_id
- * @property integer group_id
  * @property integer profile_id
  */
 
-class CommunityPeople extends Model implements AuditableContract
+class CommunityProfiles extends Model implements AuditableContract
 {
     use Auditable;
 
-    public $table = 'community_people';
+    public $table = 'community_profiles';
 
     public $fillable = [
         'community_id',
-		'person_id',
-		'group_id',
 		'profile_id'
     ];
 
@@ -38,8 +34,6 @@ class CommunityPeople extends Model implements AuditableContract
     protected $casts = [
         'id' => 'integer',
         'community_id' => 'integer',
-        'person_id' => 'integer',
-        'group_id' => 'integer',
         'profile_id' => 'integer',
     ];
 
@@ -50,9 +44,7 @@ class CommunityPeople extends Model implements AuditableContract
      */
     public static $rules = [
         'community_id' => 'required',
-        'person_id' => 'required',
-        'group_id' => 'nullable',
-        'profile_id' => 'nullable',
+        'profile_id' => 'required',
     ];
 
     public function communities()
@@ -60,8 +52,8 @@ class CommunityPeople extends Model implements AuditableContract
         return $this->hasMany(Community::class, 'id', 'community_id');
     }
 
-    public function people()
+    public function profiles()
     {
-        return $this->hasMany(Person::class, 'id', 'person_id');
+        return $this->hasMany(Profile::class, 'id', 'profile_id');
     }
 }

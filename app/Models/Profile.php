@@ -49,5 +49,20 @@ class Profile extends Model implements AuditableContract
         'description' => 'nullable|string|max:250'
     ];
 
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'community_profiles');
+    }
+
+    public function scopeQProfile($query, $user_id)
+    {
+        return $query
+            ->join('community_profiles','community_profiles.profile_id', '=','profiles.id')
+            ->join('communities', 'community_profiles.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->get()
+            ->count();
+    }
     
 }

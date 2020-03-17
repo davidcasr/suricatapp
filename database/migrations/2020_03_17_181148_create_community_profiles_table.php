@@ -2,10 +2,10 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateProfilesTable extends Migration
+class CreateCommunityProfilesTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -13,11 +13,10 @@ class CreateProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('profiles', function (Blueprint $table) {
+        Schema::create('community_profiles', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->text('description')->nullable();
-            $table->timestamps();
+            $table->integer('community_id')->unsigned();
+            $table->integer('profile_id')->unsigned();
             $table->softDeletes();
         });
     }
@@ -29,6 +28,6 @@ class CreateProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('profiles');
+        Schema::dropIfExists('community_profiles');
     }
 }

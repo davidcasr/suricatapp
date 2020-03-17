@@ -69,14 +69,14 @@ class Group extends Model implements AuditableContract
 
     public function communities()
     {
-        return $this->belongsToMany(Community::class, 'community_people');
+        return $this->belongsToMany(Community::class, 'community_groups');
     }
 
     public function scopeQGroup($query, $user_id)
     {
         return $query
-            ->join('community_people','community_people.group_id', '=','groups.id')
-            ->join('communities', 'community_people.community_id', '=', 'communities.id')
+            ->join('community_groups','community_groups.group_id', '=','groups.id')
+            ->join('communities', 'community_groups.community_id', '=', 'communities.id')
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', $user_id)
             ->get()

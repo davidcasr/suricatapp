@@ -54,12 +54,14 @@ return [
     ],
 
     'groups'   => 'Grupo|Grupos',
+    'sub_groups'   => 'Subgrupo|Subgrupos',
 
     'groups_var'   => [
-        'parent_id' => 'Id Padre',
+        'parent_id' => 'Grupo Padre',
         'identification' => 'Identificación',
         'name' => 'Nombre',
-        'description' => 'Descripción'
+        'description' => 'Descripción',
+        'subgroups' => 'Subgrupos'
     ],
 
     'features'   => 'Característica|Características',

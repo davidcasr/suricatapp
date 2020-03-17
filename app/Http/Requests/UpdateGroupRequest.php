@@ -33,10 +33,10 @@ class UpdateGroupRequest extends FormRequest
     public function attributes()
     {
         return [
-            'parent_id' => 'Id Padre',
-            'identification' => 'Identificación',
+            'parent_id' => 'Grupo Padre',
             'name' => 'Nombre',
-            'description' => 'Descripción'
+            'description' => 'Descripción',
+            'level' => 'Nivel'
         ];
     }
 }

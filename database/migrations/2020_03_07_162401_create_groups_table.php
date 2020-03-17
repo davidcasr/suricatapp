@@ -15,12 +15,13 @@ class CreateGroupsTable extends Migration
     {
         Schema::create('groups', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('parent_id')->nullable();
-            $table->string('identification')->nullable();
+            $table->integer('parent_id')->unsigned()->nullable();
             $table->string('name');
-            $table->text('description');
+            $table->text('description')->nullable();
+            $table->integer('level');
             $table->timestamps();
             $table->softDeletes();
+            $table->foreign("parent_id")->references("id")->on("groups")->onDelete("cascade");
         });
     }
 

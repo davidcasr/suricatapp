@@ -1,13 +1,17 @@
 <!-- Parent Id Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('parent_id', __('functionalities.groups_var.parent_id')) !!}</b>
-    <p>{{ $group->parent_id }}</p>
-</div>
-
-<!-- Identification Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('identification', __('functionalities.groups_var.identification')) !!}</b>
-    <p>{{ $group->identification }}</p>
+    <p>
+        
+        @if($group->parent_id != null)
+            @for ($i = 0; $i < $group->level; $i++)
+                <i class="fas fa-chevron-right"></i>
+            @endfor
+            {{ $group->parent_id }} / {{ $group->subgroup->name }}
+        @else
+            <i class="fas fa-circle"></i>
+        @endif
+    </p>
 </div>
 
 <!-- Name Field -->
@@ -20,6 +24,16 @@
 <div class="form-group col-sm-12">
     <b>{!! Form::label('description', __('functionalities.groups_var.description')) !!}</b>
     <p>{{ $group->description }}</p>
+</div>
+
+<!-- Subgroup Field -->
+<div class="form-group col-sm-12">
+    <b>{!! Form::label('subgroup', __('functionalities.groups_var.subgroups')) !!}</b>
+    <p>
+        @foreach($group->subgroups as $subgroup)
+            <span class="badge badge-info">{{ $subgroup->name }}</span>
+        @endforeach   
+    </p> 
 </div>
 
 <!-- Created At Field -->

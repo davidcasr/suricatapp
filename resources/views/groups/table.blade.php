@@ -3,19 +3,32 @@
         <thead>
             <tr>
                 <th>{{ __('functionalities.groups_var.parent_id') }}</th>
-                <th>{{ __('functionalities.groups_var.identification') }}</th>
                 <th>{{ __('functionalities.groups_var.name') }}</th>
                 <th>{{ __('functionalities.groups_var.description') }}</th>
+                <th>@choice('functionalities.sub_groups', 1)</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
         </thead>
         <tbody>
-        @foreach($groups as $group)
+        @foreach($groups as $group)        
             <tr>
-                <td>{{ $group->parent_id }}</td>
-                <td>{{ $group->identification }}</td>
+                <td>
+                    @if($group->parent_id != null)
+                        @for ($i = 0; $i < $group->level; $i++)
+                            <i class="fas fa-chevron-right"></i>
+                        @endfor
+                        {{ $group->subgroup->name }}
+                    @else
+                        <i class="fas fa-circle"></i>
+                    @endif
+                </td>
                 <td>{{ $group->name }}</td>
                 <td>{{ $group->description }}</td>
+                <td>
+                    <div class='btn-group'>
+                        <a href="{{ route('groups.create', ['subgroup' => $group->id]) }}" class='btn btn-warning btn-xs'>Crear Subgrupo</a>  
+                    </div>
+                </td>
                 <td>
                     {!! Form::open(['route' => ['groups.destroy', $group->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

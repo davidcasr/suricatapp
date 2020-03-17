@@ -27,9 +27,9 @@ class Group extends Model implements AuditableContract
 
     public $fillable = [
         'parent_id',
-        'identification',
         'name',
-        'description'
+        'description',
+        'level'
     ];
 
     /**
@@ -40,9 +40,9 @@ class Group extends Model implements AuditableContract
     protected $casts = [
         'id' => 'integer',
         'parent_id' => 'integer',
-        'identification' => 'string',
         'name' => 'string',
-        'description' => 'string'
+        'description' => 'string',
+        'level' => 'integer',
     ];
 
     /**
@@ -52,10 +52,35 @@ class Group extends Model implements AuditableContract
      */
     public static $rules = [
         'parent_id' => 'nullable',
-        'identification' => 'nullable|string',
         'name' => 'required|max:100',
-        'description' => 'nullable|max:250'
+        'description' => 'nullable|max:250',
+        'level' => 'required',
     ];
 
+    public function subgroup()
+    {
+        return $this->belongsTo(Group::class, 'parent_id', 'id');
+    }
+
+    public function subgroups()
+    {
+        return $this->hasMany(Group::class, 'parent_id', 'id');
+    }
+
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'community_people');
+    }
+
+    public function scopeQGroup($query, $user_id)
+    {
+        return $query
+            ->join('community_people','community_people.group_id', '=','groups.id')
+            ->join('communities', 'community_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->get()
+            ->count();
+    }
     
 }

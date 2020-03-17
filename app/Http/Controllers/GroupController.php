@@ -9,6 +9,9 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Community;
+use App\Models\Group;
 
 class GroupController extends AppBaseController
 {
@@ -29,10 +32,16 @@ class GroupController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $groups = $this->groupRepository->all();
+        $groups = $this->groupRepository
+            ->makeModel()
+            ->join('community_people','community_people.group_id', '=','groups.id')
+            ->join('communities', 'community_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->select('groups.*')
+            ->paginate(config('global.per_page'));
 
-        return view('groups.index')
-            ->with('groups', $groups);
+        return view('groups.index', compact('groups'));
     }
 
     /**
@@ -40,9 +49,15 @@ class GroupController extends AppBaseController
      *
      * @return Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('groups.create');
+        if(!$request->subgroup){
+            return view('groups.create');
+        }else{
+            $subgroup = $request->subgroup;
+            $levels = Group::where('id', $request->subgroup)->select('level')->get();
+            return view('groups.create', compact('subgroup', 'levels'));
+        }     
     }
 
     /**
@@ -55,8 +70,11 @@ class GroupController extends AppBaseController
     public function store(CreateGroupRequest $request)
     {
         $input = $request->all();
+        
+        $community = Community::communities(Auth::id());
 
         $group = $this->groupRepository->create($input);
+        $group->communities()->attach($community);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.groups', 1)]));
 
@@ -72,7 +90,15 @@ class GroupController extends AppBaseController
      */
     public function show($id)
     {
-        $group = $this->groupRepository->find($id);
+        $groups = $this->groupRepository
+            ->makeModel()
+            ->qGroup(Auth::id());
+
+        if ($groups > 0){
+            $group = $this->groupRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($group)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.groups', 1)]));
@@ -92,7 +118,15 @@ class GroupController extends AppBaseController
      */
     public function edit($id)
     {
-        $group = $this->groupRepository->find($id);
+        $groups = $this->groupRepository
+            ->makeModel()
+            ->qGroup(Auth::id());
+
+        if ($groups > 0){
+            $group = $this->groupRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($group)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.groups', 1)]));
@@ -113,7 +147,15 @@ class GroupController extends AppBaseController
      */
     public function update($id, UpdateGroupRequest $request)
     {
-        $group = $this->groupRepository->find($id);
+        $groups = $this->groupRepository
+            ->makeModel()
+            ->qGroup(Auth::id());
+
+        if ($groups > 0){
+            $group = $this->groupRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($group)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.groups', 1)]));
@@ -139,7 +181,15 @@ class GroupController extends AppBaseController
      */
     public function destroy($id)
     {
-        $group = $this->groupRepository->find($id);
+        $groups = $this->groupRepository
+            ->makeModel()
+            ->qGroup(Auth::id());
+
+        if ($groups > 0){
+            $group = $this->groupRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($group)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.groups', 1)]));

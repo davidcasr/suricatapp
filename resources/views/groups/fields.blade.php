@@ -1,14 +1,19 @@
-<!-- Parent Id Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('parent_id', __('functionalities.groups_var.parent_id')) !!}
-    {!! Form::text('parent_id', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Identification Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('identification', __('functionalities.groups_var.identification')) !!}
-    {!! Form::text('identification', null, ['class' => 'form-control']) !!}
-</div>
+@if(isset($subgroup))
+	<!-- Parent Id Field -->
+	<div class="form-group col-sm-12">
+	    {!! Form::label('parent_id', __('functionalities.groups_var.parent_id')) !!}
+	    <p>{{ $subgroup }}</p>
+	    {!! Form::hidden('parent_id', $subgroup) !!}
+	    @foreach($levels as $level)
+		    @if($level->level >= 0)
+		    	{!! Form::hidden('level', $level->level + 1) !!}
+		    @endif
+	    @endforeach
+	    
+	</div>
+@else
+	{!! Form::hidden('level', 0) !!}
+@endif
 
 <!-- Name Field -->
 <div class="form-group col-sm-12">

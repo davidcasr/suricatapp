@@ -16,7 +16,7 @@ class CreateCommunityPeopleTable extends Migration
         Schema::create('community_people', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('community_id')->unsigned();
-            $table->integer('person_id')->unsigned();
+            $table->integer('person_id')->unsigned()->nullable();
             $table->integer('group_id')->unsigned()->nullable();
             $table->integer('profile_id')->unsigned()->nullable();
             $table->softDeletes();

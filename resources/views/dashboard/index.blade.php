@@ -8,7 +8,7 @@
 	            <div class="widget-content-wrapper text-white">
 	                <div class="widget-content-left">
 	                    <div class="widget-heading">Comunidades</div>
-	                    <div class="widget-subheading">Registradas</div>
+	                    <div class="widget-subheading">#colonias</div>
 	                </div>
 	                <div class="widget-content-right">
 	                    <div class="widget-numbers text-white"><span>{{ $communities }}</span></div>
@@ -21,7 +21,7 @@
 	            <div class="widget-content-wrapper text-white">
 	                <div class="widget-content-left">
 	                    <div class="widget-heading">Personas</div>
-	                    <div class="widget-subheading">Total</div>
+	                    <div class="widget-subheading">#suricatas</div>
 	                </div>
 	                <div class="widget-content-right">
 	                    <div class="widget-numbers text-white"><span>{{ $people }}</span></div>
@@ -33,8 +33,8 @@
 	        <div class="card mb-3 widget-content bg-mixed-hopes">
 	            <div class="widget-content-wrapper text-white">
 	                <div class="widget-content-left">
-	                    <div class="widget-heading">Grupos</div>
-	                    <div class="widget-subheading">Registrados</div>
+	                    <div class="widget-heading">Grupos y subgrupos</div>
+	                    <div class="widget-subheading">#familias</div>
 	                </div>
 	                <div class="widget-content-right">
 	                    <div class="widget-numbers text-white"><span>{{ $groups }}</span></div>
@@ -47,7 +47,7 @@
 	            <div class="widget-content-wrapper text-white">
 	                <div class="widget-content-left">
 	                    <div class="widget-heading">Reuniones</div>
-	                    <div class="widget-subheading">Reuniones planeadas</div>
+	                    <div class="widget-subheading">#cazando</div>
 	                </div>
 	                <div class="widget-content-right">
 	                    <div class="widget-numbers text-white"><span>{{ $meetings }}</span></div>
@@ -63,11 +63,11 @@
                 <div class="card-header-tab card-header-tab-animation card-header">
                     <div class="card-header-title">
                         <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-                        Personas por mes
+                        {{ __('functionalities.dashboard_var.peoplePerMonth') }}
                     </div>
                 </div>
                 <div class="card-body">
-                    
+                    {{ $peoplePerMonth->container() }}
                 </div>
             </div>
         </div>
@@ -77,11 +77,11 @@
                 <div class="card-header-tab card-header-tab-animation card-header">
                     <div class="card-header-title">
                         <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-                        Reuniones por mes
+                        {{ __('functionalities.dashboard_var.meetingsPerMonth') }}
                     </div>
                 </div>
                 <div class="card-body">
-                    
+                    {{ $meetingsPerMonth->container() }}
                 </div>
             </div>
         </div>     
@@ -103,6 +103,9 @@
             </div>
         </div>    
     </div>
+@endsection
 
-
+@section('scripts')
+	{!! $peoplePerMonth->script() !!}
+	{!! $meetingsPerMonth->script() !!}
 @endsection

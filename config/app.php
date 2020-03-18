@@ -180,6 +180,8 @@ return [
         OwenIt\Auditing\AuditingServiceProvider::class,
         // Bouncer 
         Silber\Bouncer\BouncerServiceProvider::class,
+        // Laravel charts
+        ConsoleTVs\Charts\ChartsServiceProvider::class,
 
     ],
 

@@ -25,6 +25,11 @@ return [
     ],
 
     'dashboard'   => 'Dashboard',
+
+    'dashboard_var'   => [
+        'peoplePerMonth' => 'Personas por mes',
+        'meetingsPerMonth' => 'Reuniones por mes'
+    ],
    
     'communities'   => 'Comunidad|Comunidades',
 

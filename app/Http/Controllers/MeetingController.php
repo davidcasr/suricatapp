@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Community;
 
 class MeetingController extends AppBaseController
 {
@@ -29,10 +31,16 @@ class MeetingController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $meetings = $this->meetingRepository->all();
+        $meetings = $this->meetingRepository
+            ->makeModel()
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->select('meetings.*')
+            ->paginate(config('global.per_page'));
 
-        return view('meetings.index')
-            ->with('meetings', $meetings);
+        return view('meetings.index', compact('meetings'));
     }
 
     /**
@@ -56,9 +64,12 @@ class MeetingController extends AppBaseController
     {
         $input = $request->all();
 
-        $meeting = $this->meetingRepository->create($input);
+        $community = Community::communities(Auth::id());
 
-        Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.mettings', 1)]));
+        $meeting = $this->meetingRepository->create($input);
+        $meeting->communities()->attach($community);
+
+        Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.meetings', 1)]));
 
         return redirect(route('meetings.index'));
     }
@@ -72,10 +83,18 @@ class MeetingController extends AppBaseController
      */
     public function show($id)
     {
-        $meeting = $this->meetingRepository->find($id);
+        $meetings = $this->meetingRepository
+            ->makeModel()
+            ->qMeeting(Auth::id());
+
+        if ($meetings > 0){
+            $meeting = $this->meetingRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($meeting)) {
-            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.mettings', 1)]));
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meetings', 1)]));
 
             return redirect(route('meetings.index'));
         }
@@ -92,10 +111,18 @@ class MeetingController extends AppBaseController
      */
     public function edit($id)
     {
-        $meeting = $this->meetingRepository->find($id);
+        $meetings = $this->meetingRepository
+            ->makeModel()
+            ->qMeeting(Auth::id());
+
+        if ($meetings > 0){
+            $meeting = $this->meetingRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($meeting)) {
-            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.mettings', 1)]));
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meetings', 1)]));
 
             return redirect(route('meetings.index'));
         }
@@ -113,17 +140,25 @@ class MeetingController extends AppBaseController
      */
     public function update($id, UpdateMeetingRequest $request)
     {
-        $meeting = $this->meetingRepository->find($id);
+        $meetings = $this->meetingRepository
+            ->makeModel()
+            ->qMeeting(Auth::id());
+
+        if ($meetings > 0){
+            $meeting = $this->meetingRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($meeting)) {
-            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.mettings', 1)]));
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meetings', 1)]));
 
             return redirect(route('meetings.index'));
         }
 
         $meeting = $this->meetingRepository->update($request->all(), $id);
 
-        Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.mettings', 1)]));
+        Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.meetings', 1)]));
 
         return redirect(route('meetings.index'));
     }
@@ -139,17 +174,25 @@ class MeetingController extends AppBaseController
      */
     public function destroy($id)
     {
-        $meeting = $this->meetingRepository->find($id);
+        $meetings = $this->meetingRepository
+            ->makeModel()
+            ->qMeeting(Auth::id());
+
+        if ($meetings > 0){
+            $meeting = $this->meetingRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($meeting)) {
-            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.mettings', 1)]));
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meetings', 1)]));
 
             return redirect(route('meetings.index'));
         }
 
         $this->meetingRepository->delete($id);
 
-        Flash::success(trans('flash.destroy', ['model' => trans_choice('functionalities.mettings', 1)]));
+        Flash::success(trans('flash.destroy', ['model' => trans_choice('functionalities.meetings', 1)]));
 
         return redirect(route('meetings.index'));
     }

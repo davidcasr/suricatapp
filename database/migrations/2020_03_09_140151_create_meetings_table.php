@@ -15,14 +15,15 @@ class CreateMeetingsTable extends Migration
     {
         Schema::create('meetings', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('person_id');
+            $table->integer('user_id')->nullable();
+            $table->integer('person_id')->nullable();
             $table->string('name');
-            $table->text('description');
-            $table->dateTime('date');
+            $table->text('description')->nullable();
+            $table->date('date');
+            $table->time('time');
             $table->string('address');
-            $table->double('latitude');
-            $table->double('longitude');
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

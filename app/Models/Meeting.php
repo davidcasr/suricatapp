@@ -35,6 +35,7 @@ class Meeting extends Model implements AuditableContract
         'name',
         'description',
         'date',
+        'time',
         'address',
         'latitude',
         'longitude'
@@ -51,7 +52,8 @@ class Meeting extends Model implements AuditableContract
         'person_id' => 'integer',
         'name' => 'string',
         'description' => 'string',
-        'date' => 'datetime',
+        'date' => 'date',
+        'time' => 'time',
         'address' => 'string',
         'latitude' => 'double',
         'longitude' => 'double'
@@ -68,10 +70,26 @@ class Meeting extends Model implements AuditableContract
         'name' => 'required|string|max:100',
         'description' => 'nullable|string|max:250',
         'date' => 'required',
+        'time' => 'required',
         'address' => 'required|string|max:100',
         'latitude' => 'nullable',
         'longitude' => 'nullable'
     ];
 
+    public function communities()
+    {
+        return $this->belongsToMany(Community::class, 'community_meetings');
+    }
+
+    public function scopeQMeeting($query, $user_id)
+    {
+        return $query
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->get()
+            ->count();
+    }
     
 }

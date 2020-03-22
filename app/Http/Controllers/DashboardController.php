@@ -44,7 +44,12 @@ class DashboardController extends Controller
             ->get()
             ->count();
             
-    	$meetings = '';
+    	$meetings = Meeting::join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->get()
+            ->count();
 
         $queryPeoplePerMonth = Person::select(DB::raw('MONTH(created_at) as id_month'),
                                 DB::raw('MONTHNAME(created_at) as month'), 

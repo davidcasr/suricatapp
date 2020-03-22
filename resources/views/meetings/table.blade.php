@@ -2,28 +2,23 @@
     <table class="table" id="meetings-table">
         <thead>
             <tr>
-                <th>{{ __('functionalities.meetings_var.user_id') }}</th>
-                <th>{{ __('functionalities.meetings_var.person_id') }}</th>
                 <th>{{ __('functionalities.meetings_var.name') }}</th>
                 <th>{{ __('functionalities.meetings_var.description') }}</th>
                 <th>{{ __('functionalities.meetings_var.date') }}</th>
+                <th>{{ __('functionalities.meetings_var.time') }}</th>
                 <th>{{ __('functionalities.meetings_var.address') }}</th>
-                <th>{{ __('functionalities.meetings_var.latitude') }}</th>
-                <th>{{ __('functionalities.meetings_var.longitude') }}</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
         </thead>
         <tbody>
         @foreach($meetings as $meeting)
             <tr>
-                <td>{{ $meeting->user_id }}</td>
-                <td>{{ $meeting->person_id }}</td>
                 <td>{{ $meeting->name }}</td>
                 <td>{{ $meeting->description }}</td>
-                <td>{{ $meeting->date }}</td>
+                <td>{{ \Carbon\Carbon::parse($meeting->date)->format('d-m-Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($meeting->time)->format('h:i A') }} </td>
                 <td>{{ $meeting->address }}</td>
-                <td>{{ $meeting->latitude }}</td>
-                <td>{{ $meeting->longitude }}</td>
+
                 <td>
                     {!! Form::open(['route' => ['meetings.destroy', $meeting->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

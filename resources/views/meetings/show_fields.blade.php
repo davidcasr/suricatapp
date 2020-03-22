@@ -1,14 +1,17 @@
-<!-- User Id Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('user_id', __('functionalities.meetings_var.user_id')) !!}</b>
-    <p>{{ $meeting->user_id }}</p>
-</div>
+{{--  
 
-<!-- Person Id Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('person_id', __('functionalities.meetings_var.person_id')) !!}</b>
-    <p>{{ $meeting->person_id }}</p>
-</div>
+    <!-- User Id Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('user_id', __('functionalities.meetings_var.user_id')) !!}</b>
+        <p>{{ $meeting->user_id }}</p>
+    </div>
+
+    <!-- Person Id Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('person_id', __('functionalities.meetings_var.person_id')) !!}</b>
+        <p>{{ $meeting->person_id }}</p>
+    </div>
+--}}
 
 <!-- Name Field -->
 <div class="form-group col-sm-12">
@@ -25,7 +28,13 @@
 <!-- Date Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('date', __('functionalities.meetings_var.date')) !!}</b>
-    <p>{{ $meeting->date }}</p>
+    <p>{{ $meeting->date->toDateString() }}</p>
+</div>
+
+<!-- Time Field -->
+<div class="form-group col-sm-12">
+    <b>{!! Form::label('time', __('functionalities.meetings_var.time')) !!}</b>
+    <p>{{ \Carbon\Carbon::parse($meeting->time)->format('h:i A') }}</p>
 </div>
 
 <!-- Address Field -->
@@ -34,17 +43,19 @@
     <p>{{ $meeting->address }}</p>
 </div>
 
-<!-- Latitude Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('latitude', __('functionalities.meetings_var.latitude')) !!}</b>
-    <p>{{ $meeting->latitude }}</p>
-</div>
+{{--  
+    <!-- Latitude Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('latitude', __('functionalities.meetings_var.latitude')) !!}</b>
+        <p>{{ $meeting->latitude }}</p>
+    </div>
 
-<!-- Longitude Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('longitude', __('functionalities.meetings_var.longitude')) !!}</b>
-    <p>{{ $meeting->longitude }}</p>
-</div>
+    <!-- Longitude Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('longitude', __('functionalities.meetings_var.longitude')) !!}</b>
+        <p>{{ $meeting->longitude }}</p>
+    </div>
+--}}
 
 <!-- Created At Field -->
 <div class="form-group col-sm-12">

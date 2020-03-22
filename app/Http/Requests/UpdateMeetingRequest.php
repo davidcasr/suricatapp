@@ -38,6 +38,7 @@ class UpdateMeetingRequest extends FormRequest
             'name' => 'Título',
             'description' => 'Descripción',
             'date' => 'Fecha de la reunión',
+            'time' => 'Hora de la reunión',
             'address' => 'Dirección',
             'latitude' => 'Latitud',
             'longitude' => 'Longitud'

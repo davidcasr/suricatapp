@@ -56,5 +56,21 @@ class MeetingReport extends Model implements AuditableContract
         'description' => 'required'
     ];
 
+    public function meetings()
+    {
+        return $this->belongsTo(Meeting::class, 'meeting_id', 'id');
+    }
+
+    public function scopeQMeetingReport($query, $user_id)
+    {
+        return $query
+            ->join('meetings','meeting_reports.meeting_id', '=','meetings.id')
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->get()
+            ->count();
+    }
     
 }

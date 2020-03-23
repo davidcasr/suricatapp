@@ -102,7 +102,7 @@ return [
     'meeting_reports_var'   => [
         'user_id' => 'user_id',
         'person_id' => 'person_id',
-        'meeting_id' => 'meeting_id',
+        'meeting_id' => 'Identificador de reunión',
         'description' => 'Descripción'
     ],
 

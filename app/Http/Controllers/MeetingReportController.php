@@ -9,6 +9,8 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Meeting;
 
 class MeetingReportController extends AppBaseController
 {
@@ -29,10 +31,17 @@ class MeetingReportController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $meetingReports = $this->meetingReportRepository->all();
+        $meetingReports = $this->meetingReportRepository
+            ->makeModel()
+            ->join('meetings','meeting_reports.meeting_id', '=','meetings.id')
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->select('meeting_reports.*')
+            ->paginate(config('global.per_page'));
 
-        return view('meeting_reports.index')
-            ->with('meetingReports', $meetingReports);
+        return view('meeting_reports.index', compact('meetingReports'));
     }
 
     /**
@@ -42,7 +51,9 @@ class MeetingReportController extends AppBaseController
      */
     public function create()
     {
-        return view('meeting_reports.create');
+        $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('name', 'id');
+
+        return view('meeting_reports.create', compact('meetings'));
     }
 
     /**
@@ -72,7 +83,15 @@ class MeetingReportController extends AppBaseController
      */
     public function show($id)
     {
-        $meetingReport = $this->meetingReportRepository->find($id);
+        $meeting_reports = $this->meetingReportRepository
+            ->makeModel()
+            ->qMeetingReport(Auth::id());
+
+        if ($meeting_reports > 0){
+            $meetingReport = $this->meetingReportRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($meetingReport)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meeting_reports', 1)]));
@@ -92,7 +111,17 @@ class MeetingReportController extends AppBaseController
      */
     public function edit($id)
     {
-        $meetingReport = $this->meetingReportRepository->find($id);
+        $meeting_reports = $this->meetingReportRepository
+            ->makeModel()
+            ->qMeetingReport(Auth::id());
+
+        if ($meeting_reports > 0){
+            $meetingReport = $this->meetingReportRepository->find($id);
+        }else{
+            abort(401);
+        }
+
+        $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('name', 'id');
 
         if (empty($meetingReport)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meeting_reports', 1)]));
@@ -100,7 +129,7 @@ class MeetingReportController extends AppBaseController
             return redirect(route('meetingReports.index'));
         }
 
-        return view('meeting_reports.edit')->with('meetingReport', $meetingReport);
+        return view('meeting_reports.edit', compact('meetingReport', 'meetings'));
     }
 
     /**
@@ -113,7 +142,15 @@ class MeetingReportController extends AppBaseController
      */
     public function update($id, UpdateMeetingReportRequest $request)
     {
-        $meetingReport = $this->meetingReportRepository->find($id);
+        $meeting_reports = $this->meetingReportRepository
+            ->makeModel()
+            ->qMeetingReport(Auth::id());
+
+        if ($meeting_reports > 0){
+            $meetingReport = $this->meetingReportRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($meetingReport)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meeting_reports', 1)]));
@@ -139,7 +176,15 @@ class MeetingReportController extends AppBaseController
      */
     public function destroy($id)
     {
-        $meetingReport = $this->meetingReportRepository->find($id);
+        $meeting_reports = $this->meetingReportRepository
+            ->makeModel()
+            ->qMeetingReport(Auth::id());
+
+        if ($meeting_reports > 0){
+            $meetingReport = $this->meetingReportRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($meetingReport)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meeting_reports', 1)]));

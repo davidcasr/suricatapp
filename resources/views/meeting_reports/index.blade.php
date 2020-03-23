@@ -14,7 +14,7 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <a class="btn btn-primary" href="{{ route('meeting_reports.create') }}">{{ __('functionalities.create') }} @choice('functionalities.meeting_reports', 1)</a>  
+                <a class="btn btn-primary" href="{{ route('meetingReports.create') }}">{{ __('functionalities.create') }} @choice('functionalities.meeting_reports', 1)</a>  
             </div>   
         </div>
     </div>
@@ -25,7 +25,7 @@
                 <div class="card-body">
                     @include('flash::message')
                     @include('meeting_reports.table')
-                    {{ $meeting_reports->links() }}
+                    {{ $meetingReports->links() }}
                 </div>  
             </div>
         </div>

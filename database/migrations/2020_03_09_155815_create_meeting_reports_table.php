@@ -15,8 +15,8 @@ class CreateMeetingReportsTable extends Migration
     {
         Schema::create('meeting_reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id');
-            $table->integer('person_id');
+            $table->integer('user_id')->nullable();
+            $table->integer('person_id')->nullable();
             $table->integer('meeting_id');
             $table->text('description');
             $table->timestamps();

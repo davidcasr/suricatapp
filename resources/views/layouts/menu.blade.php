@@ -81,8 +81,8 @@
             </a>
         </li>
 
-        <li class="{{ Request::is('meeting_reports*') ? 'mm-active' : '' }}">
-            <a href="{{ route('meeting_reports.index') }}">
+        <li class="{{ Request::is('meetingReports*') ? 'mm-active' : '' }}">
+            <a href="{{ route('meetingReports.index') }}">
                 <i class="metismenu-icon pe-7s-pin"></i>
                 <span>@choice('functionalities.meeting_reports', 2)</span>
             </a>

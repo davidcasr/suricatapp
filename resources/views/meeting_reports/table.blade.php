@@ -2,8 +2,6 @@
     <table class="table" id="meetingReports-table">
         <thead>
             <tr>
-                <th>{{ __('functionalities.meeting_reports_var.user_id') }}</th>
-                <th>{{ __('functionalities.meeting_reports_var.person_id') }}</th>
                 <th>{{ __('functionalities.meeting_reports_var.meeting_id') }}</th>
                 <th>{{ __('functionalities.meeting_reports_var.description') }}</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
@@ -12,9 +10,7 @@
         <tbody>
         @foreach($meetingReports as $meetingReport)
             <tr>
-                <td>{{ $meetingReport->user_id }}</td>
-                <td>{{ $meetingReport->person_id }}</td>
-                <td>{{ $meetingReport->meeting_id }}</td>
+                <td>{{ $meetingReport->meetings->full_meeting }}</td>
                 <td>{{ $meetingReport->description }}</td>
                 <td>
                     {!! Form::open(['route' => ['meetingReports.destroy', $meetingReport->id], 'method' => 'delete']) !!}

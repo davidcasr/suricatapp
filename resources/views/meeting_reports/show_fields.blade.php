@@ -1,19 +1,23 @@
-<!-- User Id Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('user_id', __('functionalities.meeting_reports_var.user_id')) !!}</b>
-    <p>{{ $meetingReport->user_id }}</p>
-</div>
+{{--  
 
-<!-- Person Id Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('person_id', __('functionalities.meeting_reports_var.person_id')) !!}</b>
-    <p>{{ $meetingReport->person_id }}</p>
-</div>
+    <!-- User Id Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('user_id', __('functionalities.meeting_reports_var.user_id')) !!}</b>
+        <p>{{ $meetingReport->user_id }}</p>
+    </div>
+
+    <!-- Person Id Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('person_id', __('functionalities.meeting_reports_var.person_id')) !!}</b>
+        <p>{{ $meetingReport->person_id }}</p>
+    </div>
+
+--}}
 
 <!-- Meeting Id Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('meeting_id', __('functionalities.meeting_reports_var.meeting_id')) !!}</b>
-    <p>{{ $meetingReport->meeting_id }}</p>
+    <p>{{ $meetingReport->meetings->full_meeting }}</p>
 </div>
 
 <!-- Description Field -->

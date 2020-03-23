@@ -15,10 +15,9 @@ class CreateAssistantsTable extends Migration
     {
         Schema::create('assistants', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('person_id');
-            $table->integer('group_id');
             $table->integer('meeting_id');
-            $table->integer('confirmation');
+            $table->integer('person_id');
+            $table->integer('confirmation')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

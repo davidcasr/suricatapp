@@ -76,6 +76,11 @@ class Meeting extends Model implements AuditableContract
         'longitude' => 'nullable'
     ];
 
+    public function getFullMeetingAttribute()
+    {
+        return $this->name . ' / ' . \Carbon\Carbon::parse($this->date)->format('d-m-Y') .' / '. \Carbon\Carbon::parse($this->time)->format('h:i A');
+    }
+
     public function communities()
     {
         return $this->belongsToMany(Community::class, 'community_meetings');
@@ -92,4 +97,14 @@ class Meeting extends Model implements AuditableContract
             ->count();
     }
     
+    public function scopeMeetingsPerCommunity($query, $user_id)
+    {
+        return $query
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->select('meetings.*')
+            ->where('community_users.user_id', $user_id)
+            ->get();
+    }
 }

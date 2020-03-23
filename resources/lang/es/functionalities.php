@@ -109,10 +109,9 @@ return [
     'assistants'   => 'Asistente|Asistentes',
 
     'assistants_var'   => [
-        'person_id' => 'person_id',
-        'group_id' => 'group_id',
-        'meeting_id' => 'meeting_id',
-        'confirmation' => 'Confirmación'
+        'person_id' => 'Persona',
+        'meeting_id' => 'Identificador de Reunión',
+        'confirmation' => 'Estado de asistencia'
     ],
 
     'users'   => 'Usuario|Usuarios',

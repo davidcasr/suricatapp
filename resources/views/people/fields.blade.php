@@ -1,5 +1,6 @@
-<!-- Communities Field -->
+
 @if($communities != null)
+<!-- Communities Field -->
     <div class="form-group col-sm-12">
         {!! Form::label('communities', 'Comunidad') !!}
         {!! Form::select('communities', $communities, null, ['class' => 'form-control']) !!}
@@ -95,13 +96,9 @@
 @section('scripts')
    <script>
         $(document).ready(function () {
-               $('#features').select2({
-                   width: '100%',
-               });
-               $('#birth').datetimepicker({
-                format: 'YYYY-MM-DD',
-                useCurrent: true
-            })
+           $('#features').select2({
+               width: '100%',
+           });
         });     
     </script>
 @endsection

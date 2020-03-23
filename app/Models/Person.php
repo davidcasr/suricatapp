@@ -106,5 +106,16 @@ class Person extends Model implements AuditableContract
             ->get()
             ->count();
     }
+
+    public function scopePeoplePerCommunity($query, $user_id)
+    {
+        return $query
+            ->join('community_people','community_people.person_id', '=','people.id')
+            ->join('communities', 'community_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->select('people.*')
+            ->where('community_users.user_id', $user_id)
+            ->get();
+    }
     
 }

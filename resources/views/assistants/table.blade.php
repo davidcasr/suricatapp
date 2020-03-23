@@ -2,9 +2,8 @@
     <table class="table" id="assistants-table">
         <thead>
             <tr>
-                <th>{{ __('functionalities.assistants_var.person_id') }}</th>
-                <th>{{ __('functionalities.assistants_var.group_id') }}</th>
                 <th>{{ __('functionalities.assistants_var.meeting_id') }}</th>
+                <th>{{ __('functionalities.assistants_var.person_id') }}</th>
                 <th>{{ __('functionalities.assistants_var.confirmation') }}</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
@@ -12,10 +11,29 @@
         <tbody>
         @foreach($assistants as $assistant)
             <tr>
-                <td>{{ $assistant->person_id }}</td>
-                <td>{{ $assistant->group_id }}</td>
-                <td>{{ $assistant->meeting_id }}</td>
-                <td>{{ $assistant->confirmation }}</td>
+                <td>{{ $assistant->meetings->full_meeting }}</td>
+                <td>{{ $assistant->people->email }}</td>
+
+                @if ($assistant->confirmation == 0)
+                    <td>
+                        <span style="color: red;">
+                            <i class="fas fa-times-circle"></i>
+                        </span>
+                    </td>
+                @elseif($assistant->confirmation == 1)
+                    <td>
+                        <span style="color: green;">
+                            <i class="fas fa-check-circle"></i>
+                        </span>
+                    </td>
+                @elseif($assistant->confirmation == 2)
+                    <td>
+                        <span style="color: blue;">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                    </td>
+                @endif
+
                 <td>
                     {!! Form::open(['route' => ['assistants.destroy', $assistant->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

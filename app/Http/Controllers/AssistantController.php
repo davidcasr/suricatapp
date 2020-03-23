@@ -9,6 +9,9 @@ use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Person;
+use App\Models\Meeting;
 
 class AssistantController extends AppBaseController
 {
@@ -29,10 +32,17 @@ class AssistantController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $assistants = $this->assistantRepository->all();
+        $assistants = $this->assistantRepository
+            ->makeModel()
+            ->join('meetings', 'assistants.meeting_id', '=', 'meetings.id')
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->select('assistants.*')
+            ->paginate(config('global.per_page'));
 
-        return view('assistants.index')
-            ->with('assistants', $assistants);
+        return view('assistants.index', compact('assistants'));
     }
 
     /**
@@ -42,7 +52,10 @@ class AssistantController extends AppBaseController
      */
     public function create()
     {
-        return view('assistants.create');
+        $people = Person::peoplePerCommunity(Auth::id())->pluck('email', 'id');
+        $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('name', 'id');
+
+        return view('assistants.create', compact('people', 'meetings'));
     }
 
     /**
@@ -72,7 +85,15 @@ class AssistantController extends AppBaseController
      */
     public function show($id)
     {
-        $assistant = $this->assistantRepository->find($id);
+        $assitants = $this->assistantRepository
+            ->makeModel()
+            ->qAssitant(Auth::id());
+
+        if ($assitants > 0){
+            $assistant = $this->assistantRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($assistant)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.assistants', 1)]));
@@ -92,7 +113,18 @@ class AssistantController extends AppBaseController
      */
     public function edit($id)
     {
-        $assistant = $this->assistantRepository->find($id);
+        $assitants = $this->assistantRepository
+            ->makeModel()
+            ->qAssitant(Auth::id());
+
+        if ($assitants > 0){
+            $assistant = $this->assistantRepository->find($id);
+        }else{
+            abort(401);
+        }
+
+        $people = Person::peoplePerCommunity(Auth::id())->pluck('email', 'id');
+        $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('name', 'id');
 
         if (empty($assistant)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.assistants', 1)]));
@@ -100,7 +132,7 @@ class AssistantController extends AppBaseController
             return redirect(route('assistants.index'));
         }
 
-        return view('assistants.edit')->with('assistant', $assistant);
+        return view('assistants.edit', compact('assistant', 'people', 'meetings'));
     }
 
     /**
@@ -113,7 +145,15 @@ class AssistantController extends AppBaseController
      */
     public function update($id, UpdateAssistantRequest $request)
     {
-        $assistant = $this->assistantRepository->find($id);
+        $assitants = $this->assistantRepository
+            ->makeModel()
+            ->qAssitant(Auth::id());
+
+        if ($assitants > 0){
+            $assistant = $this->assistantRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($assistant)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.assistants', 1)]));
@@ -139,7 +179,15 @@ class AssistantController extends AppBaseController
      */
     public function destroy($id)
     {
-        $assistant = $this->assistantRepository->find($id);
+        $assitants = $this->assistantRepository
+            ->makeModel()
+            ->qAssitant(Auth::id());
+
+        if ($assitants > 0){
+            $assistant = $this->assistantRepository->find($id);
+        }else{
+            abort(401);
+        }
 
         if (empty($assistant)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.assistants', 1)]));

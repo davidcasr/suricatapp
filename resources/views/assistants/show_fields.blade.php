@@ -1,25 +1,33 @@
-<!-- Person Id Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('person_id', __('functionalities.assistants_var.person_id')) !!}</b>
-    <p>{{ $assistant->person_id }}</p>
-</div>
-
-<!-- Group Id Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('group_id', __('functionalities.assistants_var.group_id')) !!}</b>
-    <p>{{ $assistant->group_id }}</p>
-</div>
-
 <!-- Meeting Id Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('meeting_id', __('functionalities.assistants_var.meeting_id')) !!}</b>
-    <p>{{ $assistant->meeting_id }}</p>
+    <p>{{ $assistant->meetings->full_meeting }}</p>
+</div>
+
+<!-- Person Id Field -->
+<div class="form-group col-sm-12">
+    <b>{!! Form::label('person_id', __('functionalities.assistants_var.person_id')) !!}</b>
+    <p>{{ $assistant->people->email }}</p>
 </div>
 
 <!-- Confirmation Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('confirmation', __('functionalities.assistants_var.confirmation')) !!}</b>
-    <p>{{ $assistant->confirmation }}</p>
+    <p>
+        @if ($assistant->confirmation == 0)
+            <span style="color: red;">
+                <i class="fas fa-times-circle"></i>
+            </span>
+        @elseif($assistant->confirmation == 1)
+            <span style="color: green;">
+                <i class="fas fa-check-circle"></i>
+            </span>
+        @elseif($assistant->confirmation == 2)
+            <span style="color: blue;">
+                <i class="fas fa-envelope"></i>
+            </span>
+        @endif
+    </p>
 </div>
 
 <!-- Created At Field -->

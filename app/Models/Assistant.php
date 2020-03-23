@@ -27,7 +27,6 @@ class Assistant extends Model implements AuditableContract
 
     public $fillable = [
         'person_id',
-        'group_id',
         'meeting_id',
         'confirmation'
     ];
@@ -40,7 +39,6 @@ class Assistant extends Model implements AuditableContract
     protected $casts = [
         'id' => 'integer',
         'person_id' => 'integer',
-        'group_id' => 'integer',
         'meeting_id' => 'integer',
         'confirmation' => 'integer'
     ];
@@ -52,10 +50,31 @@ class Assistant extends Model implements AuditableContract
      */
     public static $rules = [
         'person_id' => 'required',
-        'group_id' => 'required',
         'meeting_id' => 'required',
         'confirmation' => 'required'
     ];
+
+    public function people()
+    {
+        return $this->belongsTo(Person::class, 'person_id','id');
+    }
+
+    public function meetings()
+    {
+        return $this->belongsTo(Meeting::class, 'meeting_id', 'id');
+    }
+
+    public function scopeQAssitant($query, $user_id)
+    {
+        return $query
+            ->join('meetings', 'assistants.meeting_id', '=', 'meetings.id')
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->get()
+            ->count();
+    }
 
     
 }

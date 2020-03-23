@@ -31,10 +31,9 @@ class CreateAssistantRequest extends FormRequest
     public function attributes()
     {
         return [
-            'user_id' => 'user_id',
             'person_id' => 'person_id',
             'meeting_id' => 'meeting_id',
-            'description' => 'Descripción'
+            'confirmation' => 'Confirmación'
         ];
     }
 }

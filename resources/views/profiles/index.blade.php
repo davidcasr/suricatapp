@@ -5,7 +5,7 @@
         <div class="page-title-wrapper">
             <div class="page-title-heading">
                 <div class="page-title-icon">
-                    <i class="pe-7s-note icon-gradient bg-mean-fruit">
+                    <i class="pe-7s-graph1 icon-gradient bg-mean-fruit">
                     </i>
                 </div>
                 <div>@choice('functionalities.profiles', 1)

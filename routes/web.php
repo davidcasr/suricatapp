@@ -29,7 +29,8 @@ Route::group(['middleware' => ['auth','can:admin_all']], function () {
 	Route::resource('meetings', 'MeetingController');
 	Route::resource('meetingReports', 'MeetingReportController');
 	Route::resource('assistants', 'AssistantController');
-
+	Route::resource('account', 'AccountController');
+	Route::resource('associatedUsers', 'AssociatedUsersController');
 });
 
 Route::group(['middleware' => ['auth','can:super_all']], function () {

@@ -44,8 +44,8 @@
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
-                                    <button type="button" tabindex="0" class="dropdown-item">Cuenta</button>
-                                    <button type="button" tabindex="0" class="dropdown-item">Ajustes</button>
+                                    <a class="dropdown-item" href="{{ route('account.index') }}">@choice('functionalities.account', 1)</a>
+
                                     <div tabindex="-1" class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

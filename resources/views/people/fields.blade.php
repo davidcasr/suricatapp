@@ -81,7 +81,7 @@
     {!! Form::label('features', trans_choice('functionalities.features', 2)) !!}
     @if(isset($person))
         <br>
-        {!! Form::select('features[]', $features, old('features') ? old('role') : $person->features()->pluck('name', 'id'), ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'features']) !!}
+        {!! Form::select('features[]', $features, old('features') ? old('role') : $person->features()->select('features.*')->pluck('name', 'id'), ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'features']) !!}
     @else
         {!! Form::select('features[]', $features, null, ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'features']) !!}
     @endif

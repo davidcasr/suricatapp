@@ -16,6 +16,7 @@ class RolesTableSeeder extends Seeder
         
         Bouncer::allow('super')->to('super_all');
         Bouncer::allow('admin')->to('admin_all');
+        Bouncer::allow('supervisor')->to('supervisor_all');
         Bouncer::allow('mobile')->to('mobile_all');
     }
 }

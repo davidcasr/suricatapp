@@ -24,6 +24,14 @@ return [
         'plans' => 'Gestión de Planes',
     ],
 
+    'account'   => 'Cuenta',
+
+    'account_var'   => [
+        'associated_users' => 'Usuarios asociados',
+        'my_user' => 'Mi usuario',
+        'my_plan' => 'Mi plan',
+    ],
+
     'dashboard'   => 'Dashboard',
 
     'dashboard_var'   => [
@@ -118,8 +126,8 @@ return [
 
     'users_var'   => [
         'first_name' => 'Nombres',
-        'last_name' => 'Apellido',
-        'username' => 'Usuario',
+        'last_name' => 'Apellidos',
+        'username' => 'Nombre de Usuario',
         'email' => 'Correo electrónico',
         'password' => 'Contraseña',
         'phone' => 'Teléfono',

@@ -8,11 +8,13 @@
              <div class="box box-primary">
                  <div class="box-body">
                      <div class="row">
-                         {!! Form::model($planUser, ['route' => ['plan_users.update', $planUser->id], 'method' => 'patch']) !!}
+                        <div class="col-sm-6">
+                             {!! Form::model($planUser, ['route' => ['plan_users.update', $planUser->id], 'method' => 'patch']) !!}
 
-                         @include('administrator.plan_users.fields')
+                             @include('administrator.plan_users.fields')
 
-                         {!! Form::close() !!}
+                             {!! Form::close() !!}
+                        </div>
                      </div>
                  </div>
              </div>

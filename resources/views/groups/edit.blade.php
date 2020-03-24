@@ -8,11 +8,13 @@
              <div class="box box-primary">
                  <div class="box-body">
                      <div class="row">
-                         {!! Form::model($group, ['route' => ['groups.update', $group->id], 'method' => 'patch']) !!}
+                        <div class="col-sm-6">
+                             {!! Form::model($group, ['route' => ['groups.update', $group->id], 'method' => 'patch']) !!}
 
-                              @include('groups.fields')
+                                  @include('groups.fields')
 
-                         {!! Form::close() !!}
+                             {!! Form::close() !!}
+                        </div>
                      </div>
                  </div>
              </div>

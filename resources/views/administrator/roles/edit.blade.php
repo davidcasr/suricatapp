@@ -8,11 +8,13 @@
              <div class="box box-primary">
                  <div class="box-body">
                      <div class="row">
-                         {!! Form::model($role, ['route' => ['roles.update', $role->id], 'method' => 'patch']) !!}
+                        <div class="col-sm-6">
+                             {!! Form::model($role, ['route' => ['roles.update', $role->id], 'method' => 'patch']) !!}
 
-                         @include('administrator.roles.fields')
+                             @include('administrator.roles.fields')
 
-                         {!! Form::close() !!}
+                             {!! Form::close() !!}
+                        </div>
                      </div>
                  </div>
              </div>

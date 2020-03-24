@@ -20,7 +20,7 @@ class AccountController extends Controller
     			->get();
 
     	$q_users_register = User::join('community_users', 'community_users.user_id', '=', 'users.id')
-        		->where('community_users.community_id', '=', DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )'))
+        		->whereIn('community_users.community_id', [DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )') ])
         		->whereNotIn('community_users.user_id', [Auth::id()])
         		->select('users.*')
         		->count();
@@ -34,7 +34,7 @@ class AccountController extends Controller
         }
 
         $users = User::join('community_users', 'community_users.user_id', '=', 'users.id')
-        		->where('community_users.community_id', '=', DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )'))
+        		->whereIn('community_users.community_id', [DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )') ])
         		->whereNotIn('community_users.user_id', [Auth::id()])
         		->select('users.*')
         		->paginate(config('global.per_page'));

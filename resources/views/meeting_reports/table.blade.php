@@ -11,7 +11,7 @@
         @foreach($meetingReports as $meetingReport)
             <tr>
                 <td>{{ $meetingReport->meetings->full_meeting }}</td>
-                <td>{{ $meetingReport->description }}</td>
+                <td>{!! $meetingReport->description !!}</td>
                 <td>
                     {!! Form::open(['route' => ['meetingReports.destroy', $meetingReport->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

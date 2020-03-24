@@ -11,7 +11,7 @@
         @foreach($profiles as $profile)
             <tr>
                 <td>{{ $profile->name }}</td>
-                <td>{{ $profile->description }}</td>
+                <td>{!! $profile->description !!}</td>
                 <td>
                     {!! Form::open(['route' => ['profiles.destroy', $profile->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

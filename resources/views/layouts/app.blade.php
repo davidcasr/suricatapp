@@ -43,6 +43,7 @@
     <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+    <script src="{{ asset('/vendors/ckeditor/ckeditor.js') }}"></script>
     @yield('scripts')
 </body>
 </html>

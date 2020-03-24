@@ -21,7 +21,7 @@
 <!-- Description Field -->
 <div class="form-group col-sm-12 col-lg-12">
     {!! Form::label('description', __('functionalities.meetings_var.description')) !!}
-    {!! Form::textarea('description', null, ['class' => 'form-control','maxlength' => 250]) !!}
+    {!! Form::textarea('description', null, ['class' => 'form-control ckeditor','maxlength' => 250]) !!}
 </div>
 
 @if(isset($meeting))

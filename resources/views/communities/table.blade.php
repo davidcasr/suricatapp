@@ -15,7 +15,7 @@
             <tr>
                 <td>{{ $community->identification }}</td>
                 <td>{{ $community->name }}</td>
-                <td>{{ $community->description }}</td>
+                <td>{!! $community->description !!}</td>
                 <td>{{ $community->address }}</td>
                 
                 <td>

@@ -36,6 +36,7 @@ class CommunityController extends AppBaseController
             ->makeModel()
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
+            ->select('communities.*')
             ->paginate(config('global.per_page'));
 
         $q_communities_register = CommunityUsers::qCommunityUsers(Auth::id());

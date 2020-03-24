@@ -23,7 +23,7 @@
                     @endif
                 </td>
                 <td>{{ $group->name }}</td>
-                <td>{{ $group->description }}</td>
+                <td>{!! $group->description !!}</td>
                 <td>
                     <div class='btn-group'>
                         <a href="{{ route('groups.create', ['subgroup' => $group->id]) }}" class='btn btn-warning btn-xs'>Crear Subgrupo</a>  

@@ -14,7 +14,7 @@
         @foreach($meetings as $meeting)
             <tr>
                 <td>{{ $meeting->name }}</td>
-                <td>{{ $meeting->description }}</td>
+                <td>{!! $meeting->description !!}</td>
                 <td>{{ \Carbon\Carbon::parse($meeting->date)->format('d-m-Y') }}</td>
                 <td>{{ \Carbon\Carbon::parse($meeting->time)->format('h:i A') }} </td>
                 <td>{{ $meeting->address }}</td>

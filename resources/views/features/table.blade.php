@@ -11,7 +11,7 @@
         @foreach($features as $feature)
             <tr>
                 <td>{{ $feature->name }}</td>
-                <td>{{ $feature->description }}</td>
+                <td>{!! $feature->description !!}</td>
                 <td>
                     {!! Form::open(['route' => ['features.destroy', $feature->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

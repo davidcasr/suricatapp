@@ -30,7 +30,7 @@ class GenListController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $gen_lists = $this->genListRepository->all();
+        $gen_lists = $this->genListRepository->paginate(config('global.per_page'));
 
         return view('administrator.gen_lists.index')
             ->with('gen_lists', $gen_lists);

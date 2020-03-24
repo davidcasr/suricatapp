@@ -11,7 +11,7 @@
 	                    <div class="widget-subheading">Registradas</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>Info</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $communities }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -21,10 +21,10 @@
 	            <div class="widget-content-wrapper text-white">
 	                <div class="widget-content-left">
 	                    <div class="widget-heading">Personas</div>
-	                    <div class="widget-subheading">Total</div>
+	                    <div class="widget-subheading">Registradas</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>Info</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $people }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -37,7 +37,7 @@
 	                    <div class="widget-subheading">Registrados</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>Info</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $groups }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -47,10 +47,10 @@
 	            <div class="widget-content-wrapper text-white">
 	                <div class="widget-content-left">
 	                    <div class="widget-heading">Reuniones</div>
-	                    <div class="widget-subheading">Reuniones planeadas</div>
+	                    <div class="widget-subheading">Registradas</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>Info</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $meetings }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    
+                    {{ $peoplePerMonth->container() }}
                 </div>
             </div>
         </div>
@@ -81,28 +81,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    
+                    {{ $meetingsPerMonth->container() }}
                 </div>
             </div>
         </div>     
     </div>
-	
 
-	<div class="row">
-        <div class="col-md-12 col-lg-12">
-            <div class="mb-3 card">
-                <div class="card-header-tab card-header-tab-animation card-header">
-                    <div class="card-header-title">
-                        <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-                        Grupos
-                    </div>
-                </div>
-                <div class="card-body">
-                    
-                </div>
-            </div>
-        </div>    
-    </div>
+@endsection
 
-
+@section('scripts')
+	{!! $peoplePerMonth->script() !!}
+	{!! $meetingsPerMonth->script() !!}
 @endsection

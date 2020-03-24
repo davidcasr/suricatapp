@@ -6,6 +6,7 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use App\User;
 /**
  * Class PlanUser
  * @package App\Models
@@ -62,11 +63,11 @@ class PlanUser extends Model implements AuditableContract
 
     public function users()
     {
-        return $this->hasMany(User::class, 'id', 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function plans()
     {
-        return $this->hasMany(Plan::class, 'id', 'plan_id');
+        return $this->belongsTo(Plan::class, 'plan_id', 'id');
     }
 }

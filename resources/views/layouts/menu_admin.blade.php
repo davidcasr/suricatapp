@@ -2,7 +2,7 @@
 
 <li class="app-sidebar__heading">@choice('functionalities.menu_admin.administration', 2)</li>
 
-<li class="{{ Request::is('admin_dashboard*') ? 'mm-active' : '' }}">
+<li class="{{ Request::is('admin/admin_dashboard*') ? 'mm-active' : '' }}">
     <a href="{{ route('admin_dashboard.index') }}">
         <i class="metismenu-icon pe-7s-display1"></i>
         <span>@choice('functionalities.dashboard', 2)</span>
@@ -16,22 +16,22 @@
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
     <ul>
-        <li class="{{ Request::is('users*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/users*') ? 'mm-active' : '' }}">
             <a href="{!! route('users.index') !!}">
                 <i class="metismenu-icon"></i>
-                @choice('functionalities.users', 2)
+                <span>@choice('functionalities.users', 2)</span>
             </a>
         </li>
-        <li class="{{ Request::is('roles*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/roles*') ? 'mm-active' : '' }}">
             <a href="{!! route('roles.index') !!}">
                 <i class="metismenu-icon"></i>
-                @choice('functionalities.roles', 2)
+                <span>@choice('functionalities.roles', 2)</span>
             </a>
         </li>
-        <li class="{{ Request::is('abilities*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/abilities*') ? 'mm-active' : '' }}">
             <a href="{!! route('abilities.index') !!}">
                 <i class="metismenu-icon"></i>
-                @choice('functionalities.abilities', 2)
+                <span>@choice('functionalities.abilities', 2)</span>
             </a>
         </li>
     </ul>
@@ -44,16 +44,16 @@
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
     <ul>
-        <li class="{{ Request::is('gen_groups*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/gen_groups*') ? 'mm-active' : '' }}">
             <a href="{!! route('gen_groups.index') !!}">
                 <i class="metismenu-icon"></i>
-                @choice('functionalities.gen_groups', 2)
+                <span>@choice('functionalities.gen_groups', 2)</span>
             </a>
         </li>
-        <li class="{{ Request::is('gen_lists*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/gen_lists*') ? 'mm-active' : '' }}">
             <a href="{!! route('gen_lists.index') !!}">
                 <i class="metismenu-icon"></i>
-                @choice('functionalities.gen_lists', 2)
+                <span>@choice('functionalities.gen_lists', 2)</span>
             </a>
         </li>
     </ul>
@@ -66,16 +66,16 @@
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
     <ul>
-        <li class="{{ Request::is('plans*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/plans*') ? 'mm-active' : '' }}">
             <a href="{!! route('plans.index') !!}">
                 <i class="metismenu-icon"></i>
-                @choice('functionalities.plans', 2)
+                <span>@choice('functionalities.plans', 2)</span>
             </a>
         </li>
-        <li class="{{ Request::is('plan_users*') ? 'active' : '' }}">
+        <li class="{{ Request::is('admin/plan_users*') ? 'mm-active' : '' }}">
             <a href="{!! route('plan_users.index') !!}">
                 <i class="metismenu-icon"></i>
-               @choice('functionalities.plan_users', 2)
+               <span>@choice('functionalities.plan_users', 2)</span>
             </a>
         </li>
     </ul>

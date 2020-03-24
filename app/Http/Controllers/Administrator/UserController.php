@@ -30,7 +30,7 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->all();
+        $users = $this->userRepository->paginate(config('global.per_page'));
 
         return view('administrator.users.index')
             ->with('users', $users);

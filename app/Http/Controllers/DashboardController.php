@@ -51,10 +51,14 @@ class DashboardController extends Controller
             ->get()
             ->count();
 
-        $queryPeoplePerMonth = Person::select(DB::raw('MONTH(created_at) as id_month'),
-                                DB::raw('MONTHNAME(created_at) as month'), 
+        $queryPeoplePerMonth = Person::select(DB::raw('MONTH(people.created_at) as id_month'),
+                                DB::raw('MONTHNAME(people.created_at) as month'), 
                                 DB::raw('COUNT(*) as n'))
-                                ->whereYear('created_at', Carbon::now()->format('Y'))                            
+                                ->join('community_people','community_people.person_id', '=','people.id')
+                                ->join('communities', 'community_people.community_id', '=', 'communities.id')
+                                ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+                                ->where('community_users.user_id', Auth::user()->id)
+                                ->whereYear('people.created_at', Carbon::now()->format('Y')) 
                                 ->groupBy('id_month', 'month')->get();
 
         if(!$queryPeoplePerMonth->isEmpty()){
@@ -73,10 +77,14 @@ class DashboardController extends Controller
             ->color('rgba(0, 176, 155, 0.8)')
             ->backgroundcolor('rgba(0, 176, 155, 0.8)');
 
-        $queryMeetingsPerMonth = Meeting::select(DB::raw('MONTH(created_at) as id_meeting'),
-                                DB::raw('MONTHNAME(created_at) as month'), 
+        $queryMeetingsPerMonth = Meeting::select(DB::raw('MONTH(meetings.created_at) as id_meeting'),
+                                DB::raw('MONTHNAME(meetings.created_at) as month'), 
                                 DB::raw('COUNT(*) as n'))
-                                ->whereYear('created_at', Carbon::now()->format('Y'))                            
+                                ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+                                ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+                                ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+                                ->where('community_users.user_id', Auth::user()->id)
+                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                            
                                 ->groupBy('id_meeting', 'month')->get();
 
         if(!$queryMeetingsPerMonth->isEmpty()){

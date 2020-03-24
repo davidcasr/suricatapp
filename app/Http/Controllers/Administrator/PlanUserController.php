@@ -32,7 +32,7 @@ class PlanUserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $plan_users = $this->planUserRepository->all();
+        $plan_users = $this->planUserRepository->paginate(config('global.per_page'));
 
         return view('administrator.plan_users.index')
             ->with('plan_users', $plan_users);

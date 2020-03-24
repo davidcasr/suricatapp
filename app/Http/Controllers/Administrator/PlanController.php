@@ -29,7 +29,7 @@ class PlanController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $plans = $this->planRepository->all();
+        $plans = $this->planRepository->paginate(config('global.per_page'));
 
         return view('administrator.plans.index')
             ->with('plans', $plans);

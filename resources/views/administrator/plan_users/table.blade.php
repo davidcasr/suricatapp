@@ -14,9 +14,19 @@
         <tbody>
         @foreach($plan_users as $plan_user)
             <tr>
-                <td>{{ $plan_user->user_id }}</td>
-                <td>{{ $plan_user->plan_id }}</td>
-                <td>{{ $plan_user->status }}</td>
+                <td>{{ $plan_user->users->email }}</td>
+                <td>{{ $plan_user->plans->name }}</td>
+                <td>
+                    @if ($plan_user->status == 0)
+                        <span style="color: red;">
+                            <i class="fas fa-times-circle"></i>
+                        </span>
+                    @elseif($plan_user->status == 1)
+                        <span style="color: green;">
+                            <i class="fas fa-check-circle"></i>
+                        </span>
+                    @endif
+                </td>
                 <td>{{ $plan_user->date_activation }}</td>
                 <td>{{ $plan_user->date_deadline }}</td>
                                 

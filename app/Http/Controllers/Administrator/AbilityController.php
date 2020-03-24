@@ -30,7 +30,7 @@ class AbilityController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $abilities = $this->abilityRepository->all();
+        $abilities = $this->abilityRepository->paginate(config('global.per_page'));
 
         return view('administrator.abilities.index')
             ->with('abilities', $abilities);

@@ -29,7 +29,7 @@ class GenGroupController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $gen_groups = $this->genGroupRepository->all();
+        $gen_groups = $this->genGroupRepository->paginate(config('global.per_page'));
 
         return view('administrator.gen_groups.index')
             ->with('gen_groups', $gen_groups);

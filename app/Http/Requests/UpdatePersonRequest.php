@@ -25,9 +25,19 @@ class UpdatePersonRequest extends FormRequest
      */
     public function rules()
     {
-        $rules = Person::$rules;
-        
-        return $rules;
+        return [
+            'identification' => 'required|max:50',
+            'first_name' => 'required|string|max:100',
+            'last_name' => 'required|string|max:100',
+            'email' => 'required|string',
+            'sex' => 'required',
+            'address' => 'nullable|max:250',
+            'birth' => 'nullable|date',
+            'city' => 'nullable',
+            'country' => 'nullable',
+            'phone' => 'nullable',
+            'photo' => 'nullable'
+        ];
     }
 
     public function attributes()

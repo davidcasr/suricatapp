@@ -14,7 +14,11 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <a class="btn btn-primary" href="{{ route('people.create') }}">{{ __('functionalities.create') }} @choice('functionalities.people', 1)</a>
+                @if($button_create == false)
+                    <a class="btn btn-primary disabled" href="{{ route('people.create') }}">{{ __('functionalities.create') }} @choice('functionalities.people', 1)</a>
+                @else
+                    <a class="btn btn-primary" href="{{ route('people.create') }}">{{ __('functionalities.create') }} @choice('functionalities.people', 1)</a>
+                @endif
                 
             </div>   
         </div>

@@ -1,3 +1,13 @@
+<!-- features Field -->
+<div class="form-group col-sm-12">
+    <b>{!! Form::label('communities', trans_choice('functionalities.communities', 2)) !!}</b>
+    <p>
+    @foreach($feature->communities->pluck('name') as $community)
+        <span class="badge badge-info">{{ $community }}</span>
+    @endforeach
+    </p>
+</div>
+
 <!-- Name Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('name', __('functionalities.features_var.name')) !!}</b>
@@ -7,7 +17,7 @@
 <!-- Description Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('description', __('functionalities.features_var.description')) !!}</b>
-    <p>{{ $feature->description }}</p>
+    <p>{!! $feature->description !!}</p>
 </div>
 
 <!-- Created At Field -->

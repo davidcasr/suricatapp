@@ -63,7 +63,8 @@ return [
         'city' => 'Ciudad',
         'country' => 'País',
         'phone' => 'Teléfono',
-        'photo' => 'Foto'
+        'photo' => 'Foto',
+        'fullname' => 'Nombre completo'
     ],
 
     'groups'   => 'Grupo|Grupos',

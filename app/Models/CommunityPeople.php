@@ -64,4 +64,15 @@ class CommunityPeople extends Model implements AuditableContract
     {
         return $this->hasMany(Person::class, 'id', 'person_id');
     }
+
+    public function scopeQCommunityPeople($query, $user_id)
+    {
+        return $query
+            ->join('community_users', 'community_users.community_id', '=', 'community_people.community_id')
+            ->where('community_users.user_id', $user_id)
+            ->select('community_people.person_id')
+            ->distinct()
+            ->get()
+            ->count();
+    }
 }

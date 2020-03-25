@@ -3,8 +3,7 @@
         <thead>
             <tr>
                 <th>{{ __('functionalities.people_var.identification') }}</th>
-                <th>{{ __('functionalities.people_var.first_name') }}</th>
-                <th>{{ __('functionalities.people_var.last_name') }}</th>
+                <th>{{ __('functionalities.people_var.fullname') }}</th>
                 <th>{{ __('functionalities.people_var.email') }}</th>
                 
                 <th>{{ __('functionalities.people_var.birth') }}</th>
@@ -18,8 +17,7 @@
         @foreach($people as $person)
             <tr>
                 <td>{{ $person->identification }}</td>
-                <td>{{ $person->first_name }}</td>
-                <td>{{ $person->last_name }}</td>
+                <td>{{ $person->fullname }}</td>
                 <td>{{ $person->email }}</td>
                
                 <td>

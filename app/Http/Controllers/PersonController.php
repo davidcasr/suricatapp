@@ -10,8 +10,10 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 use App\Models\GenList;
 use App\Models\Community;
+use App\Models\CommunityPeople;
 use App\Models\Feature;
 
 class PersonController extends AppBaseController
@@ -39,10 +41,20 @@ class PersonController extends AppBaseController
             ->join('communities', 'community_people.community_id', '=', 'communities.id')
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
+            ->distinct()
             ->select('people.*')
             ->paginate(config('global.per_page'));
 
-        return view('people.index', compact('people'));
+        $q_people_register = CommunityPeople::qCommunityPeople(Auth::id());
+        $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];
+
+        if($q_people_register >= $q_people_plan){
+            $button_create = false;
+        }else{
+            $button_create = true;
+        }
+
+        return view('people.index', compact('people', 'button_create'));
     }
 
     /**
@@ -55,13 +67,21 @@ class PersonController extends AppBaseController
         $communities_auth = Community::communities(Auth::id());
         
         if($communities_auth->count() > 0){
-            $communities = $communities_auth->pluck('name','id');
 
-            $sexes = GenList::where('group_id','1')->get(['id', 'item_description'])->pluck('item_description','id');
+            $q_people_register = CommunityPeople::qCommunityPeople(Auth::id());
+            $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];
 
-            $features = Feature::featuresByUser(Auth::id())->pluck('name', 'id');
+            if($q_people_register >= $q_people_plan){
+                abort(401);
+            }else{
+                $communities = $communities_auth->pluck('name','id');
 
-            return view('people.create', compact('communities','sexes', 'features'));
+                $sexes = GenList::where('group_id','1')->get(['id', 'item_description'])->pluck('item_description','id');
+
+                $features = Feature::featuresByUser(Auth::id())->pluck('name', 'id');
+
+                return view('people.create', compact('communities','sexes', 'features'));
+            }            
         }else{
             Flash::error(trans('flash.error_no_community'));
             return redirect(route('people.index'));
@@ -78,12 +98,15 @@ class PersonController extends AppBaseController
      */
     public function store(CreatePersonRequest $request)
     {
-
         $input = $request->all();
 
         $person = $this->personRepository->create($input);
         $person->communities()->attach($request->communities);
-        $person->features()->attach($request->features, ['community_id' => $request->communities]);
+
+        $sync_data = [];
+        for($i = 0; $i < count($request->communities); $i++){
+            $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
+        }        
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.people', 1)]));
 

@@ -85,6 +85,11 @@ class Person extends Model implements AuditableContract
         'photo' => 'nullable'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
+    }
+
     public function communities()
     {
         return $this->belongsToMany(Community::class, 'community_people');
@@ -93,6 +98,11 @@ class Person extends Model implements AuditableContract
     public function features()
     {
         return $this->belongsToMany(Feature::class, 'feature_people');
+    }
+
+    public function genlist()
+    {
+        return $this->belongsTo(GenList::class, 'sex', 'id');
     }
 
     public function scopeQPeople($query, $user_id, $person_id)

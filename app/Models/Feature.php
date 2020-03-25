@@ -46,7 +46,7 @@ class Feature extends Model implements AuditableContract
      */
     public static $rules = [
         'name' => 'required|string|max:100',
-        'description' => 'nullable|string|max:250'
+        'description' => 'required|string|max:250'
     ];
 
     public function people()

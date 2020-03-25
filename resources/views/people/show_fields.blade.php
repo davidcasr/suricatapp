@@ -1,3 +1,13 @@
+<!-- features Field -->
+<div class="form-group col-sm-12">
+    <b>{!! Form::label('communities', trans_choice('functionalities.communities', 2)) !!}</b>
+    <p>
+    @foreach($person->communities->pluck('name') as $community)
+        <span class="badge badge-info">{{ $community }}</span>
+    @endforeach
+    </p>
+</div>
+
 <!-- Identification Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('identification', __('functionalities.people_var.identification')) !!}</b>
@@ -25,7 +35,7 @@
 <!-- Sex Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('sex', __('functionalities.people_var.sex')) !!}</b>
-    <p>{{ $person->sex }}</p>
+    <p>{{ $person->genlist->item_description }}</p>
 </div>
 
 <!-- Address Field -->

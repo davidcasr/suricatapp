@@ -34,6 +34,8 @@ class DashboardController extends Controller
             ->join('communities', 'community_people.community_id', '=', 'communities.id')
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::id())
+            ->distinct()
+            ->select('people.*')
             ->get()
             ->count();
 
@@ -53,7 +55,7 @@ class DashboardController extends Controller
 
         $queryPeoplePerMonth = Person::select(DB::raw('MONTH(people.created_at) as id_month'),
                                 DB::raw('MONTHNAME(people.created_at) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(DISTINCT people.id) as n'))
                                 ->join('community_people','community_people.person_id', '=','people.id')
                                 ->join('communities', 'community_people.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')

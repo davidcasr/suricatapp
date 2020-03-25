@@ -1,9 +1,8 @@
-
 @if($communities != null)
 <!-- Communities Field -->
     <div class="form-group col-sm-12">
         {!! Form::label('communities', 'Comunidad') !!}
-        {!! Form::select('communities', $communities, null, ['class' => 'form-control']) !!}
+        {!! Form::select('communities[]', $communities, null, ['class' => 'form-control','multiple' => 'multiple', 'id' => 'communities']) !!} 
     </div>
 @endif
 
@@ -44,11 +43,19 @@
     {!! Form::text('address', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Birth Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('birth', __('functionalities.people_var.birth')) !!}
-    {!! Form::date('birth', null, ['class' => 'form-control','id'=>'birth']) !!}
-</div>
+@if(isset($person))
+    <!-- Birth Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('birth', __('functionalities.people_var.birth')) !!}
+        {!! Form::date('birth', $person->birth, ['class' => 'form-control','id'=>'birth']) !!}
+    </div>
+@else
+    <!-- Birth Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('birth', __('functionalities.people_var.birth')) !!}
+        {!! Form::date('birth', \Carbon\Carbon::now(), ['class' => 'form-control','id'=>'birth']) !!}
+    </div>
+@endif
 
 <!-- City Field -->
 <div class="form-group col-sm-12">
@@ -79,12 +86,7 @@
 <!-- features Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('features', trans_choice('functionalities.features', 2)) !!}
-    @if(isset($person))
-        <br>
-        {!! Form::select('features[]', $features, old('features') ? old('role') : $person->features()->select('features.*')->pluck('name', 'id'), ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'features']) !!}
-    @else
-        {!! Form::select('features[]', $features, null, ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'features']) !!}
-    @endif
+    {!! Form::select('features[]', $features, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'features']) !!}
 </div>
 
 <!-- Submit Field -->
@@ -97,6 +99,9 @@
    <script>
         $(document).ready(function () {
            $('#features').select2({
+               width: '100%',
+           });
+           $('#communities').select2({
                width: '100%',
            });
         });     

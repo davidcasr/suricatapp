@@ -1,4 +1,20 @@
 @if(isset($subgroup))
+	<!-- Communities Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('communities', 'Comunidad') !!}
+		{!! Form::select('communities[]', $communities, null, ['class' => 'form-control','multiple' => 'multiple', 'id' => 'communities']) !!} 
+    </div>
+@else
+	@if($communities != null)
+		<!-- Communities Field -->
+	    <div class="form-group col-sm-12">
+	        {!! Form::label('communities', 'Comunidad') !!}
+	        {!! Form::select('communities[]', $communities, null, ['class' => 'form-control','multiple' => 'multiple', 'id' => 'communities']) !!} 
+	    </div>
+	@endif
+@endif
+
+@if(isset($subgroup))
 	<!-- Parent Id Field -->
 	<div class="form-group col-sm-12">
 	    {!! Form::label('parent_id', __('functionalities.groups_var.parent_id')) !!}
@@ -32,3 +48,13 @@
     {!! Form::submit(__('buttons.save'), ['class' => 'btn btn-primary']) !!}
     <a href="{{ route('groups.index') }}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
 </div>
+
+@section('scripts')
+   <script>
+        $(document).ready(function () {
+           $('#communities').select2({
+               width: '100%',
+           });
+        });     
+    </script>
+@endsection

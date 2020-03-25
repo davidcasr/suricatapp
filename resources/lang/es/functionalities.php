@@ -16,6 +16,7 @@ return [
 
    	'created_at' => 'Creado en',
    	'updated_at' => 'Actualizado en',
+    'number' => '#',
 
     'menu_admin'   => [
         'administration' => 'Administración',    

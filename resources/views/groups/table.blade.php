@@ -4,7 +4,8 @@
             <tr>
                 <th>{{ __('functionalities.groups_var.parent_id') }}</th>
                 <th>{{ __('functionalities.groups_var.name') }}</th>
-                <th>{{ __('functionalities.groups_var.description') }}</th>
+
+                <th>@choice('functionalities.communities', 2)</th>
                 <th>@choice('functionalities.sub_groups', 1)</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
@@ -23,7 +24,12 @@
                     @endif
                 </td>
                 <td>{{ $group->name }}</td>
-                <td>{!! $group->description !!}</td>
+
+                <td>
+                    @foreach($group->communities as $community)
+                        <span class="badge badge-info">{{ $community->name }}</span>
+                    @endforeach
+                </td>
                 <td>
                     <div class='btn-group'>
                         <a href="{{ route('groups.create', ['subgroup' => $group->id]) }}" class='btn btn-warning btn-xs'>Crear Subgrupo</a>  

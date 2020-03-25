@@ -3,7 +3,6 @@
         <thead>
             <tr>
                 <th>{{ __('functionalities.profiles_var.name') }}</th>
-                <th>{{ __('functionalities.profiles_var.description') }}</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
         </thead>
@@ -11,7 +10,6 @@
         @foreach($profiles as $profile)
             <tr>
                 <td>{{ $profile->name }}</td>
-                <td>{!! $profile->description !!}</td>
                 <td>
                     {!! Form::open(['route' => ['profiles.destroy', $profile->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

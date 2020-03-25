@@ -23,7 +23,7 @@
 <!-- Description Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('description', __('functionalities.groups_var.description')) !!}</b>
-    <p>{{ $group->description }}</p>
+    <p>{!! $group->description !!}</p>
 </div>
 
 <!-- Subgroup Field -->

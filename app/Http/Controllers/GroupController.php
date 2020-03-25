@@ -12,6 +12,7 @@ use Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Community;
 use App\Models\Group;
+use App\Models\CommunityGroups;
 
 class GroupController extends AppBaseController
 {
@@ -39,6 +40,7 @@ class GroupController extends AppBaseController
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
             ->select('groups.*')
+            ->distinct()
             ->paginate(config('global.per_page'));
 
         return view('groups.index', compact('groups'));
@@ -52,11 +54,17 @@ class GroupController extends AppBaseController
     public function create(Request $request)
     {
         if(!$request->subgroup){
-            return view('groups.create');
+            $communities = Community::communities(Auth::id())->pluck('name','id');
+            return view('groups.create', compact('communities'));
         }else{
             $subgroup = $request->subgroup;
             $levels = Group::where('id', $request->subgroup)->select('level')->get();
-            return view('groups.create', compact('subgroup', 'levels'));
+
+            $communities = CommunityGroups::join('communities', 'community_groups.community_id', '=', 'communities.id')
+                ->where('community_groups.group_id', $request->subgroup)
+                ->pluck('communities.name','communities.id');
+
+            return view('groups.create', compact('subgroup', 'levels', 'communities'));
         }     
     }
 
@@ -70,11 +78,9 @@ class GroupController extends AppBaseController
     public function store(CreateGroupRequest $request)
     {
         $input = $request->all();
-        
-        $community = Community::communities(Auth::id());
 
         $group = $this->groupRepository->create($input);
-        $group->communities()->attach($community);
+        $group->communities()->attach($request->communities);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.groups', 1)]));
 
@@ -128,13 +134,15 @@ class GroupController extends AppBaseController
             abort(401);
         }
 
+        $communities = Community::communities(Auth::id())->pluck('name','id');
+
         if (empty($group)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.groups', 1)]));
 
             return redirect(route('groups.index'));
         }
 
-        return view('groups.edit')->with('group', $group);
+        return view('groups.edit', compact('group', 'communities'));
     }
 
     /**

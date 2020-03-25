@@ -21,13 +21,17 @@
     
     <div class="row">
         <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-body">
-                    @include('flash::message')
-                    @include('profiles.table')
-                    {{ $profiles->links() }}
-                </div>  
-            </div>
+            @if($profiles->isNotEmpty())
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        @include('flash::message')
+                        @include('profiles.table')
+                        {{ $profiles->links() }}
+                    </div>  
+                </div>
+            @else
+                @include('states.empty_state')
+            @endif
         </div>
     </div>
     

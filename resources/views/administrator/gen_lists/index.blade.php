@@ -21,13 +21,17 @@
     
     <div class="row">
         <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-body">
-                    @include('flash::message')
-                    @include('administrator.gen_lists.table')
-                    {{ $gen_lists->links() }}
-                </div>  
-            </div>
+            @if($gen_lists->isNotEmpty())
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        @include('flash::message')
+                        @include('administrator.gen_lists.table')
+                        {{ $gen_lists->links() }}
+                    </div>  
+                </div>
+            @else
+                @include('states.empty_state')
+            @endif
         </div>
     </div>
     

@@ -21,13 +21,17 @@
     
     <div class="row">
         <div class="col-md-12">
-            <div class="main-card mb-3 card">
-                <div class="card-body">
-                    @include('flash::message')
-                    @include('administrator.roles.table')
-                    {{ $roles->links() }}
-                </div>  
-            </div>
+            @if($roles->isNotEmpty())
+                <div class="main-card mb-3 card">
+                    <div class="card-body">
+                        @include('flash::message')
+                        @include('administrator.roles.table')
+                        {{ $roles->links() }}
+                    </div>  
+                </div>
+            @else
+                @include('states.empty_state')
+            @endif
         </div>
     </div>
     

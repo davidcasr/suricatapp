@@ -38,6 +38,7 @@ class MeetingController extends AppBaseController
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
             ->select('meetings.*')
+            ->distinct()
             ->paginate(config('global.per_page'));
 
         return view('meetings.index', compact('meetings'));
@@ -50,7 +51,9 @@ class MeetingController extends AppBaseController
      */
     public function create()
     {
-        return view('meetings.create');
+        $communities = Community::communities(Auth::id())->pluck('name','id');
+        
+        return view('meetings.create', compact('communities'));
     }
 
     /**
@@ -63,11 +66,11 @@ class MeetingController extends AppBaseController
     public function store(CreateMeetingRequest $request)
     {
         $input = $request->all();
-
-        $community = Community::communities(Auth::id());
+        $input['user_id'] = Auth::id();
 
         $meeting = $this->meetingRepository->create($input);
-        $meeting->communities()->attach($community);
+
+        $meeting->communities()->attach($request->communities);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.meetings', 1)]));
 
@@ -121,13 +124,15 @@ class MeetingController extends AppBaseController
             abort(401);
         }
 
+        $communities = Community::communities(Auth::id())->pluck('name','id');
+
         if (empty($meeting)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meetings', 1)]));
 
             return redirect(route('meetings.index'));
         }
 
-        return view('meetings.edit')->with('meeting', $meeting);
+        return view('meetings.edit', compact('meeting', 'communities'));
     }
 
     /**

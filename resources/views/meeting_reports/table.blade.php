@@ -2,16 +2,16 @@
     <table class="table" id="meetingReports-table">
         <thead>
             <tr>
-                <th>{{ __('functionalities.meeting_reports_var.meeting_id') }}</th>
-                <th>{{ __('functionalities.meeting_reports_var.description') }}</th>
+                <th>{{ __('functionalities.meeting_reports_var.user_id') }}</th>
+                <th>{{ __('functionalities.meeting_reports_var.meeting_id') }}</th>           
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
         </thead>
         <tbody>
         @foreach($meetingReports as $meetingReport)
             <tr>
+                <td>{{ $meetingReport->user->email }}</td>
                 <td>{{ $meetingReport->meetings->full_meeting }}</td>
-                <td>{!! $meetingReport->description !!}</td>
                 <td>
                     {!! Form::open(['route' => ['meetingReports.destroy', $meetingReport->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

@@ -6,6 +6,8 @@ use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use OwenIt\Auditing\Auditable;
 use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
+use App\User;
+
 /**
  * Class MeetingReport
  * @package App\Models
@@ -59,6 +61,11 @@ class MeetingReport extends Model implements AuditableContract
     public function meetings()
     {
         return $this->belongsTo(Meeting::class, 'meeting_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
     public function scopeQMeetingReport($query, $user_id)

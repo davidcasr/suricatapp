@@ -66,6 +66,7 @@ class MeetingReportController extends AppBaseController
     public function store(CreateMeetingReportRequest $request)
     {
         $input = $request->all();
+        $input['user_id'] = Auth::id();
 
         $meetingReport = $this->meetingReportRepository->create($input);
 

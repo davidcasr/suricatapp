@@ -23,7 +23,7 @@
 <!-- Description Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('description', __('functionalities.meeting_reports_var.description')) !!}</b>
-    <p>{{ $meetingReport->description }}</p>
+    <p>{!! $meetingReport->description !!}</p>
 </div>
 
 <!-- Created At Field -->

@@ -40,6 +40,7 @@ class AssistantController extends AppBaseController
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
             ->select('assistants.*')
+            ->distinct()
             ->paginate(config('global.per_page'));
 
         return view('assistants.index', compact('assistants'));

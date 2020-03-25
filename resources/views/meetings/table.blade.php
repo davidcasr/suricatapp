@@ -3,10 +3,10 @@
         <thead>
             <tr>
                 <th>{{ __('functionalities.meetings_var.name') }}</th>
-                <th>{{ __('functionalities.meetings_var.description') }}</th>
                 <th>{{ __('functionalities.meetings_var.date') }}</th>
                 <th>{{ __('functionalities.meetings_var.time') }}</th>
                 <th>{{ __('functionalities.meetings_var.address') }}</th>
+                <th>@choice('functionalities.communities', 2)</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
         </thead>
@@ -14,11 +14,14 @@
         @foreach($meetings as $meeting)
             <tr>
                 <td>{{ $meeting->name }}</td>
-                <td>{!! $meeting->description !!}</td>
                 <td>{{ \Carbon\Carbon::parse($meeting->date)->format('d-m-Y') }}</td>
                 <td>{{ \Carbon\Carbon::parse($meeting->time)->format('h:i A') }} </td>
                 <td>{{ $meeting->address }}</td>
-
+                <td>
+                    @foreach($meeting->communities as $community)
+                        <span class="badge badge-info">{{ $community->name }}</span>
+                    @endforeach
+                </td>
                 <td>
                     {!! Form::open(['route' => ['meetings.destroy', $meeting->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

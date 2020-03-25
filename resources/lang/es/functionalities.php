@@ -110,7 +110,7 @@ return [
     'meeting_reports'   => 'Reporte de reunión|Reportes de reunión',
 
     'meeting_reports_var'   => [
-        'user_id' => 'user_id',
+        'user_id' => 'Creado por',
         'person_id' => 'person_id',
         'meeting_id' => 'Identificador de reunión',
         'description' => 'Descripción'

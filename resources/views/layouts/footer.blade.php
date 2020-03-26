@@ -15,7 +15,7 @@
                 <ul class="nav">
                     <li class="nav-item">
                          <a href="https://davidcasr.co" class="nav-link">
-                            @davidcasr
+                            Made with ❤️ by @davidcasr
                         </a>
                         </span>
                     </li>

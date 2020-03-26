@@ -18,7 +18,7 @@
 
 <li>
     <a href="#">
-        <i class="metismenu-icon pe-7s-user icon-gradient bg-premium-dark"></i>
+        <i class="metismenu-icon pe-7s-user"></i>
             @choice('functionalities.people', 2)
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
@@ -40,7 +40,7 @@
 
 <li>
     <a href="#">
-        <i class="metismenu-icon pe-7s-graph1 icon-gradient bg-premium-dark"></i>
+        <i class="metismenu-icon pe-7s-graph1"></i>
             @choice('functionalities.groups', 2)
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
@@ -62,7 +62,7 @@
 
 <li>
     <a href="#">
-        <i class="metismenu-icon pe-7s-map-2 icon-gradient bg-premium-dark"></i>
+        <i class="metismenu-icon pe-7s-map-2"></i>
             <span>@choice('functionalities.meetings', 2)
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>

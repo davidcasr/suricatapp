@@ -4,7 +4,6 @@
             <tr>
                 <th>{{ __('functionalities.communities_var.identification') }}</th>
                 <th>{{ __('functionalities.communities_var.name') }}</th>
-                <th>{{ __('functionalities.communities_var.description') }}</th>
                 <th>{{ __('functionalities.communities_var.address') }}</th>
                 
                 <th colspan="3">{{ __('functionalities.action') }}</th>
@@ -15,7 +14,6 @@
             <tr>
                 <td>{{ $community->identification }}</td>
                 <td>{{ $community->name }}</td>
-                <td>{!! $community->description !!}</td>
                 <td>{{ $community->address }}</td>
                 
                 <td>

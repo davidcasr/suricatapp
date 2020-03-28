@@ -37,6 +37,7 @@
         {!! Form::select('sex',$sexes, null, ['class' => 'form-control']) !!}
     </div>
 @endif
+
 <!-- Address Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('address', __('functionalities.people_var.address')) !!}
@@ -89,6 +90,20 @@
     {!! Form::select('features[]', $features, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'features']) !!}
 </div>
 
+<!-- groups Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('groups', trans_choice('functionalities.groups', 2)) !!}
+    {!! Form::select('groups[]', $groups, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'groups']) !!}
+</div>
+
+@if($profiles != null)
+    <!-- profiles Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('profiles', trans_choice('functionalities.profiles', 1)) !!}
+        {!! Form::select('profiles', $profiles, null, ['class' => 'form-control', 'id' => 'profiles', 'placeholder' => 'Seleccione un perfil']) !!}
+    </div>
+@endif
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('buttons.save'), ['class' => 'btn btn-primary']) !!}
@@ -98,10 +113,15 @@
 @section('scripts')
    <script>
         $(document).ready(function () {
+           $('#communities').select2({
+               width: '100%',
+           });
+
            $('#features').select2({
                width: '100%',
            });
-           $('#communities').select2({
+           
+           $('#groups').select2({
                width: '100%',
            });
         });     

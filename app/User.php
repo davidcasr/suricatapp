@@ -58,9 +58,17 @@ class User extends Authenticatable
         'phone' => 'nullable|string|max:100'
     ];
 
+    public function getFullNameAttribute()
+    {
+        return $this->first_name.' '.$this->last_name;
+    }
+
     public function setPasswordAttribute($value)
     {
-        $this->attributes['password'] = bcrypt($value);
+        if($value != null)
+        {
+            $this->attributes['password'] = bcrypt($value);
+        }
     }
 
     public function communities()

@@ -21,19 +21,19 @@
     <b>{!! Form::label('address', __('functionalities.communities_var.address')) !!}</b>
     <p>{!! $community->address !!}</p>
 </div>
+{{--  
+    <!-- Latitude Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('latitude', __('functionalities.communities_var.latitude')) !!}</b>
+        <p>{!! $community->latitude !!}</p>
+    </div>
 
-<!-- Latitude Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('latitude', __('functionalities.communities_var.latitude')) !!}</b>
-    <p>{!! $community->latitude !!}</p>
-</div>
-
-<!-- Longitude Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('longitude', __('functionalities.communities_var.longitude')) !!}</b>
-    <p>{!! $community->longitude !!}</p>
-</div>
-
+    <!-- Longitude Field -->
+    <div class="form-group col-sm-12">
+        <b>{!! Form::label('longitude', __('functionalities.communities_var.longitude')) !!}</b>
+        <p>{!! $community->longitude !!}</p>
+    </div>
+--}}
 <!-- Created At Field -->
 <div class="form-group col-sm-12">
     <b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b>

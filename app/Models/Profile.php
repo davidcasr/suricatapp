@@ -64,5 +64,16 @@ class Profile extends Model implements AuditableContract
             ->get()
             ->count();
     }
+
+    public function scopeProfilesByUser($query, $user_id)
+    {
+        return $query
+            ->join('community_profiles','community_profiles.profile_id', '=','profiles.id')
+            ->join('communities', 'community_profiles.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->select('profiles.*')
+            ->get();
+    }
     
 }

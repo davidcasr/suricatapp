@@ -17,7 +17,6 @@
                          <a href="https://davidcasr.co" class="nav-link">
                             Made with ❤️ by @davidcasr
                         </a>
-                        </span>
                     </li>
                 </ul>
             </div>

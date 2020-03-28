@@ -13,6 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/main.css') }}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link href="{{ asset('css/loader.css') }}" rel="stylesheet">
     
 </head>
 <body>
@@ -31,7 +32,10 @@
                 @include('layouts.sidebar')  
                 <div class="app-main__outer">
                     <div class="app-main__inner">
-                        @yield('content')
+                        <div id="loader" class="loader"></div>
+                        <div id="content" class="invisible">
+                            @yield('content')
+                        </div>
                     </div>
                     @include('layouts.footer')
                 </div>
@@ -47,3 +51,12 @@
     @yield('scripts')
 </body>
 </html>
+
+<script>
+    window.onload = function(){
+        var content = document.getElementById('content')
+        content.className = 'visible'
+        var loader = document.getElementById('loader')
+        loader.className = 'invisible'
+    }
+</script>

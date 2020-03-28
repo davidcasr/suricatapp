@@ -72,6 +72,11 @@ class Group extends Model implements AuditableContract
         return $this->belongsToMany(Community::class, 'community_groups');
     }
 
+    public function communities_people()
+    {
+        return $this->belongsToMany(Community::class, 'community_people');
+    }
+
     public function scopeQGroup($query, $user_id)
     {
         return $query
@@ -81,6 +86,17 @@ class Group extends Model implements AuditableContract
             ->where('community_users.user_id', $user_id)
             ->get()
             ->count();
+    }
+
+    public function scopeGroupsByUser($query, $user_id)
+    {
+        return $query
+            ->join('community_groups','community_groups.group_id', '=','groups.id')
+            ->join('communities', 'community_groups.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', $user_id)
+            ->select('groups.*')
+            ->get();
     }
     
 }

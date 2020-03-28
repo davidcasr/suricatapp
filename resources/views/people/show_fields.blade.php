@@ -2,8 +2,8 @@
 <div class="form-group col-sm-12">
     <b>{!! Form::label('communities', trans_choice('functionalities.communities', 2)) !!}</b>
     <p>
-    @foreach($person->communities->pluck('name') as $community)
-        <span class="badge badge-info">{{ $community }}</span>
+    @foreach($communities as $community)
+        <span class="badge badge-info">{{ $community->name }}</span>
     @endforeach
     </p>
 </div>
@@ -89,6 +89,31 @@
     @endforeach
     </p>
 </div>
+
+<!-- groups Field -->
+<div class="form-group col-sm-12">
+    <b>{!! Form::label('groups', trans_choice('functionalities.groups', 2)) !!}</b>
+    @if($groups != null)
+        <p>
+        @foreach($groups as $group)
+            <span class="badge badge-info">{{ $group->name }}</span>
+        @endforeach
+        </p>
+    @endif
+</div>
+
+<!-- profiles Field -->
+<div class="form-group col-sm-12">
+    <b>{!! Form::label('profiles', trans_choice('functionalities.profiles', 2)) !!}</b>
+    @if($profiles != null)
+        <p>
+        @foreach($profiles as $profile)
+            <span class="badge badge-info">{{ $profile->name }}</span>
+        @endforeach
+        </p>
+    @endif
+</div>
+
 
 <!-- Created At Field -->
 <div class="form-group col-sm-12">

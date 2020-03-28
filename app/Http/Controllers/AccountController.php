@@ -5,11 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Repositories\Administrator\UserRepository;
+use App\Http\Requests\Administrator\UpdateUserRequest;
 use App\User;
 use App\Models\Plan;
+use Flash;
 
 class AccountController extends Controller
 {
+     /** @var  UserRepository */
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepo)
+    {
+        $this->userRepository = $userRepo;
+    }
+
     public function index(Request $request)
     {	
 
@@ -41,4 +52,50 @@ class AccountController extends Controller
 
     	return view('account.index', compact('user', 'plans', 'users', 'button_create'));
     }
+
+    /**
+     * Show the form for editing the specified user.
+     *
+     * @param  int $id
+     *
+     * @return Response
+     */
+    public function edit($id)
+    {
+        $user = $this->userRepository->find($id);
+
+        if (empty($user)) {
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.users', 1)]));
+
+            return redirect(route('account.index'));
+        }
+
+        return view('account.edit',compact('user'));
+    }
+
+    /**
+     * Update the specified user in storage.
+     *
+     * @param  int              $id
+     * @param UpdateUserRequest $request
+     *
+     * @return Response
+     */
+    public function update($id, UpdateUserRequest $request)
+    {
+        $user = $this->userRepository->find($id);
+
+        if (empty($user)) {
+            Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.users', 1)]));
+
+            return redirect(route('account.index'));
+        }
+
+        $user = $this->userRepository->update($request->all(), $id);
+
+        Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.users', 1)]));
+
+        return redirect(route('account.index'));
+    }
 }
+

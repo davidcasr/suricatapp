@@ -9,7 +9,8 @@
                     </i>
                 </div>
                 <div>@choice('functionalities.assistants', 1)
-                    <div class="page-title-subheading">¿Sabías que? Las suricatas tienen una manera curiosa de organizarse en comunidades
+                    <div class="page-title-subheading">
+                        {{ __('messages.what_is_assitant') }}
                     </div>
                 </div>
             </div>

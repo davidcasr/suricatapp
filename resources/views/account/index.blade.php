@@ -23,7 +23,14 @@
 <div class="row">
     <div class="col-md-12">
         <div class="main-card mb-3 card">
-            <div class="card-header">{{  __('functionalities.account_var.my_user') }}</div>
+            <div class="card-header">{{  __('functionalities.account_var.my_user') }}
+                <div class="btn-actions-pane-right">
+                    <div role="group" class="btn-group-sm btn-group">
+                       <a href="{{ route('account.edit', [$user->id]) }}" class='btn btn-light btn-xs'><i class="fas fa-edit"></i></a>
+                    </div>
+                </div>
+            </div>
+            
             <div class="card-body">
                 <div class="content">
 	                <div class="box box-primary">
@@ -74,11 +81,16 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">  
-                @include('flash::message')
-                @include('associated_users.table')
-                {{ $users->links() }}
-            </div>  
+
+            @if($users->isNotEmpty())
+                <div class="card-body">  
+                    @include('flash::message')
+                    @include('associated_users.table')
+                    {{ $users->links() }}
+                </div>  
+            @else
+                @include('states.empty_state')
+            @endif
         </div>
     </div>
 </div>

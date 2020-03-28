@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="main-card card">
+<div class="main-card mb-3 card">
         <div class="card-body">
          <div class="content">
              @include('adminlte-templates::common.errors')

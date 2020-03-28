@@ -28,7 +28,7 @@ return [
     'account'   => 'Cuenta',
 
     'account_var'   => [
-        'associated_users' => 'Usuarios asociados',
+        'associated_users' => 'Usuarios asociados / Administradores',
         'my_user' => 'Mi usuario',
         'my_plan' => 'Mi plan',
     ],
@@ -129,11 +129,12 @@ return [
     'users_var'   => [
         'first_name' => 'Nombres',
         'last_name' => 'Apellidos',
-        'username' => 'Nombre de Usuario',
+        'username' => 'Usuario',
         'email' => 'Correo electrónico',
         'password' => 'Contraseña',
         'phone' => 'Teléfono',
         'roles' => 'Roles',
+        'fullname' => 'Nombre Completo'
     ],
 
     'roles' => 'Rol|Roles',

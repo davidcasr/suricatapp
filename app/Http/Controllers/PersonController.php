@@ -15,6 +15,8 @@ use App\Models\GenList;
 use App\Models\Community;
 use App\Models\CommunityPeople;
 use App\Models\Feature;
+use App\Models\Group;
+use App\Models\Profile;
 
 class PersonController extends AppBaseController
 {
@@ -80,7 +82,11 @@ class PersonController extends AppBaseController
 
                 $features = Feature::featuresByUser(Auth::id())->pluck('name', 'id');
 
-                return view('people.create', compact('communities','sexes', 'features'));
+                $groups = Group::groupsByUser(Auth::id())->pluck('name', 'id');
+
+                $profiles = Profile::profilesByUser(Auth::id())->pluck('name', 'id');
+
+                return view('people.create', compact('communities','sexes', 'features', 'groups', 'profiles'));
             }            
         }else{
             Flash::error(trans('flash.error_no_community'));
@@ -106,6 +112,11 @@ class PersonController extends AppBaseController
         $sync_data = [];
         for($i = 0; $i < count($request->communities); $i++){
             $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
+        }
+
+        for($i = 0; $i < count($request->groups); $i++){
+            $group = Group::findOrFail($request->groups[$i]);
+            $group->communities_people()->attach($request->communities, ['profile_id' => $request->profiles, 'person_id' => $person->id]);
         }        
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.people', 1)]));
@@ -129,6 +140,23 @@ class PersonController extends AppBaseController
         if ($people > 0){
             $person = $this->personRepository->find($id);
             $person->load('features');
+
+            $communities = CommunityPeople::join('communities','community_people.community_id', '=', 'communities.id')
+                ->where('community_people.person_id', $id)
+                ->select('communities.*')
+                ->distinct()
+                ->get();
+
+            $groups = CommunityPeople::join('groups','community_people.group_id', '=', 'groups.id')
+                ->where('community_people.person_id', $id)
+                ->select('groups.*')
+                ->distinct()
+                ->get();
+            $profiles = CommunityPeople::join('profiles','community_people.profile_id', '=', 'profiles.id')
+                ->where('community_people.person_id', $id)
+                ->select('profiles.*')
+                ->distinct()
+                ->get();
         }else{
             abort(401);
         }
@@ -139,7 +167,7 @@ class PersonController extends AppBaseController
             return redirect(route('people.index'));
         }
 
-        return view('people.show')->with('person', $person);
+        return view('people.show', compact('person','communities', 'groups', 'profiles'));
     }
 
     /**
@@ -164,8 +192,13 @@ class PersonController extends AppBaseController
 
         $communities_auth = Community::communities(Auth::id());
         $communities = $communities_auth->pluck('name','id');
+
         $sexes = GenList::where('group_id','1')->get(['id', 'item_description'])->pluck('item_description','id');
         $features = Feature::featuresByUser(Auth::id())->pluck('name', 'id');
+        
+        $groups = Group::groupsByUser(Auth::id())->pluck('name', 'id');
+
+        $profiles = Profile::profilesByUser(Auth::id())->pluck('name', 'id');
 
         if (empty($person)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.people', 1)]));
@@ -173,7 +206,7 @@ class PersonController extends AppBaseController
             return redirect(route('people.index'));
         }
 
-        return view('people.edit', compact('person', 'communities', 'sexes', 'features'));
+        return view('people.edit', compact('person', 'communities', 'sexes', 'features', 'groups', 'profiles'));
     }
 
     /**
@@ -192,7 +225,16 @@ class PersonController extends AppBaseController
 
         if ($people > 0){
             $person = $this->personRepository->find($id);
-            $person->load('features');
+            
+            $sync_data = [];
+            for($i = 0; $i < count($request->communities); $i++){
+                $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
+            }
+
+            for($i = 0; $i < count($request->groups); $i++){
+                $group = Group::findOrFail($request->groups[$i]);
+                $group->communities_people()->attach($request->communities, ['profile_id' => $request->profiles, 'person_id' => $person->id]);
+            }   
         }else{
             abort(401);
         }

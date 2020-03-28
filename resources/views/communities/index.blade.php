@@ -9,7 +9,8 @@
                     </i>
                 </div>
                 <div>@choice('functionalities.communities', 1)
-                    <div class="page-title-subheading">¿Sabías que? Las suricatas tienen una manera curiosa de organizarse en comunidades
+                    <div class="page-title-subheading">
+                        {{ __('messages.what_is_community') }}
                     </div>
                 </div>
             </div>
@@ -25,6 +26,7 @@
     
     <div class="row">
         <div class="col-md-12">
+            @include('flash::message')
             @if($communities->isNotEmpty())
                 <div class="main-card mb-3 card">
                     <div class="card-body">

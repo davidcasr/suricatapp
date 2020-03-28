@@ -3,7 +3,6 @@
         <thead>
             <tr>
                 <th>{{ __('functionalities.features_var.name') }}</th>
-                <th>{{ __('functionalities.features_var.description') }}</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
         </thead>
@@ -11,7 +10,6 @@
         @foreach($features as $feature)
             <tr>
                 <td>{{ $feature->name }}</td>
-                <td>{!! $feature->description !!}</td>
                 <td>
                     {!! Form::open(['route' => ['features.destroy', $feature->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>

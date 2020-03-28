@@ -42,7 +42,14 @@ class AssociatedUsersController extends Controller
      */
     public function create()
     {
-        return view('associated_users.create');
+        $communities_auth = Community::communities(Auth::id())->count();
+        if($communities_auth == 0){
+            Flash::error(trans('flash.error_no_user_community'));
+            return redirect(route('communities.index'));
+        }else{
+            return view('associated_users.create');
+        }
+        
     }
 
     /**

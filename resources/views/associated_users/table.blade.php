@@ -2,8 +2,7 @@
     <table class="table" id="users-table">
         <thead>
             <tr>
-                <th>{{ __('functionalities.users_var.first_name') }}</th>
-                <th>{{ __('functionalities.users_var.last_name') }}</th>
+                <th>{{ __('functionalities.users_var.fullname') }}</th>
                 <th>{{ __('functionalities.users_var.username') }}</th>
                 <th>{{ __('functionalities.users_var.email') }}</th>
               
@@ -16,8 +15,7 @@
         <tbody>
         @foreach($users as $user)
             <tr>
-                <td>{{ $user->first_name }}</td>
-                <td>{{ $user->last_name }}</td>
+                <td>{{ $user->fullname }}</td>
                 <td>{{ $user->username }}</td>
                 <td>{{ $user->email }}</td>
                 

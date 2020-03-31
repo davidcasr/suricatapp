@@ -114,10 +114,13 @@ class PersonController extends AppBaseController
             $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
         }
 
-        for($i = 0; $i < count($request->groups); $i++){
+        if(isset(($request->groups))){
+            for($i = 0; $i < count($request->groups); $i++){
             $group = Group::findOrFail($request->groups[$i]);
             $group->communities_people()->attach($request->communities, ['profile_id' => $request->profiles, 'person_id' => $person->id]);
-        }        
+            } 
+        }
+               
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.people', 1)]));
 
@@ -231,10 +234,12 @@ class PersonController extends AppBaseController
                 $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
             }
 
-            for($i = 0; $i < count($request->groups); $i++){
-                $group = Group::findOrFail($request->groups[$i]);
-                $group->communities_people()->attach($request->communities, ['profile_id' => $request->profiles, 'person_id' => $person->id]);
-            }   
+            if(isset(($request->groups))){
+                for($i = 0; $i < count($request->groups); $i++){
+                    $group = Group::findOrFail($request->groups[$i]);
+                    $group->communities_people()->attach($request->communities, ['profile_id' => $request->profiles, 'person_id' => $person->id]);
+                }
+            }
         }else{
             abort(401);
         }

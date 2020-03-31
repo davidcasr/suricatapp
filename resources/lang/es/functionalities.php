@@ -116,7 +116,7 @@ return [
         'description' => 'Descripción'
     ],
 
-    'assistants'   => 'Asistente|Asistentes',
+    'assistants'   => 'Invitado/Asistente|Invitados/Asistentes',
 
     'assistants_var'   => [
         'person_id' => 'Persona',

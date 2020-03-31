@@ -15,7 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+// Default authentication routes
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 

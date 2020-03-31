@@ -8,7 +8,7 @@
                 <div class="box box-primary">
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-12">
                                 {!! Form::open(['route' => 'groups.store']) !!}
 
                                     @include('groups.fields')

@@ -8,7 +8,7 @@
              <div class="box box-primary">
                  <div class="box-body">
                      <div class="row">
-                        <div class="col-sm-6">
+                        <div class="col-sm-12">
                            {!! Form::model($feature, ['route' => ['features.update', $feature->id], 'method' => 'patch']) !!}
 
                                 @include('features.fields')

@@ -17,6 +17,6 @@ return [
     'error' => ':model no encontrad@',
 
     'error_no_community' => 'No existe ninguna comunidad. Por favor cree una.',
-    'error_no_user_community' => 'Para crear un usuario asociado debes crear primero una comunidad'
+    'error_no_user_community' => 'Para agregar un usuario asociado debes crear primero una comunidad'
 
 ];

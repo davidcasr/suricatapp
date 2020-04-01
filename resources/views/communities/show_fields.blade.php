@@ -1,48 +1,37 @@
-<!-- Identification Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('identification', __('functionalities.communities_var.identification')) !!}</b>
-    <p>{!! $community->identification !!}</p>
-</div>
+<div class="table-responsive table-striped">
+    <table class="table">
+        <tbody>
+            <!-- Identification Field -->
+            <tr>
+                <td><b>{!! Form::label('identification', __('functionalities.communities_var.identification')) !!}</b></td>
+                <td>{!! $community->identification !!}</td>
+            </tr>
+            <!-- Name Field -->
+            <tr>
+                <td><b>{!! Form::label('name', __('functionalities.communities_var.name')) !!}</b></td>
+                <td>{!! $community->name !!}</td>
+            </tr>
+            <!-- Description Field -->
+            <tr>
+                <td><b>{!! Form::label('description', __('functionalities.communities_var.description')) !!}</b></td>
+                <td>{!! $community->description !!}</td>
+            </tr>
+            <!-- Address Field -->
+            <tr>
+                <td><b>{!! Form::label('address', __('functionalities.communities_var.address')) !!}</b></td>
+                <td>{!! $community->address !!}</td>
+            </tr>
+            <!-- Created At Field -->
+            <tr>
+                <td><b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b></td>
+                <td>{!! $community->created_at !!}</td>
+            </tr>
+            <!-- Updated At Field -->
+            <tr>
+                <td><b>{!! Form::label('updated_at', __('functionalities.updated_at')) !!}</b></td>
+                <td>{!! $community->updated_at !!}</td>
+            </tr>
 
-<!-- Name Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('name', __('functionalities.communities_var.name')) !!}</b>
-    <p>{!! $community->name !!}</p>
+        </tbody>        
+    </table>
 </div>
-
-<!-- Description Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('description', __('functionalities.communities_var.description')) !!}</b>
-    <p>{!! $community->description !!}</p>
-</div>
-
-<!-- Address Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('address', __('functionalities.communities_var.address')) !!}</b>
-    <p>{!! $community->address !!}</p>
-</div>
-{{--  
-    <!-- Latitude Field -->
-    <div class="form-group col-sm-12">
-        <b>{!! Form::label('latitude', __('functionalities.communities_var.latitude')) !!}</b>
-        <p>{!! $community->latitude !!}</p>
-    </div>
-
-    <!-- Longitude Field -->
-    <div class="form-group col-sm-12">
-        <b>{!! Form::label('longitude', __('functionalities.communities_var.longitude')) !!}</b>
-        <p>{!! $community->longitude !!}</p>
-    </div>
---}}
-<!-- Created At Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b>
-    <p>{!! $community->created_at !!}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('updated_at', __('functionalities.updated_at')) !!}</b>
-    <p>{!! $community->updated_at !!}</p>
-</div>
-

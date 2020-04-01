@@ -1,40 +1,26 @@
-{{--  
-
-    <!-- User Id Field -->
-    <div class="form-group col-sm-12">
-        <b>{!! Form::label('user_id', __('functionalities.meeting_reports_var.user_id')) !!}</b>
-        <p>{{ $meetingReport->user_id }}</p>
-    </div>
-
-    <!-- Person Id Field -->
-    <div class="form-group col-sm-12">
-        <b>{!! Form::label('person_id', __('functionalities.meeting_reports_var.person_id')) !!}</b>
-        <p>{{ $meetingReport->person_id }}</p>
-    </div>
-
---}}
-
-<!-- Meeting Id Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('meeting_id', __('functionalities.meeting_reports_var.meeting_id')) !!}</b>
-    <p>{{ $meetingReport->meetings->full_meeting }}</p>
+<div class="table-responsive table-striped">
+    <table class="table">
+        <tbody>
+            <!-- Meeting Id Field -->
+            <tr>
+                <td><b>{!! Form::label('meeting_id', __('functionalities.meeting_reports_var.meeting_id')) !!}</b></td>
+                <td>{{ $meetingReport->meetings->full_meeting }}</td>
+            </tr>   
+            <!-- Description Field -->
+            <tr>
+                <td><b>{!! Form::label('description', __('functionalities.meeting_reports_var.description')) !!}</b></td>
+                <td>{!! $meetingReport->description !!}</td>
+            </tr>
+            <!-- Created At Field -->
+            <tr>
+                <td><b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b></td>
+                <td>{{ $meetingReport->created_at }}</td>
+            </tr>   
+            <!-- Updated At Field -->
+            <tr>
+                <td><b>{!! Form::label('updated_at', __('functionalities.updated_at')) !!}</b></td>
+                <td>{{ $meetingReport->updated_at }}</td>
+            </tr>
+        </tbody>        
+    </table>
 </div>
-
-<!-- Description Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('description', __('functionalities.meeting_reports_var.description')) !!}</b>
-    <p>{!! $meetingReport->description !!}</p>
-</div>
-
-<!-- Created At Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b>
-    <p>{{ $meetingReport->created_at }}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('updated_at', __('functionalities.updated_at')) !!}</b>
-    <p>{{ $meetingReport->updated_at }}</p>
-</div>
-

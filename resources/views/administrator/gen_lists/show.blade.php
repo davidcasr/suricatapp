@@ -3,15 +3,12 @@
 @section('content')
     <div class="main-card mb-3 card">
         <div class="card-body">
-            <div class="content">
-                <div class="box box-primary">
-                    <div class="box-body">
-                        <div class="row" style="padding-left: 20px">
-                            @include('administator.gen_lists.show_fields')
-                        </div>
-                    </div>
+            <div class="row">
+                <div class="col-md-12">
+                    @include('administator.gen_lists.show_fields')
                 </div>
             </div>
         </div>
     </div>
 @endsection
+

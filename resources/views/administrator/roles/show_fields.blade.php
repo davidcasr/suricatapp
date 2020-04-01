@@ -1,52 +1,50 @@
-<!-- first_name Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('first_name', __('functionalities.users_var.first_name')) !!}</b>
-    <p>{!! $user->first_name !!}</p>
+<div class="table-responsive table-striped">
+    <table class="table">
+        <tbody>
+            <!-- first_name Field -->
+            <tr>
+                <td><b>{!! Form::label('first_name', __('functionalities.users_var.first_name')) !!}</b></td>
+                <td>{!! $user->first_name !!}</td>
+            </tr>
+            <!-- last_name Field -->
+            <tr>
+                <td><b>{!! Form::label('last_name', __('functionalities.users_var.last_name')) !!}</b></td>
+                <td>{!! $user->last_name !!}</td>
+            </tr>
+            <!-- username Field -->
+            <tr>
+                <td><b>{!! Form::label('username', __('functionalities.users_var.username')) !!}</b></td>
+                <td>{!! $user->username !!}</td>
+            </tr>
+            <!-- email Field -->
+            <tr>
+                <td><b>{!! Form::label('email', __('functionalities.users_var.email')) !!}</b></td>
+                <td>{!! $user->email !!}</td>
+            </tr>
+            <!-- phone Field -->
+            <tr>
+                <td><b>{!! Form::label('phone', __('functionalities.users_var.phone')) !!}</b></td>
+                <td>{!! $user->phone !!}</td>
+            </tr>
+            <!-- role Field -->
+            <tr>
+                <td><b>{!! Form::label('role', __('functionalities.users_var.role')) !!}</b></td>
+                <td>
+                    @foreach($user->roles->pluck('name') as $role)
+                        <span class="badge badge-info">{{ $role }}</span>
+                    @endforeach
+                </td>
+            </tr>
+            <!-- Created At Field -->
+            <tr>
+                <td><b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b></td>
+                <td>{!! $user->created_at !!}</td>
+            </tr>
+            <!-- Updated At Field -->
+            <tr>
+                <td><b>{!! Form::label('updated_at', __('functionalities.updated_at')) !!}</b></td>
+                <td>{!! $user->updated_at !!}</td>
+            </tr>
+        </tbody>        
+    </table>
 </div>
-
-<!-- last_name Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('last_name', __('functionalities.users_var.last_name')) !!}</b>
-    <p>{!! $user->last_name !!}</p>
-</div>
-
-<!-- username Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('username', __('functionalities.users_var.username')) !!}</b>
-    <p>{!! $user->username !!}</p>
-</div>
-
-<!-- email Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('email', __('functionalities.users_var.email')) !!}</b>
-    <p>{!! $user->email !!}</p>
-</div>
-
-<!-- phone Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('phone', __('functionalities.users_var.phone')) !!}</b>
-    <p>{!! $user->phone !!}</p>
-</div>
-
-<!-- role Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('role', __('functionalities.users_var.role')) !!}</b>
-    <p>
-    @foreach($user->roles->pluck('name') as $role)
-        <span class="badge badge-info">{{ $role }}</span>
-    @endforeach
-    </p>
-</div>
-
-<!-- Created At Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b>
-    <p>{!! $user->created_at !!}</p>
-</div>
-
-<!-- Updated At Field -->
-<div class="form-group col-sm-12">
-    <b>{!! Form::label('updated_at', __('functionalities.updated_at')) !!}</b>
-    <p>{!! $user->updated_at !!}</p>
-</div>
-

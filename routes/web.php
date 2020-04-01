@@ -11,14 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function () {  
+	return view('welcome'); 
 });
 
 // Default authentication routes
 Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => ['auth','can:admin_all']], function () {
 	Route::resource('dashboard', 'DashboardController');

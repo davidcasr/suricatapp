@@ -23,7 +23,10 @@ return [
         'user_management' => 'Gestión de usuarios',    
         'general' => 'General',
         'plans' => 'Gestión de Planes',
+        'performance' => 'Rendimiento',
     ],
+
+    'telescope' => 'Telescope',
 
     'account'   => 'Cuenta',
 

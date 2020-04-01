@@ -26,6 +26,9 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        
+        // Laravel Telescope Data Pruning
+        $schedule->command('telescope:prune')->daily();
     }
 
     /**

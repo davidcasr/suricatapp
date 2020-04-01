@@ -11,7 +11,7 @@
 
 <li>
     <a href="#">
-        <i class="metismenu-icon pe-7s-users icon-gradient bg-premium-dark"></i>
+        <i class="metismenu-icon pe-7s-users"></i>
         {{ __('functionalities.menu_admin.user_management') }}
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
@@ -39,7 +39,7 @@
 
 <li>
     <a href="#">
-        <i class="metismenu-icon pe-7s-tools icon-gradient bg-premium-dark"></i>
+        <i class="metismenu-icon pe-7s-tools"></i>
         {{ __('functionalities.menu_admin.general') }}
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
@@ -61,7 +61,7 @@
 
 <li>
     <a href="#">
-        <i class="metismenu-icon pe-7s-cash icon-gradient bg-premium-dark"></i>
+        <i class="metismenu-icon pe-7s-cash "></i>
         {{ __('functionalities.menu_admin.plans') }}
         <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
     </a>
@@ -79,6 +79,15 @@
             </a>
         </li>
     </ul>
+</li>
+
+<li class="app-sidebar__heading">@choice('functionalities.menu_admin.performance', 1)</li>
+
+<li class="{{ Request::is('telescope*') ? 'mm-active' : '' }}">
+    <a href="{{ route('telescope') }}">
+        <i class="metismenu-icon pe-7s-rocket"></i>
+        <span>@choice('functionalities.telescope', 1)</span>
+    </a>
 </li>
 
 @endcan

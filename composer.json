@@ -14,6 +14,7 @@
         "infyomlabs/adminlte-templates": "6.0.x-dev",
         "infyomlabs/laravel-generator": "6.0.x-dev",
         "laravel/framework": "^6.2",
+        "laravel/telescope": "^3.2",
         "laravel/tinker": "^2.0",
         "laravelcollective/html": "^6.0",
         "owen-it/laravel-auditing": "^9.3",

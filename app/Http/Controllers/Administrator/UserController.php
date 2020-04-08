@@ -30,7 +30,18 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->paginate(config('global.per_page'));
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $users = $this->userRepository
+            ->where('email', 'LIKE', '%$keyword%')
+            ->orWhere('first_name', 'LIKE', '%$keyword%')
+            ->orWhere('last_name', 'LIKE', '%$keyword%')
+            ->orWhere('username', 'LIKE', '%$keyword%')
+            ->paginate(config('global.per_page'));
+        }else{
+            $users = $this->userRepository->paginate(config('global.per_page'));
+        }
 
         return view('administrator.users.index')
             ->with('users', $users);

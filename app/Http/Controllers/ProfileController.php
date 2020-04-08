@@ -31,7 +31,21 @@ class ProfileController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $profiles = $this->profileRepository
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $profiles = $this->profileRepository
+            ->makeModel()
+            ->join('community_profiles','community_profiles.profile_id', '=','profiles.id')
+            ->join('communities', 'community_profiles.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->orWhere('profiles.name', 'LIKE', '%$keyword%')
+            ->select('profiles.*')
+            ->distinct()
+            ->paginate(config('global.per_page'));
+        }else{
+            $profiles = $this->profileRepository
             ->makeModel()
             ->join('community_profiles','community_profiles.profile_id', '=','profiles.id')
             ->join('communities', 'community_profiles.community_id', '=', 'communities.id')
@@ -39,7 +53,8 @@ class ProfileController extends AppBaseController
             ->where('community_users.user_id', Auth::user()->id)
             ->select('profiles.*')
             ->distinct()
-            ->paginate(config('global.per_page'));
+            ->paginate(config('global.per_page'));   
+        }
 
         return view('profiles.index', compact('profiles'));
     }

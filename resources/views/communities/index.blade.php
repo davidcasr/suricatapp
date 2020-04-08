@@ -29,10 +29,35 @@
             @include('flash::message')
             @if($communities->isNotEmpty())
                 <div class="main-card mb-3 card">
+                    <div class="card-header-tab card-header-tab-animation card-header">
+                        <div class="card-header-title">
+                            
+                        </div>
+                        <div class="btn-actions-pane-right">
+                            {!! Form::open([
+                              'method' => 'GET',
+                              'url' => 'communities',
+                              'role' => 'search'
+                            ])!!}
+
+                            <div role="group" class="btn-group-sm btn-group">
+                                <div class="input-group input-group-sm">
+                                    <input type="text" class="form-control" name="search" placeholder="{{ __('functionalities.search') }}">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-dark" type="submit">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+
                     <div class="card-body">
                         @include('flash::message')
                         @include('communities.table')
-                        {{ $communities->links() }}
+                        {{ $communities->appends(['search' => Request::get('search')])->links() }}
                     </div>  
                 </div>
             @else

@@ -31,7 +31,15 @@ class RoleController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $roles = $this->roleRepository->paginate(config('global.per_page'));
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $roles = $this->roleRepository
+            ->where('name', 'LIKE', '%$keyword%')
+            ->paginate(config('global.per_page'));
+        }else{
+            $roles = $this->roleRepository->paginate(config('global.per_page'));
+        }       
 
         return view('administrator.roles.index')
             ->with('roles', $roles);

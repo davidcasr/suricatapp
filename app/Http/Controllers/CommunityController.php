@@ -32,12 +32,24 @@ class CommunityController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $communities = $this->communityRepository
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $communities = $this->communityRepository
+            ->makeModel()
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->orWhere('communities.name', 'LIKE', '%$keyword%')
+            ->select('communities.*')
+            ->paginate(config('global.per_page'));
+        }else{
+            $communities = $this->communityRepository
             ->makeModel()
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
             ->select('communities.*')
             ->paginate(config('global.per_page'));
+        }        
 
         $q_communities_register = CommunityUsers::qCommunityUsers(Auth::id());
         $q_communities_per_user = User::infoPlan(Auth::id())->count();

@@ -37,7 +37,22 @@ class PersonController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $people = $this->personRepository
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $people = $this->personRepository
+            ->makeModel()
+            ->join('community_people','community_people.person_id', '=','people.id')
+            ->join('communities', 'community_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->distinct()
+            ->select('people.*')
+            ->where('people.first_name', 'LIKE', '%$keyword%')
+            ->orWhere('people.last_name', 'LIKE', '%$keyword%')
+            ->paginate(config('global.per_page'));
+        }else{
+            $people = $this->personRepository
             ->makeModel()
             ->join('community_people','community_people.person_id', '=','people.id')
             ->join('communities', 'community_people.community_id', '=', 'communities.id')
@@ -46,6 +61,7 @@ class PersonController extends AppBaseController
             ->distinct()
             ->select('people.*')
             ->paginate(config('global.per_page'));
+        }        
 
         $q_people_register = CommunityPeople::qCommunityPeople(Auth::id());
         $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];

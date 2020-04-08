@@ -29,7 +29,16 @@ class GenGroupController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $gen_groups = $this->genGroupRepository->paginate(config('global.per_page'));
+
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $gen_groups = $this->genGroupRepository
+            ->where('group_description', 'LIKE', '%$keyword%')
+            ->paginate(config('global.per_page'));
+        }else{
+            $gen_groups = $this->genGroupRepository->paginate(config('global.per_page')); 
+        }
 
         return view('administrator.gen_groups.index')
             ->with('gen_groups', $gen_groups);

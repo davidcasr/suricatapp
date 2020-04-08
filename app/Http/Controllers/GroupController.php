@@ -33,7 +33,21 @@ class GroupController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $groups = $this->groupRepository
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $groups = $this->groupRepository
+            ->makeModel()
+            ->join('community_groups','community_groups.group_id', '=','groups.id')
+            ->join('communities', 'community_groups.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->orWhere('groups.name', 'LIKE', '%$keyword%')
+            ->select('groups.*')
+            ->distinct()
+            ->paginate(config('global.per_page'));
+        }else{
+            $groups = $this->groupRepository
             ->makeModel()
             ->join('community_groups','community_groups.group_id', '=','groups.id')
             ->join('communities', 'community_groups.community_id', '=', 'communities.id')
@@ -42,6 +56,7 @@ class GroupController extends AppBaseController
             ->select('groups.*')
             ->distinct()
             ->paginate(config('global.per_page'));
+        }
 
         return view('groups.index', compact('groups'));
     }

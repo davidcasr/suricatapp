@@ -31,7 +31,22 @@ class MeetingReportController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $meetingReports = $this->meetingReportRepository
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $meetingReports = $this->meetingReportRepository
+            ->makeModel()
+            ->join('meetings','meeting_reports.meeting_id', '=','meetings.id')
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->join('people', 'assistants.person_id', '=','people.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->orWhere('people.email', 'LIKE', '%$keyword%')
+            ->select('meeting_reports.*')
+            ->paginate(config('global.per_page'));  
+        }else{
+            $meetingReports = $this->meetingReportRepository
             ->makeModel()
             ->join('meetings','meeting_reports.meeting_id', '=','meetings.id')
             ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
@@ -39,7 +54,8 @@ class MeetingReportController extends AppBaseController
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', Auth::user()->id)
             ->select('meeting_reports.*')
-            ->paginate(config('global.per_page'));
+            ->paginate(config('global.per_page'));    
+        }
 
         return view('meeting_reports.index', compact('meetingReports'));
     }

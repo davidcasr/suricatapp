@@ -32,7 +32,15 @@ class PlanUserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $plan_users = $this->planUserRepository->paginate(config('global.per_page'));
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $plan_users = $this->planUserRepository
+            ->where('user_id', 'LIKE', '%$keyword%')
+            ->paginate(config('global.per_page'));
+        }else{
+            $plan_users = $this->planUserRepository->paginate(config('global.per_page'));
+        }
 
         return view('administrator.plan_users.index')
             ->with('plan_users', $plan_users);

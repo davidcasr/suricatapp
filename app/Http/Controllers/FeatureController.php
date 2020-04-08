@@ -31,7 +31,22 @@ class FeatureController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $features = $this->featureRepository
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $features = $this->featureRepository
+            ->makeModel()
+            ->join('feature_people','feature_people.feature_id', '=','features.id')
+            ->join('communities', 'feature_people.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->whereNull('feature_people.person_id')
+            ->orWhere('features.name', 'LIKE', '%$keyword%')
+            ->distinct()
+            ->select('features.*')
+            ->paginate(config('global.per_page'));
+        }else{
+            $features = $this->featureRepository
             ->makeModel()
             ->join('feature_people','feature_people.feature_id', '=','features.id')
             ->join('communities', 'feature_people.community_id', '=', 'communities.id')
@@ -41,6 +56,7 @@ class FeatureController extends AppBaseController
             ->distinct()
             ->select('features.*')
             ->paginate(config('global.per_page'));
+        }        
 
         return view('features.index', compact('features'));
     }

@@ -30,7 +30,16 @@ class GenListController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $gen_lists = $this->genListRepository->paginate(config('global.per_page'));
+
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $gen_lists = $this->genListRepository
+            ->where('item_description', 'LIKE', '%$keyword%')
+            ->paginate(config('global.per_page'));
+        }else{
+            $gen_lists = $this->genListRepository->paginate(config('global.per_page'));
+        }       
 
         return view('administrator.gen_lists.index')
             ->with('gen_lists', $gen_lists);

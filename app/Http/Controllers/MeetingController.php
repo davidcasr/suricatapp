@@ -31,7 +31,21 @@ class MeetingController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $meetings = $this->meetingRepository
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $meetings = $this->meetingRepository
+            ->makeModel()
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->orWhere('meetings.name', 'LIKE', '%$keyword%')
+            ->select('meetings.*')
+            ->distinct()
+            ->paginate(config('global.per_page'));
+        }else{
+            $meetings = $this->meetingRepository
             ->makeModel()
             ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
             ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
@@ -40,6 +54,7 @@ class MeetingController extends AppBaseController
             ->select('meetings.*')
             ->distinct()
             ->paginate(config('global.per_page'));
+        }
 
         return view('meetings.index', compact('meetings'));
     }

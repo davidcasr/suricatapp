@@ -30,7 +30,16 @@ class AbilityController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $abilities = $this->abilityRepository->paginate(config('global.per_page'));
+
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $abilities = $this->abilityRepository
+            ->where('name', 'LIKE', '%$keyword%')
+            ->paginate(config('global.per_page'));
+        }else{
+            $abilities = $this->abilityRepository->paginate(config('global.per_page'));
+        }
 
         return view('administrator.abilities.index')
             ->with('abilities', $abilities);

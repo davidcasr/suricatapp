@@ -23,7 +23,7 @@ class AccountController extends Controller
 
     public function index(Request $request)
     {	
-
+        
     	$user = User::findOrfail(Auth::id());
 
     	$plans = Plan::join('plan_users','plan_users.plan_id', '=', 'plans.id')

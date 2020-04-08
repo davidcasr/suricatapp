@@ -32,7 +32,23 @@ class AssistantController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $assistants = $this->assistantRepository
+        $keyword = $request->get('search');
+
+        if (!empty($keyword)) {
+            $assistants = $this->assistantRepository
+            ->makeModel()
+            ->join('meetings', 'assistants.meeting_id', '=', 'meetings.id')
+            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+            ->join('people', 'assistants.person_id', '=','people.id')
+            ->where('community_users.user_id', Auth::user()->id)
+            ->orWhere('people.email', 'LIKE', '%$keyword%')
+            ->select('assistants.*')
+            ->distinct()
+            ->paginate(config('global.per_page'));
+        }else{
+            $assistants = $this->assistantRepository
             ->makeModel()
             ->join('meetings', 'assistants.meeting_id', '=', 'meetings.id')
             ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
@@ -42,7 +58,8 @@ class AssistantController extends AppBaseController
             ->select('assistants.*')
             ->distinct()
             ->paginate(config('global.per_page'));
-
+        }
+        
         return view('assistants.index', compact('assistants'));
     }
 

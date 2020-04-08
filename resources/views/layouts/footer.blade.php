@@ -14,7 +14,7 @@
             <div class="app-footer-right">
                 <ul class="nav">
                     <li class="nav-item">
-                         <a href="https://davidcasr.co" class="nav-link">
+                         <a href="http://davidcasr.co" class="nav-link">
                             Made with ❤️ by @davidcasr
                         </a>
                     </li>

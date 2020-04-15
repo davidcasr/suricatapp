@@ -202,4 +202,6 @@ return [
         'date_deadline' => 'Fecha de cierre'
     ],
 
+    'reports'   => 'Reporte|Reportes',
+
 ];

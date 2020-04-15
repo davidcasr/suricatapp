@@ -20,28 +20,30 @@ Auth::routes(['register' => false]);
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['middleware' => ['auth','can:admin_all']], function () {
-	Route::resource('dashboard', 'DashboardController');
-	Route::resource('communities', 'CommunityController');
-	Route::resource('people', 'PersonController');
-	Route::resource('groups', 'GroupController');
-	Route::resource('features', 'FeatureController');
-	Route::resource('profiles', 'ProfileController');
-	Route::resource('meetings', 'MeetingController');
-	Route::resource('meetingReports', 'MeetingReportController');
-	Route::resource('assistants', 'AssistantController');
-	Route::resource('account', 'AccountController');
-	Route::resource('associatedUsers', 'AssociatedUsersController');
+Route::group(['middleware' => 'auth'], function () {
+	Route::resource('dashboard', 'DashboardController')->middleware('can:dashboard');
+	Route::resource('communities', 'CommunityController')->middleware('can:communities');
+	Route::resource('people', 'PersonController')->middleware('can:people');
+	Route::resource('groups', 'GroupController')->middleware('can:groups');
+	Route::resource('features', 'FeatureController')->middleware('can:features');
+	Route::resource('profiles', 'ProfileController')->middleware('can:profiles');
+	Route::resource('meetings', 'MeetingController')->middleware('can:meetings');
+	Route::resource('meetingReports', 'MeetingReportController')->middleware('can:meeting_reports');
+	Route::resource('assistants', 'AssistantController')->middleware('can:assistants');
+	Route::resource('account', 'AccountController')->middleware('can:account');
+	Route::resource('associatedUsers', 'AssociatedUsersController')->middleware('can:associated_users');	
+
+	Route::group(['middleware' => 'can:super_all'], function () {
+        // Features for the administrator 
+		Route::resource('admin/admin_dashboard', 'Administrator\\DashboardController');
+		Route::resource('admin/users', 'Administrator\\UserController');
+		Route::resource('admin/roles', 'Administrator\\RoleController');
+		Route::resource('admin/abilities', 'Administrator\\AbilityController');
+		Route::resource('admin/gen_groups', 'Administrator\\GenGroupController');
+		Route::resource('admin/gen_lists', 'Administrator\\GenListController');
+		Route::resource('admin/plans', 'Administrator\\PlanController');
+		Route::resource('admin/plan_users', 'Administrator\\PlanUserController');
+    });	
 });
 
-Route::group(['middleware' => ['auth','can:super_all']], function () {
-	// Features for the administrator 
-	Route::resource('admin/admin_dashboard', 'Administrator\\DashboardController');
-	Route::resource('admin/users', 'Administrator\\UserController');
-	Route::resource('admin/roles', 'Administrator\\RoleController');
-	Route::resource('admin/abilities', 'Administrator\\AbilityController');
-	Route::resource('admin/gen_groups', 'Administrator\\GenGroupController');
-	Route::resource('admin/gen_lists', 'Administrator\\GenListController');
-	Route::resource('admin/plans', 'Administrator\\PlanController');
-	Route::resource('admin/plan_users', 'Administrator\\PlanUserController');
-});	
+

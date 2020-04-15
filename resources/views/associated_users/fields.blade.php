@@ -37,10 +37,21 @@
     {!! Form::text('phone', null, ['class' => 'form-control', 'maxlength' => 100]) !!}
 </div>
 
+<!-- role Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('roles', trans_choice('functionalities.roles', 1)) !!}
+    @if(isset($user))
+        <br>
+        {!! Form::select('roles', $roles, old('roles') ? old('role') : $user->roles()->pluck('name', 'name'), ['class' => 'form-control', 'required' => 'required']) !!}
+    @else
+        {!! Form::select('roles', array('supervisor' => 'Supervisor', 'reports' => 'Reportes'), null, ['class' => 'form-control', 'required' => 'required']) !!}
+    @endif
+</div>
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit( __('buttons.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('users.index') !!}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
+    <a href="{!! route('account.index') !!}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
 </div>
 
 

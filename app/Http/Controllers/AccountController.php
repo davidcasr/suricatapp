@@ -10,10 +10,11 @@ use App\Http\Requests\Administrator\UpdateUserRequest;
 use App\User;
 use App\Models\Plan;
 use Flash;
+use Bouncer;
 
 class AccountController extends Controller
 {
-     /** @var  UserRepository */
+    /** @var  UserRepository */
     private $userRepository;
 
     public function __construct(UserRepository $userRepo)
@@ -22,35 +23,44 @@ class AccountController extends Controller
     }
 
     public function index(Request $request)
-    {	
-        
+    {        
     	$user = User::findOrfail(Auth::id());
 
-    	$plans = Plan::join('plan_users','plan_users.plan_id', '=', 'plans.id')
-    			->where('plan_users.user_id', Auth::id())
-    			->get();
+        if(Bouncer::is($user)->a('admin')){
 
-    	$q_users_register = User::join('community_users', 'community_users.user_id', '=', 'users.id')
-        		->whereIn('community_users.community_id', [DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )') ])
-        		->whereNotIn('community_users.user_id', [Auth::id()])
-        		->select('users.*')
-        		->count();
+            $plans = Plan::join('plan_users','plan_users.plan_id', '=', 'plans.id')
+            ->where('plan_users.user_id', Auth::id())
+            ->get();
 
-        $q_admin_per_user = User::infoPlan(Auth::id())->pluck('q_administrators')[0];
+            $q_users_register = User::join('community_users', 'community_users.user_id', '=', 'users.id')
+                ->whereIn('community_users.community_id', [DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )') ])
+                ->whereNotIn('community_users.user_id', [Auth::id()])
+                ->select('users.*')
+                ->count();
 
-        if($q_users_register < $q_admin_per_user){
-        	$button_create = true;
+            $q_admin_per_user = User::infoPlan(Auth::id())->pluck('q_administrators')[0];
+
+            if($q_users_register < $q_admin_per_user){
+                $button_create = true;
+            }else{
+                $button_create = false;
+            }
+
+            $users = User::join('community_users', 'community_users.user_id', '=', 'users.id')
+                    ->whereIn('community_users.community_id', [DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )') ])
+                    ->whereNotIn('community_users.user_id', [Auth::id()])
+                    ->distinct()
+                    ->select('users.*')
+                    ->paginate(config('global.per_page'));
+
+            return view('account.index', compact('user', 'plans', 'users', 'button_create'));
         }else{
-        	$button_create = false;
-        }
+            return view('account.index', compact('user'));
+        }     
 
-        $users = User::join('community_users', 'community_users.user_id', '=', 'users.id')
-        		->whereIn('community_users.community_id', [DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )') ])
-        		->whereNotIn('community_users.user_id', [Auth::id()])
-        		->select('users.*')
-        		->paginate(config('global.per_page'));
-
-    	return view('account.index', compact('user', 'plans', 'users', 'button_create'));
+        
+        
+    	
     }
 
     /**

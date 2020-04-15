@@ -67,7 +67,7 @@ class AssociatedUsersController extends Controller
 
         $user = $this->userRepository->create($input);
         $user->communities()->attach($communities);
-        $user->assign('supervisor');
+        $user->assign($request->input('roles'));
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.users', 1)]));
 
@@ -106,6 +106,7 @@ class AssociatedUsersController extends Controller
     public function edit($id)
     {
         $user = $this->userRepository->find($id);
+        $roles = array('supervisor' => 'Supervisor', 'reports' => 'Reportes');
 
         if (empty($user)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.users', 1)]));
@@ -113,7 +114,7 @@ class AssociatedUsersController extends Controller
             return redirect(route('account.index'));
         }
 
-        return view('associated_users.edit',compact('user'));
+        return view('associated_users.edit',compact('user', 'roles'));
     }
 
     /**

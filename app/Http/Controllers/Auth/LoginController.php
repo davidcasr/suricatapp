@@ -42,10 +42,14 @@ class LoginController extends Controller
 
     public function redirectPath(){
 
-        if(Auth::user()->isAn('admin')){
-           return RouteServiceProvider::HOME;
-        }elseif(Auth::user()->isAn('super')){
-            return RouteServiceProvider::HOME_ADMIN;
+        if(Auth::user()->isAn('super')){
+           return RouteServiceProvider::HOME_ADMIN;
+        }elseif(Auth::user()->isAn('admin')){
+            return RouteServiceProvider::HOME;
+        }elseif(Auth::user()->isAn('supervisor')){
+            return RouteServiceProvider::HOME;
+        }elseif(Auth::user()->isAn('reports')){
+            return RouteServiceProvider::HOME_REPORTS;
         }
         
     }

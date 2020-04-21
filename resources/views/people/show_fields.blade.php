@@ -57,7 +57,7 @@
             <!-- Country Field -->
             <tr>
                 <td><b>{!! Form::label('country', __('functionalities.people_var.country')) !!}</b></td>
-                <td>{{ $person->country }}</td>
+                <td>{{ $person->countries->name }}</td>
             </tr>
             <!-- Phone Field -->
             <tr>

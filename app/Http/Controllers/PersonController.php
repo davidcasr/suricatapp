@@ -17,6 +17,7 @@ use App\Models\CommunityPeople;
 use App\Models\Feature;
 use App\Models\Group;
 use App\Models\Profile;
+use App\Models\Country;
 
 class PersonController extends AppBaseController
 {
@@ -102,7 +103,9 @@ class PersonController extends AppBaseController
 
                 $profiles = Profile::profilesByUser(Auth::id())->pluck('name', 'id');
 
-                return view('people.create', compact('communities','sexes', 'features', 'groups', 'profiles'));
+                $countries = Country::all()->pluck('name', 'id');
+
+                return view('people.create', compact('communities','sexes', 'features', 'groups', 'profiles', 'countries'));
             }            
         }else{
             Flash::error(trans('flash.error_no_person_community'));
@@ -218,13 +221,15 @@ class PersonController extends AppBaseController
 
         $profiles = Profile::profilesByUser(Auth::id())->pluck('name', 'id');
 
+        $countries = Country::all()->pluck('name', 'id');
+
         if (empty($person)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.people', 1)]));
 
             return redirect(route('people.index'));
         }
 
-        return view('people.edit', compact('person', 'communities', 'sexes', 'features', 'groups', 'profiles'));
+        return view('people.edit', compact('person', 'communities', 'sexes', 'features', 'groups', 'profiles', 'countries'));
     }
 
     /**

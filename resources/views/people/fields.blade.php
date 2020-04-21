@@ -64,11 +64,13 @@
     {!! Form::text('city', null, ['class' => 'form-control']) !!}
 </div>
 
-<!-- Country Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('country', __('functionalities.people_var.country')) !!}
-    {!! Form::text('country', null, ['class' => 'form-control']) !!}
-</div>
+@if($countries != null)
+    <!-- Country Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('country', __('functionalities.people_var.country')) !!}
+        {!! Form::select('country', $countries, null, ['class' => 'form-control','id' => 'country']) !!}
+    </div>
+@endif
 
 <!-- Phone Field -->
 <div class="form-group col-sm-12">
@@ -122,6 +124,10 @@
            });
            
            $('#groups').select2({
+               width: '100%',
+           });
+
+           $('#country').select2({
                width: '100%',
            });
         });     

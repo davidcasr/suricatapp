@@ -16,7 +16,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'address' => $faker->address,
         'birth' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'city' => $faker->city,
-        'country' => $faker->country,
+        'country' => 170,
         'phone' => $faker->phoneNumber,
         'photo' => $faker->word,
         'created_at' => $faker->date('Y-m-d H:i:s'),

@@ -61,7 +61,7 @@ class Person extends Model implements AuditableContract
         'address' => 'string',
         'birth' => 'date',
         'city' => 'string',
-        'country' => 'string',
+        'country' => 'integer',
         'phone' => 'string',
         'photo' => 'string'
     ];
@@ -80,7 +80,7 @@ class Person extends Model implements AuditableContract
         'address' => 'nullable|max:250',
         'birth' => 'nullable|date',
         'city' => 'nullable',
-        'country' => 'nullable',
+        'country' => 'required',
         'phone' => 'nullable',
         'photo' => 'nullable'
     ];
@@ -113,6 +113,11 @@ class Person extends Model implements AuditableContract
     public function genlist()
     {
         return $this->belongsTo(GenList::class, 'sex', 'id');
+    }
+
+    public function countries()
+    {
+        return $this->belongsTo(Country::class, 'country', 'id');
     }
 
     public function scopeQPeople($query, $user_id, $person_id)

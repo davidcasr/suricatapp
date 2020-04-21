@@ -86,6 +86,11 @@ class Meeting extends Model implements AuditableContract
         return $this->belongsToMany(Community::class, 'community_meetings');
     }
 
+    public function assistants()
+    {
+        return $this->hasMany(Assistant::class);
+    }
+
     public function scopeQMeeting($query, $user_id)
     {
         return $query

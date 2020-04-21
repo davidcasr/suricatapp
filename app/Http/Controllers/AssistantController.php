@@ -70,10 +70,12 @@ class AssistantController extends AppBaseController
      */
     public function create()
     {
+        /*      
         $people = Person::peoplePerCommunity(Auth::id())->pluck('email', 'id');
         $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('name', 'id');
 
         return view('assistants.create', compact('people', 'meetings'));
+        */
     }
 
     /**
@@ -183,7 +185,7 @@ class AssistantController extends AppBaseController
 
         Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.assistants', 1)]));
 
-        return redirect(route('assistants.index'));
+        return redirect(route('meetings.show', $request->meeting_id));
     }
 
     /**
@@ -210,13 +212,13 @@ class AssistantController extends AppBaseController
         if (empty($assistant)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.assistants', 1)]));
 
-            return redirect(route('assistants.index'));
+            return redirect(route('meetings.index'));
         }
 
         $this->assistantRepository->delete($id);
 
         Flash::success(trans('flash.destroy', ['model' => trans_choice('functionalities.assistants', 1)]));
 
-        return redirect(route('assistants.index'));
+        return redirect(route('meetings.index'));
     }
 }

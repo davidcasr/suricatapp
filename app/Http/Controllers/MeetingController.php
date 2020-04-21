@@ -11,6 +11,8 @@ use Flash;
 use Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Community;
+use App\Models\Person;
+use App\Models\Assistant;
 
 class MeetingController extends AppBaseController
 {
@@ -67,8 +69,9 @@ class MeetingController extends AppBaseController
     public function create()
     {
         $communities = Community::communities(Auth::id())->pluck('name','id');
-        
-        return view('meetings.create', compact('communities'));
+        $assistants = Person::peoplePerCommunity(Auth::id())->pluck('fullName','id');
+
+        return view('meetings.create', compact('communities', 'assistants'));
     }
 
     /**
@@ -86,6 +89,14 @@ class MeetingController extends AppBaseController
         $meeting = $this->meetingRepository->create($input);
 
         $meeting->communities()->attach($request->communities);
+
+        if($request->assistants != null){
+            foreach($request->assistants as $assistant){
+                $meeting->assistants()->create([
+                    'person_id' => $assistant
+                ]);
+            }   
+        }     
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.meetings', 1)]));
 
@@ -107,6 +118,9 @@ class MeetingController extends AppBaseController
 
         if ($meetings > 0){
             $meeting = $this->meetingRepository->find($id);
+            $assistants = Assistant::where('meeting_id', $id)
+                    ->paginate(config('global.per_page'));
+
         }else{
             abort(401);
         }
@@ -117,7 +131,7 @@ class MeetingController extends AppBaseController
             return redirect(route('meetings.index'));
         }
 
-        return view('meetings.show')->with('meeting', $meeting);
+        return view('meetings.show', compact('meeting', 'assistants'));
     }
 
     /**
@@ -135,11 +149,13 @@ class MeetingController extends AppBaseController
 
         if ($meetings > 0){
             $meeting = $this->meetingRepository->find($id);
+            $meeting->load('assistants');
         }else{
             abort(401);
         }
 
         $communities = Community::communities(Auth::id())->pluck('name','id');
+        $assistants = Person::peoplePerCommunity(Auth::id())->pluck('fullName','id');
 
         if (empty($meeting)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meetings', 1)]));
@@ -147,7 +163,7 @@ class MeetingController extends AppBaseController
             return redirect(route('meetings.index'));
         }
 
-        return view('meetings.edit', compact('meeting', 'communities'));
+        return view('meetings.edit', compact('meeting', 'communities', 'assistants'));
     }
 
     /**
@@ -177,6 +193,16 @@ class MeetingController extends AppBaseController
         }
 
         $meeting = $this->meetingRepository->update($request->all(), $id);
+
+        if($request->assistants != null){
+            foreach($request->assistants as $assistant){               
+                $meeting->assistants()->create([
+                    'person_id' => $assistant
+                ]);
+            }   
+        }else{
+            $assistants = Assistant::where('meeting_id', $id)->delete();  
+        }
 
         Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.meetings', 1)]));
 

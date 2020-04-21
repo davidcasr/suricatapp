@@ -70,9 +70,7 @@
                     {{ $peoplePerMonth->container() }}
                 </div>
             </div>
-        </div>
 
-        <div class="col-md-12 col-lg-6">
             <div class="mb-3 card">
                 <div class="card-header-tab card-header-tab-animation card-header">
                     <div class="card-header-title">
@@ -84,6 +82,20 @@
                     {{ $meetingsPerMonth->container() }}
                 </div>
             </div>
+        </div>
+
+        <div class="col-md-12 col-lg-6">
+            <div class="mb-3 card">
+                <div class="card-header-tab card-header-tab-animation card-header">
+                    <div class="card-header-title">
+                        <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+                        {{ __('functionalities.dashboard_var.assitantsPerMonth') }}
+                    </div>
+                </div>
+                <div class="card-body">
+                    {{ $assitantsPerMonth->container() }}
+                </div>
+            </div>
         </div>     
     </div>
 @endsection
@@ -91,4 +103,5 @@
 @section('scripts')
 	{!! $peoplePerMonth->script() !!}
 	{!! $meetingsPerMonth->script() !!}
+	{!! $assitantsPerMonth->script() !!}
 @endsection

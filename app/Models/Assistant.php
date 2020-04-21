@@ -56,12 +56,12 @@ class Assistant extends Model implements AuditableContract
 
     public function people()
     {
-        return $this->belongsTo(Person::class, 'person_id','id');
+        return $this->belongsTo(Person::class, 'person_id');
     }
 
     public function meetings()
     {
-        return $this->belongsTo(Meeting::class, 'meeting_id', 'id');
+        return $this->belongsTo(Meeting::class, 'meeting_id');
     }
 
     public function scopeQAssitant($query, $user_id)
@@ -75,6 +75,5 @@ class Assistant extends Model implements AuditableContract
             ->get()
             ->count();
     }
-
     
 }

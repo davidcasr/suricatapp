@@ -49,11 +49,11 @@ class CommunityGroups extends Model implements AuditableContract
 
     public function communities()
     {
-        return $this->hasMany(Community::class, 'id', 'community_id');
+        return $this->hasMany(Community::class);
     }
 
     public function groups()
     {
-        return $this->hasMany(Group::class, 'id', 'group_id');
+        return $this->hasMany(Group::class);
     }
 }

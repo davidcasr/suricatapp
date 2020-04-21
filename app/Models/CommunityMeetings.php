@@ -48,11 +48,11 @@ class CommunityMeetings extends Model
 
     public function communities()
     {
-        return $this->hasMany(Community::class, 'id', 'community_id');
+        return $this->hasMany(Community::class);
     }
 
     public function meetings()
     {
-        return $this->hasMany(Meeting::class, 'id', 'meeting_id');
+        return $this->hasMany(Meeting::class);
     }
 }

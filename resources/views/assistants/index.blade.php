@@ -15,7 +15,9 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <a class="btn btn-primary" href="{{ route('assistants.create') }}">{{ __('functionalities.create') }} @choice('functionalities.assistants', 1)</a>  
+                {{--
+                  <a class="btn btn-primary" href="{{ route('assistants.create') }}">{{ __('functionalities.create') }} @choice('functionalities.assistants', 1)</a> 
+                --}} 
             </div>   
         </div>
     </div>

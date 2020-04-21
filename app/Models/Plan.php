@@ -67,7 +67,7 @@ class Plan extends Model implements AuditableContract
 
     public function plan_user()
     {
-        return $this->hasMany(PlanUser::class, 'plan_id', 'id');
+        return $this->hasMany(PlanUser::class);
     }
     
 }

@@ -98,5 +98,14 @@ class Group extends Model implements AuditableContract
             ->select('groups.*')
             ->get();
     }
+
+    public static function boot() {
+        parent::boot();
+        self::deleting(function($group) { 
+             $group->subgroups()->each(function($subgroup) {
+                $subgroup->delete(); 
+             });
+        });
+    }
     
 }

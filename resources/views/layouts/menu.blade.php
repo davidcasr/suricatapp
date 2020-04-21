@@ -75,54 +75,23 @@
     </ul>
 </li>
 
-<li>
-    @can('meetings')
-        <a href="#">
+@can('meetings')
+    <li class="{{ Request::is('meetings*') ? 'mm-active' : '' }}">
+        <a href="{{ route('meetings.index') }}">
             <i class="metismenu-icon pe-7s-map-2"></i>
-                <span>@choice('functionalities.meetings', 2)
-            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+            <span>@choice('functionalities.meetings', 2)</span>
         </a>
-    @endcan
-    <ul>
-        @can('meetings')
-            <li class="{{ Request::is('meetings*') ? 'mm-active' : '' }}">
-                <a href="{{ route('meetings.index') }}">
-                    <i class="metismenu-icon pe-7s-map-2"></i>
-                    <span>@choice('functionalities.meetings', 2)</span>
-                </a>
-            </li>
-        @endcan
-
-        @can('assistants')
-            <li class="{{ Request::is('assistants*') ? 'mm-active' : '' }}">
-                <a href="{{ route('assistants.index') }}">
-                    <i class="metismenu-icon pe-7s-add-user"></i>
-                    <span>@choice('functionalities.assistants', 2)</span>
-                </a>
-            </li>
-        @endcan    
-    </ul>
-</li>
+    </li>
+@endcan
 
 
-<li>
-    @can('meeting_reports')
-        <a href="#">
+@can('meeting_reports')
+    <li class="{{ Request::is('meetingReports*') ? 'mm-active' : '' }}">
+        <a href="{{ route('meetingReports.index') }}">
             <i class="metismenu-icon pe-7s-note2"></i>
-                <span>@choice('functionalities.reports', 2)
-            <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+            <span>@choice('functionalities.meeting_reports', 2)</span>
         </a>
-    @endcan
-    <ul>
-        @can('meeting_reports')
-            <li class="{{ Request::is('meetingReports*') ? 'mm-active' : '' }}">
-                <a href="{{ route('meetingReports.index') }}">
-                    <i class="metismenu-icon pe-7s-pin"></i>
-                    <span>@choice('functionalities.meeting_reports', 2)</span>
-                </a>
-            </li>
-        @endcan
-    </ul>
-</li>
+    </li>
+@endcan
 
 

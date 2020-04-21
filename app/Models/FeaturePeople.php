@@ -56,12 +56,12 @@ class FeaturePeople extends Model implements AuditableContract
 
     public function features()
     {
-        return $this->hasMany(Feature::class, 'id', 'feature_id');
+        return $this->hasMany(Feature::class);
     }
 
     public function people()
     {
-        return $this->hasMany(Person::class, 'id', 'person_id');
+        return $this->hasMany(Person::class);
     }
 
 }

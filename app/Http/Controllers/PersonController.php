@@ -105,8 +105,8 @@ class PersonController extends AppBaseController
                 return view('people.create', compact('communities','sexes', 'features', 'groups', 'profiles'));
             }            
         }else{
-            Flash::error(trans('flash.error_no_community'));
-            return redirect(route('people.index'));
+            Flash::error(trans('flash.error_no_person_community'));
+            return redirect(route('communities.index'));
         }        
         
     }
@@ -125,7 +125,6 @@ class PersonController extends AppBaseController
         $person = $this->personRepository->create($input);
         $person->communities()->attach($request->communities);
 
-        $sync_data = [];
         for($i = 0; $i < count($request->communities); $i++){
             $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
         }
@@ -245,14 +244,15 @@ class PersonController extends AppBaseController
         if ($people > 0){
             $person = $this->personRepository->find($id);
             
-            $sync_data = [];
             for($i = 0; $i < count($request->communities); $i++){
+                $person->features()->detach();
                 $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
             }
 
             if(isset(($request->groups))){
                 for($i = 0; $i < count($request->groups); $i++){
                     $group = Group::findOrFail($request->groups[$i]);
+                    $group->communities_people()->detach();
                     $group->communities_people()->attach($request->communities, ['profile_id' => $request->profiles, 'person_id' => $person->id]);
                 }
             }
@@ -289,8 +289,9 @@ class PersonController extends AppBaseController
             ->qPeople(Auth::id(), $id);
 
         if ($people > 0){
-            $person = $this->personRepository->find($id);
-            $person->load('features');
+            $person = $this->personRepository->find($id);        
+            $person->features()->detach();
+            $person->groups()->detach();    
         }else{
             abort(401);
         }

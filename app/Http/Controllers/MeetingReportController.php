@@ -67,7 +67,7 @@ class MeetingReportController extends AppBaseController
      */
     public function create()
     {
-        $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('name', 'id');
+        $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('fullMeeting', 'id');
 
         return view('meeting_reports.create', compact('meetings'));
     }

@@ -57,12 +57,12 @@ class CommunityPeople extends Model implements AuditableContract
 
     public function communities()
     {
-        return $this->hasMany(Community::class, 'id', 'community_id');
+        return $this->hasMany(Community::class);
     }
 
     public function people()
     {
-        return $this->hasMany(Person::class, 'id', 'person_id');
+        return $this->hasMany(Person::class);
     }
 
     public function scopeQCommunityPeople($query, $user_id)

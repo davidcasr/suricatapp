@@ -9,7 +9,7 @@
             <!-- Description Field -->
             <tr>
                 <td><b>{!! Form::label('description', __('functionalities.meetings_var.description')) !!}</b></td>
-                <td>{{ $meeting->description }}</td>
+                <td>{!! $meeting->description !!}</td>
             </tr>
             <!-- Date Field -->
             <tr>
@@ -26,6 +26,7 @@
                 <td><b>{!! Form::label('address', __('functionalities.meetings_var.address')) !!}</b></td>
                 <td>{{ $meeting->address }}</td>
             </tr>
+            
             <!-- Created At Field -->
             <tr>
                 <td><b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b></td>
@@ -40,3 +41,5 @@
         </tbody>        
     </table>
 </div>
+
+

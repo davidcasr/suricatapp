@@ -49,11 +49,11 @@ class CommunityProfiles extends Model implements AuditableContract
 
     public function communities()
     {
-        return $this->hasMany(Community::class, 'id', 'community_id');
+        return $this->hasMany(Community::class);
     }
 
     public function profiles()
     {
-        return $this->hasMany(Profile::class, 'id', 'profile_id');
+        return $this->hasMany(Profile::class);
     }
 }

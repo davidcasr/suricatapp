@@ -18,7 +18,7 @@
 	<!-- Parent Id Field -->
 	<div class="form-group col-sm-12">
 	    {!! Form::label('parent_id', __('functionalities.groups_var.parent_id')) !!}
-	    <p>{{ $subgroup }}</p>
+	    <p>#{{ $subgroup }}</p>
 	    {!! Form::hidden('parent_id', $subgroup) !!}
 	    @foreach($levels as $level)
 		    @if($level->level >= 0)

@@ -41,7 +41,8 @@ return [
 
     'dashboard_var'   => [
         'peoplePerMonth' => 'Personas por mes',
-        'meetingsPerMonth' => 'Reuniones por mes'
+        'meetingsPerMonth' => 'Reuniones por mes',
+        'assitantsPerMonth' => 'Asistentes por mes'
     ],
    
     'communities'   => 'Comunidad|Comunidades',
@@ -120,12 +121,13 @@ return [
         'description' => 'Descripción'
     ],
 
-    'assistants'   => 'Invitado/Asistente|Invitados/Asistentes',
+    'assistants'   => 'Invitado|Invitados',
 
     'assistants_var'   => [
         'person_id' => 'Persona',
         'meeting_id' => 'Identificador de Reunión',
-        'confirmation' => 'Estado de asistencia'
+        'confirmation' => 'Asistencia',
+        'guests' => 'Invitados'
     ],
 
     'users'   => 'Usuario|Usuarios',

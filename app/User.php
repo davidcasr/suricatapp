@@ -58,6 +58,11 @@ class User extends Authenticatable
         'phone' => 'nullable|string|max:100'
     ];
 
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
+    }
+
     public function getFullNameAttribute()
     {
         return $this->first_name.' '.$this->last_name;

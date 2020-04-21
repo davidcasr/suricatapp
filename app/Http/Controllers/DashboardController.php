@@ -10,8 +10,10 @@ use App\Models\Community;
 use App\Models\Person;
 use App\Models\Group;
 use App\Models\Meeting;
+use App\Models\Assistant;
 use App\Charts\PeoplePerMonth;
 use App\Charts\MeetingsPerMonth;
+use App\Charts\AssitantsPerMonth;
 
 class DashboardController extends Controller
 {
@@ -53,6 +55,8 @@ class DashboardController extends Controller
             ->get()
             ->count();
 
+        // People
+
         $queryPeoplePerMonth = Person::select(DB::raw('MONTH(people.created_at) as id_month'),
                                 DB::raw('MONTHNAME(people.created_at) as month'), 
                                 DB::raw('COUNT(DISTINCT people.id) as n'))
@@ -75,9 +79,12 @@ class DashboardController extends Controller
         
         $peoplePerMonth = new PeoplePerMonth;
         $peoplePerMonth->labels($monthPeoplePerMonth);
+        $peoplePerMonth->height(200);
         $peoplePerMonth->dataset('Personas por mes', 'line', $nPeoplePerMonth)
             ->color('rgba(0, 176, 155, 0.8)')
             ->backgroundcolor('rgba(0, 176, 155, 0.8)');
+
+        // Meetings
 
         $queryMeetingsPerMonth = Meeting::select(DB::raw('MONTH(meetings.created_at) as id_meeting'),
                                 DB::raw('MONTHNAME(meetings.created_at) as month'), 
@@ -86,7 +93,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('community_users.user_id', Auth::user()->id)
-                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                            
+                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                         
                                 ->groupBy('id_meeting', 'month')->get();
 
         if(!$queryMeetingsPerMonth->isEmpty()){
@@ -101,13 +108,70 @@ class DashboardController extends Controller
         
         $meetingsPerMonth = new MeetingsPerMonth;
         $meetingsPerMonth->labels($monthMeetingsPerMonth);
+        $meetingsPerMonth->height(200);
         $meetingsPerMonth->dataset('Reuniones por mes', 'line', $nMeetingsPerMonth)
             ->color('rgba(246, 211, 101, 0.8)')
             ->backgroundcolor('rgba(246, 211, 101, 0.8)');
 
+        // Assitants
+
+        $queryAssitantsPerMonth = Assistant::select(DB::raw('MONTH(assistants.created_at) as id_assistant'),
+                                DB::raw('MONTHNAME(assistants.created_at) as month'), 
+                                DB::raw('COUNT(*) as n'))
+                                ->join('meetings','meetings.id', '=','assistants.meeting_id')
+                                ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+                                ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+                                ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+                                ->where('assistants.confirmation', '=', 1)
+                                ->where('community_users.user_id', Auth::user()->id)
+                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
+                                ->groupBy('id_assistant', 'month')->get();
+
+        $queryNoAssitantsPerMonth = Assistant::select(DB::raw('MONTH(assistants.created_at) as id_assistant'),
+                                DB::raw('MONTHNAME(assistants.created_at) as month'), 
+                                DB::raw('COUNT(*) as n'))
+                                ->join('meetings','meetings.id', '=','assistants.meeting_id')
+                                ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+                                ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+                                ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+                                ->where('assistants.confirmation', '=', 0)
+                                ->where('community_users.user_id', Auth::user()->id)
+                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
+                                ->groupBy('id_assistant', 'month')->get();
+
+        if(!$queryAssitantsPerMonth->isEmpty()){
+            foreach ($queryAssitantsPerMonth as $query) {
+                $nAssitantsPerMonth[] = $query->n;
+                $monthAssitantsPerMonth[] = $query->month;
+            }
+        }else{
+            $nAssitantsPerMonth[] = "";
+            $monthAssitantsPerMonth[] = "";
+        }
+
+        if(!$queryNoAssitantsPerMonth->isEmpty()){
+            foreach ($queryNoAssitantsPerMonth as $query) {
+                $nNoAssitantsPerMonth[] = $query->n;
+                $monthNoAssitantsPerMonth[] = $query->month;
+            }
+        }else{
+            $nNoAssitantsPerMonth[] = "";
+            $monthNoAssitantsPerMonth[] = "";
+        }
+        
+        $assitantsPerMonth = new AssitantsPerMonth;
+        $assitantsPerMonth->labels($monthAssitantsPerMonth);
+        $assitantsPerMonth->height(525);
+        $assitantsPerMonth->dataset('Asistentes', 'line', $nAssitantsPerMonth)
+            ->color('rgba(30, 60, 114, 0.8)')
+            ->backgroundcolor('rgba(30, 60, 114, 0.8)');
+        $assitantsPerMonth->dataset('No Asistentes', 'line', $nNoAssitantsPerMonth)
+            ->color('rgba(255, 8, 68, 0.8)')
+            ->backgroundcolor('rgba(255, 8, 68, 0.8)');
+
         return view('dashboard.index', 
             compact('communities', 'people', 'groups', 'meetings', 
-                'peoplePerMonth', 'meetingsPerMonth'
+                'peoplePerMonth', 'meetingsPerMonth', 'assitantsPerMonth'
             ));
     }
 }

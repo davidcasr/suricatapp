@@ -15,7 +15,7 @@ class CreateGenListsTable extends Migration
     {
         Schema::create('gen_lists', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('group_id');
+            $table->integer('group_id')->unsigned();
             $table->integer('item_id');
             $table->string('item_description');
             $table->string('item_cod')->nullable();

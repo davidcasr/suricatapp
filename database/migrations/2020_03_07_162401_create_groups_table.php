@@ -21,7 +21,7 @@ class CreateGroupsTable extends Migration
             $table->integer('level');
             $table->timestamps();
             $table->softDeletes();
-            $table->foreign("parent_id")->references("id")->on("groups")->onDelete("cascade");
+            $table->foreign('parent_id')->references('id')->on('groups')->onDelete('cascade');
         });
     }
 

@@ -13,19 +13,19 @@ class CommunitiesDummyTableSeeder extends Seeder
     public function run()
     {
         $community_1 = Community::create([
-            'identification' 	=>'Asambleas',
-	        'name' 				=>'Asambleas de Dios',
+            'identification' 	=>'1101',
+	        'name' 				=>'Community',
 	        'description' 		=> 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tincidunt lorem non nibh ullamcorper tempus. Proin eget magna id nibh vulputate aliquet. Nullam faucibus purus augue, sed interdum urna euismod non. In suscipit tellus ut nibh cursus pretium. Praesent ultrices sagittis eros aliquam efficitur. Quisque vitae neque felis. Quisque id rhoncus felis. Praesent ut tempus neque, in blandit odio.',
-	        'address' 			=> 'Direccion Asambleas',
+	        'address' 			=> 'Direccion Community',
         ]);
 
-        $community_1->users()->attach(2);
+        $community_1->users()->attach(3);
 
         $community_2 = Community::create([
-            'identification' 	=>'1101',
+            'identification' 	=>'1102',
 	        'name' 				=>'La comunidad de Davidson',
 	        'description' 		=> 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam tincidunt lorem non nibh ullamcorper tempus. Proin eget magna id nibh vulputate aliquet. Nullam faucibus purus augue, sed interdum urna euismod non. In suscipit tellus ut nibh cursus pretium. Praesent ultrices sagittis eros aliquam efficitur. Quisque vitae neque felis. Quisque id rhoncus felis. Praesent ut tempus neque, in blandit odio.',
-	        'address' 			=> 'Direccion #1 Davidson',
+	        'address' 			=> 'Direccion Davidson',
         ]);
 
         $community_2->users()->attach(3);

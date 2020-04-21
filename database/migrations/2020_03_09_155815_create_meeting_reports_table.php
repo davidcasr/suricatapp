@@ -15,9 +15,9 @@ class CreateMeetingReportsTable extends Migration
     {
         Schema::create('meeting_reports', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->nullable();
-            $table->integer('person_id')->nullable();
-            $table->integer('meeting_id');
+            $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('person_id')->unsigned()->nullable();
+            $table->integer('meeting_id')->unsigned();
             $table->text('description');
             $table->timestamps();
             $table->softDeletes();

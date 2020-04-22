@@ -65,7 +65,8 @@ class PersonController extends AppBaseController
         }        
 
         $q_people_register = CommunityPeople::qCommunityPeople(Auth::id());
-        $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];
+        // $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];
+        $q_people_plan = 1000;
 
         if($q_people_register >= $q_people_plan){
             $button_create = false;
@@ -88,7 +89,8 @@ class PersonController extends AppBaseController
         if($communities_auth->count() > 0){
 
             $q_people_register = CommunityPeople::qCommunityPeople(Auth::id());
-            $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];
+            // $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];
+            $q_people_plan = 1000;
 
             if($q_people_register >= $q_people_plan){
                 abort(401);

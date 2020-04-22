@@ -92,6 +92,7 @@ class Community extends Model implements AuditableContract
         return $query
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
             ->where('community_users.user_id', $user_id)
+            ->select('communities.*')
             ->get();
     }
     

@@ -11,15 +11,17 @@
 </div>  
 
 <!-- abilities Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('abilities', trans_choice('functionalities.abilities', 1)) !!}
-    @if(isset($user))
-        <br>
-        {!! Form::select('abilities', $abilities, old('abilities') ? old('role') : $user->abilities()->pluck('name', 'name'), ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple']) !!}
-    @else
-        {!! Form::select('abilities', $abilities, null, ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple']) !!}
-    @endif
-</div>
+@if(isset($role))
+  <div class="form-group col-sm-12">
+      {!! Form::label('abilities', trans_choice('functionalities.abilities', 1)) !!}
+      {!! Form::select('abilities[]', $abilities, $role->getAbilities()->pluck('name', 'name'), ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'abilities']) !!}
+  </div>
+@else
+  <div class="form-group col-sm-12">
+      {!! Form::label('abilities', trans_choice('functionalities.abilities', 1)) !!}
+      {!! Form::select('abilities[]', $abilities, null, ['class' => 'form-control', 'required' => 'required', 'multiple' => 'multiple', 'id' => 'abilities']) !!}
+  </div>
+@endif
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">

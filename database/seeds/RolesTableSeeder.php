@@ -41,6 +41,7 @@ class RolesTableSeeder extends Seeder
         Bouncer::allow('supervisor')->to('account');
         Bouncer::allow('supervisor')->to('associated_users');
 
+        Bouncer::allow('reports')->to('meeting');
         Bouncer::allow('reports')->to('meeting_reports');
         Bouncer::allow('reports')->to('account');
 

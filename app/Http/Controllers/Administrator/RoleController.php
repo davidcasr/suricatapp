@@ -69,7 +69,7 @@ class RoleController extends AppBaseController
         $input = $request->all();
 
         $role = $this->roleRepository->create($input);
-        $role->assign($request->input('roles'));
+        $role->allow($request->input('abilities'));
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.roles', 1)]));
 
@@ -86,7 +86,6 @@ class RoleController extends AppBaseController
     public function show($id)
     {
         $role = $this->roleRepository->find($id);
-
         $role->load('abilities');
 
         if (empty($role)) {
@@ -95,7 +94,7 @@ class RoleController extends AppBaseController
             return redirect(route('roles.index'));
         }
 
-        return view('administrator.roles.show')->with('abilities', $abilities);
+        return view('administrator.roles.show')->with('role', $role);
     }
 
     /**
@@ -108,7 +107,9 @@ class RoleController extends AppBaseController
     public function edit($id)
     {
         $role = $this->roleRepository->find($id);
-        $roles = Role::get()->pluck('name', 'name');
+        $role->load('abilities');
+
+        $abilities = Ability::get()->pluck('name', 'name');
 
         if (empty($role)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.roles', 1)]));
@@ -116,7 +117,7 @@ class RoleController extends AppBaseController
             return redirect(route('roles.index'));
         }
 
-        return view('administrator.roles.edit',compact('role', 'roles'));
+        return view('administrator.roles.edit',compact('role', 'abilities'));
     }
 
     /**
@@ -138,6 +139,11 @@ class RoleController extends AppBaseController
         }
 
         $role = $this->roleRepository->update($request->all(), $id);
+
+        foreach ($role->getAbilities() as $ability) {
+            $role->disallow($ability->name);
+        }
+        $role->allow($request->input('abilities'));
 
         Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.roles', 1)]));
 

@@ -31,7 +31,8 @@ class CreateUserRequest extends FormRequest
             'username' => 'required|string|max:255', 
             'email' => 'required|email|max:255|unique:users', 
             'password' => 'required|string|min:8',
-            'phone' => 'nullable|string|max:100'
+            'phone' => 'nullable|string|max:100',
+            'parent_id' =>'nullable'
         ];
     }
 
@@ -44,6 +45,7 @@ class CreateUserRequest extends FormRequest
             'email' => 'Correo electrónico',
             'password' => 'Contraseña',
             'phone' => 'Teléfono',
+            'parent_id'    => 'parent_id'
         ];
     }
 }

@@ -13,6 +13,7 @@ use Silber\Bouncer\Database\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Community;
+use App\User;
 
 class AssociatedUsersController extends Controller
 {
@@ -62,6 +63,15 @@ class AssociatedUsersController extends Controller
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
+
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $input['parent_id'] = Auth::id(); 
+        }else{
+            $input['parent_id'] = $user->parent_id;
+        }              
 
         $communities = Community::communities(Auth::id());
 

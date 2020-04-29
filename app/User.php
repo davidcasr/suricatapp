@@ -18,6 +18,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
+        'parent_id',
         'first_name', 
         'last_name', 
         'username', 
@@ -50,6 +51,7 @@ class User extends Authenticatable
      * @var array
      */
     public static $rules = [
+        'parent_id' => 'nullable',
         'first_name' => 'nullable|string|max:255', 
         'last_name' => 'nullable|string|max:255', 
         'username' => 'required|string|max:255', 

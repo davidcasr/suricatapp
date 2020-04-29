@@ -110,6 +110,11 @@ class Person extends Model implements AuditableContract
         return $this->belongsToMany(Profile::class, 'community_people');
     }
 
+    public function meetings()
+    {
+        return $this->belongsToMany(Meeting::class, 'assistants');
+    }
+
     public function genlist()
     {
         return $this->belongsTo(GenList::class, 'sex', 'id');

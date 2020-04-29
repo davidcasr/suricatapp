@@ -34,29 +34,29 @@ class MeetingController extends AppBaseController
     public function index(Request $request)
     {
         $keyword = $request->get('search');
-
-        if (!empty($keyword)) {
+        
+        if(Auth::user()->isAn('reports')){
             $meetings = $this->meetingRepository
-            ->makeModel()
-            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
-            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
-            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::user()->id)
-            ->orWhere('meetings.name', 'LIKE', '%$keyword%')
-            ->select('meetings.*')
-            ->distinct()
-            ->paginate(config('global.per_page'));
+                ->makeModel()
+                ->where('meetings.user_id', Auth::user()->id);
         }else{
             $meetings = $this->meetingRepository
-            ->makeModel()
-            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
-            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
-            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::user()->id)
-            ->select('meetings.*')
+                ->makeModel()
+                ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
+                ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
+                ->join('community_users', 'community_users.community_id', '=', 'communities.id');
+
+            if (!empty($keyword)) {
+                $meetings = $meetings->where('community_users.user_id', Auth::user()->id)
+                ->orWhere('meetings.name', 'LIKE', '%$keyword%');        
+            }else{
+                $meetings = $meetings->where('community_users.user_id', Auth::user()->id);
+            }
+        }        
+
+        $meetings = $meetings->select('meetings.*')
             ->distinct()
             ->paginate(config('global.per_page'));
-        }
 
         return view('meetings.index', compact('meetings'));
     }
@@ -69,9 +69,9 @@ class MeetingController extends AppBaseController
     public function create()
     {
         $communities = Community::communities(Auth::id())->pluck('name','id');
-        $assistants = Person::peoplePerCommunity(Auth::id())->pluck('fullName','id');
+        $people = Person::peoplePerCommunity(Auth::id())->pluck('fullName','id');
 
-        return view('meetings.create', compact('communities', 'assistants'));
+        return view('meetings.create', compact('communities', 'people'));
     }
 
     /**
@@ -87,16 +87,8 @@ class MeetingController extends AppBaseController
         $input['user_id'] = Auth::id();
 
         $meeting = $this->meetingRepository->create($input);
-
         $meeting->communities()->attach($request->communities);
-
-        if($request->assistants != null){
-            foreach($request->assistants as $assistant){
-                $meeting->assistants()->create([
-                    'person_id' => $assistant
-                ]);
-            }   
-        }     
+        $meeting->people()->attach($request->people);
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.meetings', 1)]));
 
@@ -119,6 +111,8 @@ class MeetingController extends AppBaseController
         if ($meetings > 0){
             $meeting = $this->meetingRepository->find($id);
             $assistants = Assistant::where('meeting_id', $id)
+                    ->join('people', 'assistants.person_id', '=', 'people.id')
+                    ->select(['assistants.id', 'assistants.meeting_id', 'assistants.person_id', 'assistants.confirmation', 'people.first_name', 'people.last_name', 'people.email', 'people.phone'])
                     ->paginate(config('global.per_page'));
 
         }else{
@@ -149,13 +143,12 @@ class MeetingController extends AppBaseController
 
         if ($meetings > 0){
             $meeting = $this->meetingRepository->find($id);
-            $meeting->load('assistants');
         }else{
             abort(401);
         }
 
         $communities = Community::communities(Auth::id())->pluck('name','id');
-        $assistants = Person::peoplePerCommunity(Auth::id())->pluck('fullName','id');
+        $people = Person::peoplePerCommunity(Auth::id())->pluck('fullName','id');
 
         if (empty($meeting)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meetings', 1)]));
@@ -163,7 +156,7 @@ class MeetingController extends AppBaseController
             return redirect(route('meetings.index'));
         }
 
-        return view('meetings.edit', compact('meeting', 'communities', 'assistants'));
+        return view('meetings.edit', compact('meeting', 'communities', 'people'));
     }
 
     /**
@@ -194,15 +187,11 @@ class MeetingController extends AppBaseController
 
         $meeting = $this->meetingRepository->update($request->all(), $id);
 
-        if($request->assistants != null){
-            foreach($request->assistants as $assistant){               
-                $meeting->assistants()->create([
-                    'person_id' => $assistant
-                ]);
-            }   
-        }else{
-            $assistants = Assistant::where('meeting_id', $id)->delete();  
-        }
+        $meeting->communities()->detach($request->communities);
+        $meeting->people()->detach($request->people);
+
+        $meeting->communities()->attach($request->communities);
+        $meeting->people()->attach($request->people);
 
         Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.meetings', 1)]));
 

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Community;
 use App\Models\Group;
 use App\Models\CommunityGroups;
+use App\Models\Person;
 
 class GroupController extends AppBaseController
 {
@@ -117,6 +118,10 @@ class GroupController extends AppBaseController
 
         if ($groups > 0){
             $group = $this->groupRepository->find($id);
+            $people = Person::join('community_people', 'community_people.person_id', '=', 'people.id')
+                    ->where('community_people.group_id', $id)
+                    ->select('people.*')
+                    ->paginate(config('global.per_page'));
         }else{
             abort(401);
         }
@@ -127,7 +132,7 @@ class GroupController extends AppBaseController
             return redirect(route('groups.index'));
         }
 
-        return view('groups.show')->with('group', $group);
+        return view('groups.show', compact('group', 'people'));
     }
 
     /**

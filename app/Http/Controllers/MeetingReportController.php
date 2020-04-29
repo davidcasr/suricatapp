@@ -33,29 +33,31 @@ class MeetingReportController extends AppBaseController
     {
         $keyword = $request->get('search');
 
-        if (!empty($keyword)) {
+        if(Auth::user()->isAn('reports')){
             $meetingReports = $this->meetingReportRepository
-            ->makeModel()
-            ->join('meetings','meeting_reports.meeting_id', '=','meetings.id')
-            ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
-            ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
-            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->join('people', 'assistants.person_id', '=','people.id')
-            ->where('community_users.user_id', Auth::user()->id)
-            ->orWhere('people.email', 'LIKE', '%$keyword%')
-            ->select('meeting_reports.*')
-            ->paginate(config('global.per_page'));  
+                ->makeModel()
+                ->where('meeting_reports.user_id', Auth::user()->id);
         }else{
             $meetingReports = $this->meetingReportRepository
             ->makeModel()
             ->join('meetings','meeting_reports.meeting_id', '=','meetings.id')
             ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
             ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
-            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::user()->id)
-            ->select('meeting_reports.*')
-            ->paginate(config('global.per_page'));    
+            ->join('community_users', 'community_users.community_id', '=', 'communities.id');
+
+            if (!empty($keyword)) {
+                $meetingReports = $meetingReports
+                ->where('community_users.user_id', Auth::user()->id)
+                ->orWhere('people.email', 'LIKE', '%$keyword%');
+            }else{
+                $meetingReports = $meetingReports
+                ->where('community_users.user_id', Auth::user()->id);
+            }
         }
+
+        $meetingReports = $meetingReports
+            ->select('meeting_reports.*')
+            ->paginate(config('global.per_page'));
 
         return view('meeting_reports.index', compact('meetingReports'));
     }

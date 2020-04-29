@@ -208,7 +208,6 @@ class PersonController extends AppBaseController
 
         if ($people > 0){
             $person = $this->personRepository->find($id);
-            $person->load('features');
         }else{
             abort(401);
         }

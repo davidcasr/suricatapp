@@ -23,7 +23,7 @@
                 @if($assistants->isNotEmpty())
                     <div class="card-body">  
                         @include('flash::message')
-                        @include('assistants.table')
+                        @include('meetings.table_assitants')
                         {{ $assistants->links() }}
                     </div>  
                 @else

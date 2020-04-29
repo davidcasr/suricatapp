@@ -79,13 +79,12 @@
         {!! Form::text('longitude', null, ['class' => 'form-control']) !!}
     </div>
 --}}
-@if($assistants != null)
-    <!-- Assistants Field -->
-    <div class="form-group col-sm-12">
-        {!! Form::label('assistants', 'Invitados') !!}
-        {!! Form::select('assistants[]', $assistants, null, ['class' => 'form-control','multiple' => 'multiple', 'id' => 'assistants']) !!} 
-    </div>
-@endif
+
+<!-- Assistants Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('people', 'Invitados') !!}
+    {!! Form::select('people[]', $people, null, ['class' => 'form-control','multiple' => 'multiple', 'id' => 'people']) !!} 
+</div>
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
@@ -102,7 +101,7 @@
         });
 
         $(document).ready(function () {
-           $('#assistants').select2({
+           $('#people').select2({
                width: '100%',
            });
         });      

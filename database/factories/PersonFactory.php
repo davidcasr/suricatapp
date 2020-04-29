@@ -19,7 +19,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'country' => 170,
         'phone' => $faker->phoneNumber,
         'photo' => $faker->word,
-        'created_at' => $faker->date('Y-m-d H:i:s'),
-        'updated_at' => $faker->date('Y-m-d H:i:s')
+        'created_at' => $faker->dateTimeThisYear($max = 'now'),
+        'updated_at' => $faker->dateTimeThisYear($max = 'now')
     ];
 });

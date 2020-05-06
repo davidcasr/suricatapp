@@ -25,6 +25,18 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {   
+        // Statistics In Line
+        $statisticsInLine = $this->statisticsInLine();
+
+        // Graphics
+        $peoplePerMonth = $this->peoplePerMonth();
+        $meetingsPerMonth = $this->meetingsPerMonth();
+
+        return view('administrator.dashboard.index', compact('statisticsInLine', 'peoplePerMonth', 'meetingsPerMonth'));
+    }
+
+    public function statisticsInLine(){
+        
         $communities = Community::get()->count();
 
         $people = Person::get()->count();
@@ -33,6 +45,11 @@ class DashboardController extends Controller
 
         $meetings = Meeting::get()->count();
 
+        return compact('communities', 'people', 'groups', 'meetings');
+    }
+
+    public function peoplePerMonth(){
+        
         $queryPeoplePerMonth = Person::select(DB::raw('MONTH(created_at) as id_month'),
                                 DB::raw('MONTHNAME(created_at) as month'), 
                                 DB::raw('COUNT(*) as n'))
@@ -54,6 +71,11 @@ class DashboardController extends Controller
         $peoplePerMonth->dataset('Personas por mes', 'line', $nPeoplePerMonth)
             ->color('rgba(0, 176, 155, 0.8)')
             ->backgroundcolor('rgba(0, 176, 155, 0.8)');
+
+        return $peoplePerMonth;
+    }
+
+    public function meetingsPerMonth(){
 
         $queryMeetingsPerMonth = Meeting::select(DB::raw('MONTH(created_at) as id_meeting'),
                                 DB::raw('MONTHNAME(created_at) as month'), 
@@ -77,6 +99,6 @@ class DashboardController extends Controller
             ->color('rgba(246, 211, 101, 0.8)')
             ->backgroundcolor('rgba(246, 211, 101, 0.8)');
 
-        return view('administrator.dashboard.index', compact('communities', 'people', 'groups', 'meetings', 'peoplePerMonth', 'meetingsPerMonth'));
+        return $meetingsPerMonth;
     }
 }

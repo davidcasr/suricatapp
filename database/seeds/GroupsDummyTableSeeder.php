@@ -12,7 +12,7 @@ class GroupsDummyTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Group::class, 5)->create()
+        factory(App\Models\Group::class, 3)->create()
             ->each(function ($group) {
                 $group->communities()->attach(2);
             });

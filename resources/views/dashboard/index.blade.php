@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+	
 	<div class="row">
 	    <div class="col-md-6 col-xl-3">
 	        <div class="card mb-3 widget-content bg-happy-green">
@@ -11,7 +11,7 @@
 	                    <div class="widget-subheading">#colonias</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>{{ $communities }}</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $statisticsInLine['communities'] }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -24,7 +24,7 @@
 	                    <div class="widget-subheading">#suricatas</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>{{ $people }}</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $statisticsInLine['people'] }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -37,7 +37,7 @@
 	                    <div class="widget-subheading">#familias</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>{{ $groups }}</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $statisticsInLine['groups'] }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -50,7 +50,7 @@
 	                    <div class="widget-subheading">#cazando</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>{{ $meetings }}</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $statisticsInLine['meetings'] }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -75,11 +75,11 @@
                 <div class="card-header-tab card-header-tab-animation card-header">
                     <div class="card-header-title">
                         <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-                        {{ __('functionalities.dashboard_var.meetingsPerMonth') }}
+                        {{ __('functionalities.dashboard_var.assitantsPerMonth') }}
                     </div>
                 </div>
                 <div class="card-body">
-                    {{ $meetingsPerMonth->container() }}
+                    {{ $assitantsPerMonth->container() }}
                 </div>
             </div>
         </div>
@@ -89,13 +89,26 @@
                 <div class="card-header-tab card-header-tab-animation card-header">
                     <div class="card-header-title">
                         <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-                        {{ __('functionalities.dashboard_var.assitantsPerMonth') }}
+                        {{ __('functionalities.dashboard_var.meetingsPerMonth') }}                        
                     </div>
                 </div>
                 <div class="card-body">
-                    {{ $assitantsPerMonth->container() }}
+                	{{ $meetingsPerMonth->container() }}
                 </div>
             </div>
+
+            <div class="mb-3 card">
+                <div class="card-header-tab card-header-tab-animation card-header">
+                    <div class="card-header-title">
+                        <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+                        {{ __('functionalities.dashboard_var.assistantsPerMeeting') }}  [Mes {{ \Carbon\Carbon::now()->format('m') }}]
+                    </div>
+                </div>
+                <div class="card-body">
+                    {{ $assistantsPerMeeting->container() }}
+                </div>
+            </div>
+
         </div>     
     </div>
 @endsection
@@ -104,4 +117,5 @@
 	{!! $peoplePerMonth->script() !!}
 	{!! $meetingsPerMonth->script() !!}
 	{!! $assitantsPerMonth->script() !!}
+	{!! $assistantsPerMeeting->script() !!}
 @endsection

@@ -32,35 +32,28 @@ class AccountController extends Controller
             ->where('plan_users.user_id', Auth::id())
             ->get();
 
-            $q_users_register = User::join('community_users', 'community_users.user_id', '=', 'users.id')
-                ->whereIn('community_users.community_id', [DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )') ])
-                ->whereNotIn('community_users.user_id', [Auth::id()])
-                ->select('users.*')
-                ->count();
+            $user = User::findOrfail(Auth::id());        
+            
+            if(is_null($user->parent_id))
+            {
+                $users = User::where('parent_id', Auth::id())->paginate(config('global.per_page'));
+                $q_users_register = User::where('parent_id', Auth::id())->count();
+                $q_admin_per_user = User::infoPlan(Auth::id())->first();
+            }else{
+                $q_users_register = User::where('parent_id', $user->parent_id)->count();
+                $q_admin_per_user = User::infoPlan($user->parent_id)->first();
+            }
 
-            $q_admin_per_user = User::infoPlan(Auth::id())->pluck('q_administrators')[0];
-
-            if($q_users_register < $q_admin_per_user){
+            if($q_users_register < $q_admin_per_user->q_administrators){
                 $button_create = true;
             }else{
                 $button_create = false;
             }
-
-            $users = User::join('community_users', 'community_users.user_id', '=', 'users.id')
-                    ->whereIn('community_users.community_id', [DB::raw('( SELECT community_users.id FROM users JOIN community_users ON community_users.user_id = users.id WHERE community_users.user_id = '.Auth::id().' )') ])
-                    ->whereNotIn('community_users.user_id', [Auth::id()])
-                    ->distinct()
-                    ->select('users.*')
-                    ->paginate(config('global.per_page'));
-
+           
             return view('account.index', compact('user', 'plans', 'users', 'button_create'));
         }else{
             return view('account.index', compact('user'));
         }     
-
-        
-        
-    	
     }
 
     /**

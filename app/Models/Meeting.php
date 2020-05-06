@@ -91,6 +91,11 @@ class Meeting extends Model implements AuditableContract
         return $this->belongsToMany(Person::class, 'assistants')->withTimestamps();
     }
 
+    public function groups()
+    {
+        return $this->belongsToMany(Group::class, 'group_meetings');
+    }
+
     public function scopeQMeeting($query, $user_id)
     {
         return $query

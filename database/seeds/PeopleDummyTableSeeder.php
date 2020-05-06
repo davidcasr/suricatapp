@@ -12,7 +12,7 @@ class PeopleDummyTableSeeder extends Seeder
     public function run()
     {	
     	// communities->attach(2) because is for my test community
-        factory(App\Models\Person::class, 50)->create()
+        factory(App\Models\Person::class, 10)->create()
          	->each(function ($person) {
                 $person->communities()->attach(2);
             });

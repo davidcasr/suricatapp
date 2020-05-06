@@ -40,9 +40,10 @@ return [
     'dashboard'   => 'Dashboard',
 
     'dashboard_var'   => [
-        'peoplePerMonth' => 'Personas por mes',
+        'peoplePerMonth' => 'Personas incluidas por mes',
         'meetingsPerMonth' => 'Reuniones por mes',
-        'assitantsPerMonth' => 'Asistentes por mes'
+        'assitantsPerMonth' => 'Asistentes por mes',
+        'assistantsPerMeeting' => 'Asistentes por reunión'
     ],
    
     'communities'   => 'Comunidad|Comunidades',
@@ -59,7 +60,7 @@ return [
     'people'   => 'Persona|Personas',
 
     'people_var'   => [
-        'identification' => 'Identificación',
+        'identification' => 'Id',
         'first_name' => 'Nombres',
         'last_name' => 'Apellidos',
         'email' => 'Correo electrónico',

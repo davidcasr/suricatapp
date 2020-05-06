@@ -6,7 +6,6 @@
                 <th>{{ __('functionalities.meetings_var.date') }}</th>
                 <th>{{ __('functionalities.meetings_var.time') }}</th>
                 <th>{{ __('functionalities.meetings_var.address') }}</th>
-                <th>@choice('functionalities.communities', 2)</th>
                 <th colspan="3">{{ __('functionalities.action') }}</th>
             </tr>
         </thead>
@@ -18,18 +17,9 @@
                 <td>{{ \Carbon\Carbon::parse($meeting->time)->format('h:i A') }} </td>
                 <td>{{ $meeting->address }}</td>
                 <td>
-                    @foreach($meeting->communities as $community)
-                        <span class="badge badge-info">{{ $community->name }}</span>
-                    @endforeach
-                </td>
-                <td>
-                    {!! Form::open(['route' => ['meetings.destroy', $meeting->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
                         <a href="{{ route('meetings.show', [$meeting->id]) }}" class='btn btn-info btn-xs'><i class="fas fa-search"></i></a>
-                        <a href="{{ route('meetings.edit', [$meeting->id]) }}" class='btn btn-light btn-xs'><i class="fas fa-edit"></i></a>
-                        {!! Form::button('<i class="fas fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Está seguro?')"]) !!}
                     </div>
-                    {!! Form::close() !!}
                 </td>
             </tr>
         @endforeach

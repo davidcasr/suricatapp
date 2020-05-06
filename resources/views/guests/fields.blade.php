@@ -86,17 +86,34 @@
     </div>
 --}}
 
+{{--
 <!-- features Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('features', trans_choice('functionalities.features', 2)) !!}
     {!! Form::select('features[]', $features, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'features']) !!}
 </div>
 
+<!-- groups Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('groups', trans_choice('functionalities.groups', 2)) !!}
+    {!! Form::select('groups[]', $groups, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'groups']) !!}
+</div>
+
+@if($profiles != null)
+    <!-- profiles Field -->
+    <div class="form-group col-sm-12">
+        {!! Form::label('profiles', trans_choice('functionalities.profiles', 1)) !!}
+        {!! Form::select('profiles', $profiles, null, ['class' => 'form-control', 'id' => 'profiles', 'placeholder' => 'Seleccione un perfil']) !!}
+    </div>
+@endif
+--}}
+
+{!! Form::hidden('meeting_id', $meeting_id) !!}
 
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('buttons.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{{ route('people.index') }}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
+    <a href="{{ route('meetings.index') }}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
 </div>
 
 @section('scripts')
@@ -107,6 +124,10 @@
            });
 
            $('#features').select2({
+               width: '100%',
+           });
+           
+           $('#groups').select2({
                width: '100%',
            });
 

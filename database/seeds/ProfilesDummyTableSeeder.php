@@ -12,7 +12,7 @@ class ProfilesDummyTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Models\Profile::class, 25)->create()
+        factory(App\Models\Profile::class, 5)->create()
             ->each(function ($profile) {
                 $profile->communities()->attach(2);
             });

@@ -13,7 +13,7 @@ class FeaturesDummyTableSeeder extends Seeder
     public function run()
     {
 
-        factory(App\Models\Feature::class, 50)->create()
+        factory(App\Models\Feature::class, 5)->create()
             ->each(function ($feature) {
                 $feature->communities()->attach(2);
             });

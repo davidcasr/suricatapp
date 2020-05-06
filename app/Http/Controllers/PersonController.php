@@ -64,11 +64,18 @@ class PersonController extends AppBaseController
             ->paginate(config('global.per_page'));
         }        
 
-        $q_people_register = CommunityPeople::qCommunityPeople(Auth::id());
-        // $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];
-        $q_people_plan = 1000;
+        $q_people_register = CommunityPeople::qCommunityPeople(Auth::id());      
 
-        if($q_people_register >= $q_people_plan){
+        $user = User::findOrfail(Auth::id());        
+            
+        if(is_null($user->parent_id))
+        {
+            $q_people_plan = User::infoPlan(Auth::id())->first();
+        }else{
+            $q_people_plan = User::infoPlan($user->parent_id)->first();
+        }
+
+        if($q_people_register >= $q_people_plan->q_users){
             $button_create = false;
         }else{
             $button_create = true;
@@ -89,10 +96,16 @@ class PersonController extends AppBaseController
         if($communities_auth->count() > 0){
 
             $q_people_register = CommunityPeople::qCommunityPeople(Auth::id());
-            // $q_people_plan = User::infoPlan(Auth::id())->get(['q_users'])->pluck('q_users')[0];
-            $q_people_plan = 1000;
+            $user = User::findOrfail(Auth::id());        
+                
+            if(is_null($user->parent_id))
+            {
+                $q_people_plan = User::infoPlan(Auth::id())->first();
+            }else{
+                $q_people_plan = User::infoPlan($user->parent_id)->first();
+            }
 
-            if($q_people_register >= $q_people_plan){
+            if($q_people_register >= $q_people_plan->q_users){
                 abort(401);
             }else{
                 $communities = $communities_auth->pluck('name','id');
@@ -131,16 +144,11 @@ class PersonController extends AppBaseController
         $person->communities()->attach($request->communities);
 
         for($i = 0; $i < count($request->communities); $i++){
-            $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
-        }
-
-        if(isset(($request->groups))){
-            for($i = 0; $i < count($request->groups); $i++){
-            $group = Group::findOrFail($request->groups[$i]);
-            $group->communities_people()->attach($request->communities, ['profile_id' => $request->profiles, 'person_id' => $person->id]);
-            } 
-        }
-               
+            $person->features()->attach($request->features, 
+                [
+                    'community_id' => $request->communities[$i]
+                ]); 
+        }               
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.people', 1)]));
 
@@ -170,16 +178,10 @@ class PersonController extends AppBaseController
                 ->distinct()
                 ->get();
 
-            $groups = CommunityPeople::join('groups','community_people.group_id', '=', 'groups.id')
-                ->where('community_people.person_id', $id)
-                ->select('groups.*')
+            $community_people = CommunityPeople::where('community_people.person_id', $id)
+                ->whereNotNull('community_people.group_id')
                 ->distinct()
-                ->get();
-            $profiles = CommunityPeople::join('profiles','community_people.profile_id', '=', 'profiles.id')
-                ->where('community_people.person_id', $id)
-                ->select('profiles.*')
-                ->distinct()
-                ->get();
+                ->paginate(config('global.per_page'));
         }else{
             abort(401);
         }
@@ -190,7 +192,7 @@ class PersonController extends AppBaseController
             return redirect(route('people.index'));
         }
 
-        return view('people.show', compact('person','communities', 'groups', 'profiles'));
+        return view('people.show', compact('person','communities', 'community_people'));
     }
 
     /**
@@ -249,19 +251,20 @@ class PersonController extends AppBaseController
 
         if ($people > 0){
             $person = $this->personRepository->find($id);
+            $person->communities()->sync($request->communities);
             
-            for($i = 0; $i < count($request->communities); $i++){
-                $person->features()->detach();
-                $person->features()->attach($request->features, ['community_id' => $request->communities[$i]]);
+            foreach ($request->communities as $community){
+                if(isset($request->features)){
+                    foreach ($request->features as $key => $feature){
+                        $features[$feature] = array('community_id' => $community);
+                    }
+                }else{
+                    $features = null;
+                }                
             }
+            
+            $person->features()->sync($features);
 
-            if(isset(($request->groups))){
-                for($i = 0; $i < count($request->groups); $i++){
-                    $group = Group::findOrFail($request->groups[$i]);
-                    $group->communities_people()->detach();
-                    $group->communities_people()->attach($request->communities, ['profile_id' => $request->profiles, 'person_id' => $person->id]);
-                }
-            }
         }else{
             abort(401);
         }
@@ -272,7 +275,10 @@ class PersonController extends AppBaseController
             return redirect(route('people.index'));
         }
 
-        $person = $this->personRepository->update($request->all(), $id);
+        $input = $request->all();
+        $input['status'] = 1;
+
+        $person = $this->personRepository->update($input, $id);
 
         Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.people', 1)]));
 

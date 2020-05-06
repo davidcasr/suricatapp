@@ -10,10 +10,16 @@ use Illuminate\Http\Request;
 use Flash;
 use Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 use App\Models\Community;
 use App\Models\Group;
 use App\Models\CommunityGroups;
 use App\Models\Person;
+use App\Models\Meeting;
+use App\Models\Assistant;
+use App\Charts\AssitantsPerMonth;
+use App\Charts\AssistantsPerMeeting;
 
 class GroupController extends AppBaseController
 {
@@ -122,6 +128,14 @@ class GroupController extends AppBaseController
                     ->where('community_people.group_id', $id)
                     ->select('people.*')
                     ->paginate(config('global.per_page'));
+            $meetings = Meeting::join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
+                    ->where('group_meetings.group_id' ,$id)
+                    ->select('meetings.*')
+                    ->paginate(config('global.per_page'));
+
+            $assitantsPerMonthFilterGroup = $this->assitantsPerMonthFilterGroup($id); 
+            $assistantsPerMeetingFilterGroup = $this->assistantsPerMeetingFilterGroup($id);
+                    
         }else{
             abort(401);
         }
@@ -132,7 +146,7 @@ class GroupController extends AppBaseController
             return redirect(route('groups.index'));
         }
 
-        return view('groups.show', compact('group', 'people'));
+        return view('groups.show', compact('group', 'people', 'meetings', 'assitantsPerMonthFilterGroup', 'assistantsPerMeetingFilterGroup'));
     }
 
     /**
@@ -230,5 +244,160 @@ class GroupController extends AppBaseController
         Flash::success(trans('flash.destroy', ['model' => trans_choice('functionalities.groups', 1)]));
 
         return redirect(route('groups.index'));
+    }
+
+    public function assitantsPerMonthFilterGroup($idGroup){
+        $queryAssitantsPerMonth = Assistant::select(DB::raw('MONTH(assistants.created_at) as id_assistant'),
+                                DB::raw('MONTHNAME(assistants.created_at) as month'), 
+                                DB::raw('COUNT(*) as n'))
+                                ->join('meetings','meetings.id', '=','assistants.meeting_id')
+                                ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
+                                ->where('assistants.confirmation', '=', 1)
+                                ->where('group_meetings.group_id', $idGroup)
+                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
+                                ->groupBy('id_assistant', 'month')->get();
+
+        $queryNoAssitantsPerMonth = Assistant::select(DB::raw('MONTH(assistants.created_at) as id_assistant'),
+                                DB::raw('MONTHNAME(assistants.created_at) as month'), 
+                                DB::raw('COUNT(*) as n'))
+                                ->join('meetings','meetings.id', '=','assistants.meeting_id')
+                                ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
+                                ->where('assistants.confirmation', '=', 0)
+                                ->where('group_meetings.group_id', $idGroup)
+                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
+                                ->groupBy('id_assistant', 'month')->get();
+
+        $queryNewAssitantsPerMonth = Assistant::select(DB::raw('MONTH(assistants.created_at) as id_assistant'),
+                                DB::raw('MONTHNAME(assistants.created_at) as month'), 
+                                DB::raw('COUNT(*) as n'))
+                                ->join('meetings','meetings.id', '=','assistants.meeting_id')
+                                ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
+                                ->where('assistants.new_assistant', '=', 1)
+                                ->where('group_meetings.group_id', $idGroup)
+                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
+                                ->groupBy('id_assistant', 'month')->get();
+
+        if(!$queryAssitantsPerMonth->isEmpty()){
+            foreach ($queryAssitantsPerMonth as $query) {
+                $nAssitantsPerMonth[] = $query->n;
+                $monthAssitantsPerMonth[] = $query->month;
+            }
+        }else{
+            $nAssitantsPerMonth[] = "";
+            $monthAssitantsPerMonth[] = "";
+        }
+
+        if(!$queryNoAssitantsPerMonth->isEmpty()){
+            foreach ($queryNoAssitantsPerMonth as $query) {
+                $nNoAssitantsPerMonth[] = $query->n;
+                $monthNoAssitantsPerMonth[] = $query->month;
+            }
+        }else{
+            $nNoAssitantsPerMonth[] = "";
+            $monthNoAssitantsPerMonth[] = "";
+        }
+
+        if(!$queryNewAssitantsPerMonth->isEmpty()){
+            foreach ($queryNewAssitantsPerMonth as $query) {
+                $nNewAssitantsPerMonth[] = $query->n;
+                $monthNewAssitantsPerMonth[] = $query->month;
+            }
+        }else{
+            $nNewAssitantsPerMonth[] = "";
+            $monthNewAssitantsPerMonth[] = "";
+        }
+        
+        $assitantsPerMonth = new AssitantsPerMonth;
+        $assitantsPerMonth->labels($monthAssitantsPerMonth);
+        $assitantsPerMonth->height(300);
+        $assitantsPerMonth->dataset('Asistentes', 'bar', $nAssitantsPerMonth)
+            ->color('rgba(30, 60, 114, 0.8)')
+            ->backgroundcolor('rgba(30, 60, 114, 0.8)');
+        $assitantsPerMonth->dataset('No Asistentes', 'bar', $nNoAssitantsPerMonth)
+            ->color('rgba(255, 8, 68, 0.8)')
+            ->backgroundcolor('rgba(255, 8, 68, 0.8)');
+        $assitantsPerMonth->dataset('Nuevos Asistentes', 'bar', $nNewAssitantsPerMonth)
+            ->color('rgba(246, 211, 101, 1)')
+            ->backgroundcolor('rgba(246, 211, 101, 1)');
+
+        return $assitantsPerMonth;
+    }
+
+    public function assistantsPerMeetingFilterGroup($idGroup){
+
+        $queryAssitantsPerMeeting = Assistant::select('meetings.id', 
+                                'meetings.name',
+                                DB::raw('COUNT(*) as n'))
+                                ->join('meetings','meetings.id', '=','assistants.meeting_id')
+                                ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
+                                ->where('assistants.confirmation', '=', 1)
+                                ->where('group_meetings.group_id', $idGroup)
+                                ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
+                                ->groupBy('id', 'name')->get();
+
+        $queryNoAssitantsPerMeeting = Assistant::select('meetings.id', 
+                                'meetings.name',
+                                DB::raw('COUNT(*) as n'))
+                                ->join('meetings','meetings.id', '=','assistants.meeting_id')
+                                ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
+                                ->where('assistants.confirmation', '=', 0)
+                                ->where('group_meetings.group_id', $idGroup)
+                                ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
+                                ->groupBy('id', 'name')->get();
+
+        $queryNewAssitantsPerMeeting = Assistant::select('meetings.id', 
+                                'meetings.name',
+                                DB::raw('COUNT(*) as n'))
+                                ->join('meetings','meetings.id', '=','assistants.meeting_id')
+                                ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
+                                ->where('assistants.new_assistant', '=', 1)
+                                ->where('group_meetings.group_id', $idGroup)
+                                ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
+                                ->groupBy('id', 'name')->get();
+
+        if(!$queryAssitantsPerMeeting->isEmpty()){
+            foreach ($queryAssitantsPerMeeting as $query) {
+                $meetingNamePerMonth[] = $query->name;
+                $nAssitantsPerMeeting[] = $query->n;
+            }
+        }else{
+            $meetingNamePerMonth[] = "";
+            $nAssitantsPerMeeting[] = "";
+        }
+
+        if(!$queryNoAssitantsPerMeeting->isEmpty()){
+            foreach ($queryNoAssitantsPerMeeting as $query) {
+                $meetingNamePerMonth[] = $query->name;
+                $nNoAssitantsPerMeeting[] = $query->n;
+            }
+        }else{
+            $meetingNamePerMonth[] = "";
+            $nNoAssitantsPerMeeting[] = "";
+        }
+
+        if(!$queryNewAssitantsPerMeeting->isEmpty()){
+            foreach ($queryNewAssitantsPerMeeting as $query) {
+                $meetingNamePerMonth[] = $query->name;
+                $nNewAssitantsPerMeeting[] = $query->n;
+            }
+        }else{
+            $meetingNamePerMonth[] = "";
+            $nNewAssitantsPerMeeting[] = "";
+        }
+
+        $assistantsPerMeeting = new AssistantsPerMeeting;
+        $assistantsPerMeeting->labels($meetingNamePerMonth);
+        $assistantsPerMeeting->height(300);
+        $assistantsPerMeeting->dataset('Asistentes', 'bar', $nAssitantsPerMeeting)
+            ->color('rgba(30, 60, 114, 0.8)')
+            ->backgroundcolor('rgba(30, 60, 114, 0.8)');
+        $assistantsPerMeeting->dataset('No Asistentes', 'bar', $nNoAssitantsPerMeeting)
+            ->color('rgba(255, 8, 68, 0.8)')
+            ->backgroundcolor('rgba(255, 8, 68, 0.8)');
+        $assistantsPerMeeting->dataset('Nuevos Asistentes', 'bar', $nNewAssitantsPerMeeting)
+            ->color('rgba(246, 211, 101, 1)')
+            ->backgroundcolor('rgba(246, 211, 101, 1)');
+
+        return $assistantsPerMeeting;
     }
 }

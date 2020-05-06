@@ -75,23 +75,33 @@
     </ul>
 </li>
 
-@can('meetings')
-    <li class="{{ Request::is('meetings*') ? 'mm-active' : '' }}">
-        <a href="{{ route('meetings.index') }}">
-            <i class="metismenu-icon pe-7s-map-2"></i>
-            <span>@choice('functionalities.meetings', 2)</span>
-        </a>
-    </li>
-@endcan
+<li>
+    @can('meetings')
+            <a href="#">
+                <i class="metismenu-icon pe-7s-map-2"></i>
+                    @choice('functionalities.meetings', 2)
+                <i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+            </a>
+        @endcan
+    <ul>
+        @can('meetings')
+            <li class="{{ Request::is('meetings*') ? 'mm-active' : '' }}">
+                <a href="{{ route('meetings.index') }}">
+                    <i class="metismenu-icon pe-7s-map-2"></i>
+                    <span>@choice('functionalities.meetings', 2)</span>
+                </a>
+            </li>
+        @endcan
 
 
-@can('meeting_reports')
-    <li class="{{ Request::is('meetingReports*') ? 'mm-active' : '' }}">
-        <a href="{{ route('meetingReports.index') }}">
-            <i class="metismenu-icon pe-7s-note2"></i>
-            <span>@choice('functionalities.meeting_reports', 2)</span>
-        </a>
-    </li>
-@endcan
-
+        @can('meeting_reports')
+            <li class="{{ Request::is('meetingReports*') ? 'mm-active' : '' }}">
+                <a href="{{ route('meetingReports.index') }}">
+                    <i class="metismenu-icon pe-7s-note2"></i>
+                    <span>@choice('functionalities.meeting_reports', 2)</span>
+                </a>
+            </li>
+        @endcan
+    </ul>
+</li>
 

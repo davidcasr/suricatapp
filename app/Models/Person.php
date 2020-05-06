@@ -43,7 +43,8 @@ class Person extends Model implements AuditableContract
         'city',
         'country',
         'phone',
-        'photo'
+        'photo',
+        'status'
     ];
 
     /**
@@ -63,7 +64,8 @@ class Person extends Model implements AuditableContract
         'city' => 'string',
         'country' => 'integer',
         'phone' => 'string',
-        'photo' => 'string'
+        'photo' => 'string',
+        'status' => 'integer'
     ];
 
     /**
@@ -82,7 +84,8 @@ class Person extends Model implements AuditableContract
         'city' => 'nullable',
         'country' => 'required',
         'phone' => 'nullable',
-        'photo' => 'nullable'
+        'photo' => 'nullable',
+        'status' => 'nullable'
     ];
 
     public function getFullNameAttribute()
@@ -102,12 +105,12 @@ class Person extends Model implements AuditableContract
 
     public function groups()
     {
-        return $this->belongsToMany(Group::class, 'community_people');
+        return $this->belongsToMany(Group::class, 'community_people', 'person_id', 'group_id');
     }
 
     public function profiles()
     {
-        return $this->belongsToMany(Profile::class, 'community_people');
+        return $this->belongsToMany(Profile::class, 'community_people', 'person_id', 'profile_id');
     }
 
     public function meetings()

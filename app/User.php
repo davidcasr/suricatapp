@@ -24,7 +24,8 @@ class User extends Authenticatable
         'username', 
         'email', 
         'password',
-        'phone'
+        'phone',
+        'status'
     ];
 
     /**
@@ -57,7 +58,8 @@ class User extends Authenticatable
         'username' => 'required|string|max:255', 
         'email' => 'required|string|email|max:255|unique:users', 
         'password' => 'required|string|min:8|confirmed',
-        'phone' => 'nullable|string|max:100'
+        'phone' => 'nullable|string|max:100',
+        'status' => 'required|integer'
     ];
 
     public function sendPasswordResetNotification($token)

@@ -2,6 +2,7 @@
     <table class="table" id="people-table">
         <thead>
             <tr>
+                <th></th>
                 <th>{{ __('functionalities.people_var.identification') }}</th>
                 <th>{{ __('functionalities.people_var.fullname') }}</th>
                 <th>{{ __('functionalities.people_var.email') }}</th>
@@ -16,6 +17,17 @@
         <tbody>
         @foreach($people as $person)
             <tr>
+                <td>
+                    @if ($person->status == 0)
+                        <span style="color: blue;">
+                            <i class="fas fa-user-plus"></i>
+                        </span>
+                    @elseif($person->status == 1)
+                        <span style="color: green;">
+                            <i class="fas fa-user-check"></i>
+                        </span>
+                    @endif
+                </td>
                 <td>{{ $person->identification }}</td>
                 <td>{{ $person->fullname }}</td>
                 <td>{{ $person->email }}</td>
@@ -30,7 +42,7 @@
                 <td>
                     {!! Form::open(['route' => ['people.destroy', $person->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('people.show', [$person->id]) }}" class='btn btn-info btn-xs'><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('people.show', [$person->id]) }}" class='btn btn-info btn-xs'><i class="fas fa-search"></i></a>
                         <a href="{{ route('people.edit', [$person->id]) }}" class='btn btn-light btn-xs'><i class="fas fa-edit"></i></a>
                         {!! Form::button('<i class="fas fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Está seguro?')"]) !!}
                     </div>

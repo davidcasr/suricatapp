@@ -73,32 +73,6 @@
                     @endforeach
                 </td>
             </tr>
-            <!-- groups Field -->
-            <tr>
-                <td><b>{!! Form::label('groups', trans_choice('functionalities.groups', 2)) !!}</b></td>
-                <td>
-                    @if($groups != null)
-                        
-                        @foreach($groups as $group)
-                            <span class="badge badge-info">{{ $group->name }}</span>
-                        @endforeach
-                        
-                    @endif
-                </td>
-            </tr>
-            <!-- profiles Field -->
-            <tr>
-                <td><b>{!! Form::label('profiles', trans_choice('functionalities.profiles', 2)) !!}</b></td>
-                <td>
-                    @if($profiles != null)
-                        
-                        @foreach($profiles as $profile)
-                            <span class="badge badge-info">{{ $profile->name }}</span>
-                        @endforeach
-                        
-                    @endif
-                </td>
-            </tr>
             <!-- Created At Field -->
             <tr>
                 <td><b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b></td>

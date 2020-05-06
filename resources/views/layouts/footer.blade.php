@@ -5,7 +5,7 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <span class="nav-link">
-                            Suricatapp <span>&copy; 2020 Resevados todos los derechos</span>
+                            <small>Suricatapp <span>&copy; 2020 Resevados todos los derechos</span></small>
                         </span>
                     </li>
                     

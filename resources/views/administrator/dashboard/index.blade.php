@@ -11,7 +11,7 @@
 	                    <div class="widget-subheading">Registradas</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>{{ $communities }}</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $statisticsInLine['communities'] }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -24,7 +24,7 @@
 	                    <div class="widget-subheading">Registradas</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>{{ $people }}</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $statisticsInLine['people'] }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -37,7 +37,7 @@
 	                    <div class="widget-subheading">Registrados</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>{{ $groups }}</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $statisticsInLine['groups'] }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -50,7 +50,7 @@
 	                    <div class="widget-subheading">Registradas</div>
 	                </div>
 	                <div class="widget-content-right">
-	                    <div class="widget-numbers text-white"><span>{{ $meetings }}</span></div>
+	                    <div class="widget-numbers text-white"><span>{{ $statisticsInLine['meetings'] }}</span></div>
 	                </div>
 	            </div>
 	        </div>
@@ -63,7 +63,7 @@
                 <div class="card-header-tab card-header-tab-animation card-header">
                     <div class="card-header-title">
                         <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-                        Usuarios por mes
+                        Personas por mes
                     </div>
                 </div>
                 <div class="card-body">

@@ -11,6 +11,7 @@ use Flash;
 use Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Meeting;
+use App\User;
 
 class MeetingReportController extends AppBaseController
 {
@@ -69,7 +70,7 @@ class MeetingReportController extends AppBaseController
      */
     public function create()
     {
-        $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('fullMeeting', 'id');
+        $meetings = Meeting::where('user_id', Auth::id())->get()->pluck('fullMeeting', 'id');
 
         return view('meeting_reports.create', compact('meetings'));
     }
@@ -102,9 +103,18 @@ class MeetingReportController extends AppBaseController
      */
     public function show($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }  
+
         $meeting_reports = $this->meetingReportRepository
             ->makeModel()
-            ->qMeetingReport(Auth::id());
+            ->qMeetingReport($user_id);
 
         if ($meeting_reports > 0){
             $meetingReport = $this->meetingReportRepository->find($id);
@@ -130,9 +140,18 @@ class MeetingReportController extends AppBaseController
      */
     public function edit($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }  
+
         $meeting_reports = $this->meetingReportRepository
             ->makeModel()
-            ->qMeetingReport(Auth::id());
+            ->qMeetingReport($user_id);
 
         if ($meeting_reports > 0){
             $meetingReport = $this->meetingReportRepository->find($id);
@@ -140,7 +159,7 @@ class MeetingReportController extends AppBaseController
             abort(401);
         }
 
-        $meetings = Meeting::meetingsPerCommunity(Auth::id())->pluck('name', 'id');
+        $meetings = Meeting::where('user_id', Auth::id())->get()->pluck('fullMeeting', 'id');
 
         if (empty($meetingReport)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meeting_reports', 1)]));
@@ -161,9 +180,18 @@ class MeetingReportController extends AppBaseController
      */
     public function update($id, UpdateMeetingReportRequest $request)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        } 
+
         $meeting_reports = $this->meetingReportRepository
             ->makeModel()
-            ->qMeetingReport(Auth::id());
+            ->qMeetingReport($user_id);
 
         if ($meeting_reports > 0){
             $meetingReport = $this->meetingReportRepository->find($id);
@@ -195,9 +223,18 @@ class MeetingReportController extends AppBaseController
      */
     public function destroy($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        } 
+
         $meeting_reports = $this->meetingReportRepository
             ->makeModel()
-            ->qMeetingReport(Auth::id());
+            ->qMeetingReport($user_id);
 
         if ($meeting_reports > 0){
             $meetingReport = $this->meetingReportRepository->find($id);

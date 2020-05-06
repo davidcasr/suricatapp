@@ -31,7 +31,13 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::resource('meetingReports', 'MeetingReportController')->middleware('can:meeting_reports');
 	Route::resource('assistants', 'AssistantController')->middleware('can:assistants');
 	Route::resource('account', 'AccountController')->middleware('can:account');
-	Route::resource('associatedUsers', 'AssociatedUsersController')->middleware('can:associated_users');	
+	Route::resource('associatedUsers', 'AssociatedUsersController')->middleware('can:associated_users');
+	Route::resource('guests', 'GuestController')
+		->only(['create', 'store'])
+		->middleware('can:guests');
+	Route::resource('communityPeople', 'CommunityPeopleController')
+		->only(['create', 'store', 'destroy'])
+		->middleware('can:people');
 
 	Route::group(['middleware' => 'can:super_all'], function () {
         // Features for the administrator 

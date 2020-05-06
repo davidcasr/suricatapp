@@ -18,6 +18,7 @@ class CreateAssistantsTable extends Migration
             $table->integer('meeting_id')->unsigned();
             $table->integer('person_id')->unsigned();
             $table->integer('confirmation')->default(0);
+            $table->integer('new_assistant')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });

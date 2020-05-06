@@ -28,7 +28,8 @@ class Assistant extends Model implements AuditableContract
     public $fillable = [
         'person_id',
         'meeting_id',
-        'confirmation'
+        'confirmation',
+        'new_assistant'
     ];
 
     /**
@@ -40,7 +41,8 @@ class Assistant extends Model implements AuditableContract
         'id' => 'integer',
         'person_id' => 'integer',
         'meeting_id' => 'integer',
-        'confirmation' => 'integer'
+        'confirmation' => 'integer',
+        'new_assistant' => 'integer'
     ];
 
     /**
@@ -51,7 +53,8 @@ class Assistant extends Model implements AuditableContract
     public static $rules = [
         'person_id' => 'required',
         'meeting_id' => 'required',
-        'confirmation' => 'required'
+        'confirmation' => 'required',
+        'new_assistant' => 'nullable'
     ];
 
     public function people()

@@ -27,7 +27,7 @@
                 <td>
                     {!! Form::open(['route' => ['abilities.destroy', $ability->id], 'method' => 'delete']) !!}
                     <div class='btn-group'>
-                        <a href="{{ route('abilities.show', [$ability->id]) }}" class='btn btn-info btn-xs'><i class="fas fa-eye"></i></a>
+                        <a href="{{ route('abilities.show', [$ability->id]) }}" class='btn btn-info btn-xs'><i class="fas fa-search"></i></a>
                         <a href="{{ route('abilities.edit', [$ability->id]) }}" class='btn btn-light btn-xs'><i class="fas fa-edit"></i></a>
                         {!! Form::button('<i class="fas fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Está seguro?')"]) !!}
                     </div>

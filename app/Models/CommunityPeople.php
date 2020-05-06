@@ -22,6 +22,7 @@ class CommunityPeople extends Model implements AuditableContract
     use Auditable;
 
     public $table = 'community_people';
+    public $timestamps = false;
 
     public $fillable = [
         'community_id',
@@ -63,6 +64,16 @@ class CommunityPeople extends Model implements AuditableContract
     public function people()
     {
         return $this->hasMany(Person::class);
+    }
+
+    public function groups()
+    {
+        return $this->hasMany(Group::class, 'id', 'group_id');
+    }
+
+    public function profiles()
+    {
+        return $this->hasMany(Profile::class, 'id', 'profile_id');
     }
 
     public function scopeQCommunityPeople($query, $user_id)

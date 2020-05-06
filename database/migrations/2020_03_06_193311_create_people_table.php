@@ -26,6 +26,7 @@ class CreatePeopleTable extends Migration
             $table->integer('country')->unsigned();
             $table->string('phone')->nullable();
             $table->string('photo')->nullable();
+            $table->integer('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
         });

@@ -12,11 +12,17 @@
     </div>
 
     <div class="row">
+        @include('meetings.statistics_assistants')
+    </div>
+
+    <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">
                 <div class="card-header">{{  __('functionalities.assistants_var.guests') }}
                     <div class="btn-actions-pane-right">
-
+                        <div role="group" class="btn-group-sm btn-group">
+                            <a class="btn btn-primary" href="{{ route('guests.create',  ['meeting' => $meeting->id]) }}">{{ __('functionalities.create') }} Nuevo @choice('functionalities.assistants', 1) </a>  
+                        </div>
                     </div>
                 </div>
 

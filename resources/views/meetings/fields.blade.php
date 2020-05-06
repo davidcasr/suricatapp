@@ -82,8 +82,15 @@
 
 <!-- Assistants Field -->
 <div class="form-group col-sm-12">
-    {!! Form::label('people', 'Invitados') !!}
+    {!! Form::label('people', 'Invitados (Individual)') !!}
     {!! Form::select('people[]', $people, null, ['class' => 'form-control','multiple' => 'multiple', 'id' => 'people']) !!} 
+</div>
+
+<!-- AssistantsPerGroups Field -->
+<div class="form-group col-sm-12">
+    {!! Form::label('groups', 'Invitados (Por grupos)') !!}
+    {!! Form::select('groups[]', $groups, null, ['class' => 'form-control','multiple' => 'multiple', 'id' => 'groups']) !!} 
+    <small><b>Al incluir un grupo invitarás a todas las personas que pertenezcan a este </b></small>
 </div>
 
 <!-- Submit Field -->
@@ -104,6 +111,12 @@
            $('#people').select2({
                width: '100%',
            });
-        });      
+        });
+
+        $(document).ready(function () {
+           $('#groups').select2({
+               width: '100%',
+           });
+        });        
     </script>
 @endsection

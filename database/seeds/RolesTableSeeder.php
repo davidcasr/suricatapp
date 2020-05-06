@@ -28,6 +28,7 @@ class RolesTableSeeder extends Seeder
         Bouncer::allow('admin')->to('assistants');
         Bouncer::allow('admin')->to('account');
         Bouncer::allow('admin')->to('associated_users');
+        Bouncer::allow('admin')->to('guests');
 
         Bouncer::allow('supervisor')->to('dashboard');
         Bouncer::allow('supervisor')->to('communities');
@@ -40,10 +41,13 @@ class RolesTableSeeder extends Seeder
         Bouncer::allow('supervisor')->to('assistants');
         Bouncer::allow('supervisor')->to('account');
         Bouncer::allow('supervisor')->to('associated_users');
+        Bouncer::allow('supervisor')->to('guests');
 
-        Bouncer::allow('reports')->to('meeting');
+        Bouncer::allow('reports')->to('dashboard');
+        Bouncer::allow('reports')->to('meetings');
         Bouncer::allow('reports')->to('meeting_reports');
         Bouncer::allow('reports')->to('account');
+        Bouncer::allow('reports')->to('guests');
 
         Bouncer::allow('mobile')->to('mobile_all');
     }

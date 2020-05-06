@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Community;
 use App\Models\Person;
 use App\Models\Assistant;
+use App\Models\Group;
+use App\Models\CommunityPeople;
+use App\User;
 
 class MeetingController extends AppBaseController
 {
@@ -68,10 +71,20 @@ class MeetingController extends AppBaseController
      */
     public function create()
     {
-        $communities = Community::communities(Auth::id())->pluck('name','id');
-        $people = Person::peoplePerCommunity(Auth::id())->pluck('fullName','id');
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }  
 
-        return view('meetings.create', compact('communities', 'people'));
+        $communities = Community::communities($user_id)->pluck('name','id');
+        $people = Person::peoplePerCommunity($user_id)->pluck('fullName','id');
+        $groups = Group::groupsByUser($user_id)->pluck('name', 'id');
+
+        return view('meetings.create', compact('communities', 'people', 'groups'));
     }
 
     /**
@@ -89,6 +102,17 @@ class MeetingController extends AppBaseController
         $meeting = $this->meetingRepository->create($input);
         $meeting->communities()->attach($request->communities);
         $meeting->people()->attach($request->people);
+        $meeting->groups()->attach($request->groups);
+
+        if(isset($request->groups)){
+            foreach($request->communities as $community){
+               foreach($request->groups as $id){
+                    $community_people = CommunityPeople::where('community_id', $community)
+                        ->where('group_id', $id)->get()->pluck('person_id');
+                    $meeting->people()->attach($community_people);
+                } 
+            }
+        }
 
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.meetings', 1)]));
 
@@ -104,9 +128,19 @@ class MeetingController extends AppBaseController
      */
     public function show($id)
     {
+
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }  
+
         $meetings = $this->meetingRepository
             ->makeModel()
-            ->qMeeting(Auth::id());
+            ->qMeeting($user_id);
 
         if ($meetings > 0){
             $meeting = $this->meetingRepository->find($id);
@@ -114,6 +148,16 @@ class MeetingController extends AppBaseController
                     ->join('people', 'assistants.person_id', '=', 'people.id')
                     ->select(['assistants.id', 'assistants.meeting_id', 'assistants.person_id', 'assistants.confirmation', 'people.first_name', 'people.last_name', 'people.email', 'people.phone'])
                     ->paginate(config('global.per_page'));
+
+            $statistics_assitants = Assistant::where('meeting_id', $id)
+                    ->where('confirmation', 1)
+                    ->count();        
+            $statistics_new_assitants = Assistant::where('meeting_id', $id)
+                    ->where('new_assistant', 1)
+                    ->count();
+            $statistics_no_assitants = Assistant::where('meeting_id', $id)
+                    ->where('confirmation', 0)
+                    ->count();
 
         }else{
             abort(401);
@@ -125,7 +169,7 @@ class MeetingController extends AppBaseController
             return redirect(route('meetings.index'));
         }
 
-        return view('meetings.show', compact('meeting', 'assistants'));
+        return view('meetings.show', compact('meeting', 'assistants', 'statistics_assitants', 'statistics_new_assitants', 'statistics_no_assitants'));
     }
 
     /**
@@ -137,6 +181,15 @@ class MeetingController extends AppBaseController
      */
     public function edit($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }  
+
         $meetings = $this->meetingRepository
             ->makeModel()
             ->qMeeting(Auth::id());
@@ -147,8 +200,9 @@ class MeetingController extends AppBaseController
             abort(401);
         }
 
-        $communities = Community::communities(Auth::id())->pluck('name','id');
-        $people = Person::peoplePerCommunity(Auth::id())->pluck('fullName','id');
+        $communities = Community::communities($user_id)->pluck('name','id');
+        $people = Person::peoplePerCommunity($user_id)->pluck('fullName','id');
+        $groups = Group::groupsByUser($user_id)->pluck('name', 'id');
 
         if (empty($meeting)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.meetings', 1)]));
@@ -156,7 +210,7 @@ class MeetingController extends AppBaseController
             return redirect(route('meetings.index'));
         }
 
-        return view('meetings.edit', compact('meeting', 'communities', 'people'));
+        return view('meetings.edit', compact('meeting', 'communities', 'people', 'groups'));
     }
 
     /**
@@ -169,9 +223,18 @@ class MeetingController extends AppBaseController
      */
     public function update($id, UpdateMeetingRequest $request)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }  
+
         $meetings = $this->meetingRepository
             ->makeModel()
-            ->qMeeting(Auth::id());
+            ->qMeeting($user_id);
 
         if ($meetings > 0){
             $meeting = $this->meetingRepository->find($id);
@@ -189,9 +252,11 @@ class MeetingController extends AppBaseController
 
         $meeting->communities()->detach($request->communities);
         $meeting->people()->detach($request->people);
+        $meeting->groups()->detach($request->groups);
 
         $meeting->communities()->attach($request->communities);
         $meeting->people()->attach($request->people);
+        $meeting->groups()->attach($request->groups);
 
         Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.meetings', 1)]));
 
@@ -209,9 +274,18 @@ class MeetingController extends AppBaseController
      */
     public function destroy($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        } 
+
         $meetings = $this->meetingRepository
             ->makeModel()
-            ->qMeeting(Auth::id());
+            ->qMeeting($user_id);
 
         if ($meetings > 0){
             $meeting = $this->meetingRepository->find($id);

@@ -19,12 +19,12 @@ class DatabaseSeeder extends Seeder
         $this->call(PlansTableSeeder::class);
         
         // Dummy Data 
-        $this->call(UsersDummyTableSeeder::class);
-        $this->call(PlanUsersDummyTableSeeder::class);
-        $this->call(CommunitiesDummyTableSeeder::class);
-        $this->call(FeaturesDummyTableSeeder::class);
-        $this->call(GroupsDummyTableSeeder::class);
-        $this->call(ProfilesDummyTableSeeder::class);
-        $this->call(PeopleDummyTableSeeder::class);
+        // $this->call(UsersDummyTableSeeder::class);
+        // $this->call(PlanUsersDummyTableSeeder::class);
+        // $this->call(CommunitiesDummyTableSeeder::class);
+        // $this->call(FeaturesDummyTableSeeder::class);
+        // $this->call(GroupsDummyTableSeeder::class);
+        // $this->call(ProfilesDummyTableSeeder::class);
+        // $this->call(PeopleDummyTableSeeder::class);
     }
 }

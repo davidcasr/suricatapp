@@ -48,6 +48,7 @@ class RolesTableSeeder extends Seeder
         Bouncer::allow('reports')->to('meeting_reports');
         Bouncer::allow('reports')->to('account');
         Bouncer::allow('reports')->to('guests');
+        Bouncer::allow('reports')->to('assistants');
 
         Bouncer::allow('mobile')->to('mobile_all');
     }

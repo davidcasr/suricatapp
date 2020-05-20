@@ -37,7 +37,16 @@ class GuestController extends AppBaseController
      */
     public function create(Request $request)
     {
-        $communities_auth = Community::communities(Auth::id());
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }
+
+        $communities_auth = Community::communities($user_id);
         
         if($communities_auth->count() > 0){
 
@@ -91,6 +100,13 @@ class GuestController extends AppBaseController
 
         $person = $this->personRepository->create($input);
         $person->communities()->attach($request->communities);
+
+        for($i = 0; $i < count($request->communities); $i++){
+            $person->features()->attach($request->features, 
+                [
+                    'community_id' => $request->communities[$i]
+                ]); 
+        }  
 
         $meeting = Meeting::findOrFail($request->meeting_id);
         $meeting->people()->attach($person->id, ['new_assistant' => 1]);

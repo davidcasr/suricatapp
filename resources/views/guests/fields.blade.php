@@ -86,27 +86,11 @@
     </div>
 --}}
 
-{{--
 <!-- features Field -->
 <div class="form-group col-sm-12">
     {!! Form::label('features', trans_choice('functionalities.features', 2)) !!}
     {!! Form::select('features[]', $features, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'features']) !!}
 </div>
-
-<!-- groups Field -->
-<div class="form-group col-sm-12">
-    {!! Form::label('groups', trans_choice('functionalities.groups', 2)) !!}
-    {!! Form::select('groups[]', $groups, null, ['class' => 'form-control', 'multiple' => 'multiple', 'id' => 'groups']) !!}
-</div>
-
-@if($profiles != null)
-    <!-- profiles Field -->
-    <div class="form-group col-sm-12">
-        {!! Form::label('profiles', trans_choice('functionalities.profiles', 1)) !!}
-        {!! Form::select('profiles', $profiles, null, ['class' => 'form-control', 'id' => 'profiles', 'placeholder' => 'Seleccione un perfil']) !!}
-    </div>
-@endif
---}}
 
 {!! Form::hidden('meeting_id', $meeting_id) !!}
 

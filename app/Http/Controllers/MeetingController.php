@@ -192,7 +192,7 @@ class MeetingController extends AppBaseController
 
         $meetings = $this->meetingRepository
             ->makeModel()
-            ->qMeeting(Auth::id());
+            ->qMeeting($user_id);
 
         if ($meetings > 0){
             $meeting = $this->meetingRepository->find($id);

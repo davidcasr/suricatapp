@@ -12,6 +12,7 @@ use Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Person;
 use App\Models\Meeting;
+use App\User;
 
 class AssistantController extends AppBaseController
 {
@@ -105,9 +106,18 @@ class AssistantController extends AppBaseController
      */
     public function show($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }
+
         $assitants = $this->assistantRepository
             ->makeModel()
-            ->qAssitant(Auth::id());
+            ->qAssitant($user_id);
 
         if ($assitants > 0){
             $assistant = $this->assistantRepository->find($id);
@@ -133,9 +143,18 @@ class AssistantController extends AppBaseController
      */
     public function edit($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }
+
         $assitants = $this->assistantRepository
             ->makeModel()
-            ->qAssitant(Auth::id());
+            ->qAssitant($user_id);
 
         if ($assitants > 0){
             $assistant = $this->assistantRepository->find($id);
@@ -165,9 +184,18 @@ class AssistantController extends AppBaseController
      */
     public function update($id, UpdateAssistantRequest $request)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }
+
         $assitants = $this->assistantRepository
             ->makeModel()
-            ->qAssitant(Auth::id());
+            ->qAssitant($user_id);
 
         if ($assitants > 0){
             $assistant = $this->assistantRepository->find($id);

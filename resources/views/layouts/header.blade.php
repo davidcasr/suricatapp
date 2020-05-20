@@ -39,8 +39,15 @@
                     <div class="widget-content-wrapper">
                         <div class="widget-content-left">
                             <div class="btn-group">
+                                <a href="#" class="p-0 btn">
+                                    <img width="32" src="{{ asset('images/global.png') }}" alt="">
+                                    <span class="badge badge-pill badge-danger">1</span>
+                                </a>
+                            </div>
+
+                            <div class="btn-group">
                                 <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
-                                    <img width="42" class="rounded-circle" src="{{ asset('images/default-ranger.png') }}" alt="">
+                                    <img width="32" class="rounded-circle" src="{{ asset('images/default-ranger.png') }}" alt="">
                                     <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                 </a>
                                 <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">

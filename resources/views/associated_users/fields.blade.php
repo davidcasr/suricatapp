@@ -44,7 +44,7 @@
         <br>
         {!! Form::select('roles', $roles, old('roles') ? old('role') : $user->roles()->pluck('name', 'name'), ['class' => 'form-control', 'required' => 'required']) !!}
     @else
-        {!! Form::select('roles', array('supervisor' => 'Supervisor', 'reports' => 'Reportes'), null, ['class' => 'form-control', 'required' => 'required']) !!}
+        {!! Form::select('roles', array('supervisor' => 'Supervisor', 'group_leader' => 'Líder de grupo'), null, ['class' => 'form-control', 'required' => 'required']) !!}
     @endif
 </div>
 

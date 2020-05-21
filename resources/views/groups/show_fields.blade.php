@@ -34,6 +34,11 @@
                     @endforeach
                 </td>
             </tr>
+            <!-- User_id Field -->
+            <tr>
+                <td><b>{!! Form::label('user_id', __('functionalities.groups_var.user_id')) !!}</b></td>
+                <td>{!! $group->user_id !!}</td>
+            </tr>
             <!-- Created At Field -->
             <tr>
                 <td><b>{!! Form::label('created_at', __('functionalities.created_at')) !!}</b></td>

@@ -20,7 +20,7 @@
     </div>
 </div>
 
-@if(Bouncer::is($user)->a('super') || Bouncer::is($user)->a('admin')  || Bouncer::is($user)->a('supervisor') || Bouncer::is($user)->a('reports'))
+@if(Bouncer::is($user)->a('super') || Bouncer::is($user)->a('admin')  || Bouncer::is($user)->a('supervisor') || Bouncer::is($user)->a('group_leader'))
     <div class="row">
         <div class="col-md-12">
             <div class="main-card mb-3 card">

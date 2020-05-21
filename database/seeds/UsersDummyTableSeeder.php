@@ -45,13 +45,13 @@ class UsersDummyTableSeeder extends Seeder
 
         $user = User::create([
             'parent_id'      => 3,
-            'first_name'     => 'Reports',
-            'username'       => 'reports',
-            'email'          => 'reports@test.com',
+            'first_name'     => 'Líder de grupo',
+            'username'       => 'group_leader',
+            'email'          => 'group_leader@test.com',
             'password'       => '123456',
             'remember_token' => str_random(60),
         ]);
 
-        $user->assign('reports');
+        $user->assign('group_leader');
     }
 }

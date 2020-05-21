@@ -15,6 +15,7 @@ use App\Charts\PeoplePerMonth;
 use App\Charts\MeetingsPerMonth;
 use App\Charts\AssitantsPerMonth;
 use App\Charts\AssistantsPerMeeting;
+use App\User;
 
 class DashboardController extends Controller
 {
@@ -43,14 +44,14 @@ class DashboardController extends Controller
 
     public function statisticsInLine(){
         $communities = Community::join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::id())
+            ->where('community_users.user_id', $this->user_review())
             ->get()
             ->count();
         
         $people = Person::join('community_people','community_people.person_id', '=','people.id')
             ->join('communities', 'community_people.community_id', '=', 'communities.id')
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::id())
+            ->where('community_users.user_id', $this->user_review())
             ->distinct()
             ->select('people.*')
             ->get()
@@ -59,14 +60,14 @@ class DashboardController extends Controller
         $groups = Group::join('community_groups','community_groups.group_id', '=','groups.id')
             ->join('communities', 'community_groups.community_id', '=', 'communities.id')
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::id())
+            ->where('community_users.user_id', $this->user_review())
             ->get()
             ->count();
             
         $meetings = Meeting::join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
             ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
             ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::user()->id)
+            ->where('community_users.user_id', $this->user_review())
             ->get()
             ->count();
 
@@ -80,7 +81,7 @@ class DashboardController extends Controller
                                 ->join('community_people','community_people.person_id', '=','people.id')
                                 ->join('communities', 'community_people.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-                                ->where('community_users.user_id', Auth::user()->id)
+                                ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('people.created_at', Carbon::now()->format('Y')) 
                                 ->groupBy('id_month', 'month')->get();
 
@@ -111,7 +112,7 @@ class DashboardController extends Controller
                                 ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-                                ->where('community_users.user_id', Auth::user()->id)
+                                ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                         
                                 ->groupBy('id_meeting', 'month')->get();
 
@@ -144,7 +145,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.confirmation', '=', 1)
-                                ->where('community_users.user_id', Auth::user()->id)
+                                ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
@@ -156,7 +157,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.confirmation', '=', 0)
-                                ->where('community_users.user_id', Auth::user()->id)
+                                ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
@@ -168,7 +169,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.new_assistant', '=', 1)
-                                ->where('community_users.user_id', Auth::user()->id)
+                                ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
@@ -228,7 +229,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.confirmation', '=', 1)
-                                ->where('community_users.user_id', Auth::user()->id)
+                                ->where('community_users.user_id', $this->user_review())
                                 ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
@@ -240,7 +241,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.confirmation', '=', 0)
-                                ->where('community_users.user_id', Auth::user()->id)
+                                ->where('community_users.user_id', $this->user_review())
                                 ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
@@ -252,7 +253,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.new_assistant', '=', 1)
-                                ->where('community_users.user_id', Auth::user()->id)
+                                ->where('community_users.user_id', $this->user_review())
                                 ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
@@ -300,5 +301,19 @@ class DashboardController extends Controller
             ->backgroundcolor('rgba(246, 211, 101, 1)');
 
         return $assistantsPerMeeting;
+    }
+
+    public function user_review(){
+
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }  
+
+        return $user_id;
     }
 }

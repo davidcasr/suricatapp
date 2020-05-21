@@ -13,7 +13,9 @@ class CreateMeetingsRelationship extends Migration
      */
     public function up()
     {
-        
+        Schema::table('meetings', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 
     /**
@@ -22,7 +24,9 @@ class CreateMeetingsRelationship extends Migration
      * @return void
      */
     public function down()
-    {
-        
+    {  
+        Schema::table('meetings', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });        
     }
 }

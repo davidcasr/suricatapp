@@ -60,24 +60,25 @@
 	<div class="row">
         <div class="col-md-12 col-lg-6">
             <div class="mb-3 card">
-                <div class="card-header-tab card-header-tab-animation card-header">
-                    <div class="card-header-title">
-                        <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+                    <div class="card-header">
                         {{ __('functionalities.dashboard_var.peoplePerMonth') }}
                     </div>
-                </div>
                 <div class="card-body">
                     {{ $peoplePerMonth->container() }}
                 </div>
             </div>
 
             <div class="mb-3 card">
-                <div class="card-header-tab card-header-tab-animation card-header">
-                    <div class="card-header-title">
-                        <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+                    <div class="card-header">
+                        
                         {{ __('functionalities.dashboard_var.assitantsPerMonth') }}
+                        <div class="btn-actions-pane-right">
+                            <div role="group" class="btn-group-sm btn-group">
+                                <a href="{{ url('dashboard/detail/assitantsPerMonth') }}" class="btn btn-info">Detalle</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                
                 <div class="card-body">
                     {{ $assitantsPerMonth->container() }}
                 </div>
@@ -86,24 +87,24 @@
 
         <div class="col-md-12 col-lg-6">
             <div class="mb-3 card">
-                <div class="card-header-tab card-header-tab-animation card-header">
-                    <div class="card-header-title">
-                        <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
-                        {{ __('functionalities.dashboard_var.meetingsPerMonth') }}                        
+                    <div class="card-header">
+                        {{ __('functionalities.dashboard_var.meetingsPerMonth') }}                     
                     </div>
-                </div>
                 <div class="card-body">
                 	{{ $meetingsPerMonth->container() }}
                 </div>
             </div>
 
-            <div class="mb-3 card">
-                <div class="card-header-tab card-header-tab-animation card-header">
-                    <div class="card-header-title">
-                        <i class="header-icon lnr-apartment icon-gradient bg-love-kiss"> </i>
+            <div class="main-card mb-3 card">
+                    <div class="card-header">
                         {{ __('functionalities.dashboard_var.assistantsPerMeeting') }}  [Mes {{ \Carbon\Carbon::now()->format('m') }}]
+                        <div class="btn-actions-pane-right">
+                            <div role="group" class="btn-group-sm btn-group">
+                                <a href="{{ url('dashboard/detail/assistantsPerMeeting') }}" class="btn btn-info">Detalle</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                
                 <div class="card-body">
                     {{ $assistantsPerMeeting->container() }}
                 </div>

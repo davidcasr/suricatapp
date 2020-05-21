@@ -20,6 +20,8 @@ use App\Models\Meeting;
 use App\Models\Assistant;
 use App\Charts\AssitantsPerMonth;
 use App\Charts\AssistantsPerMeeting;
+use App\User;
+use Bouncer;
 
 class GroupController extends AppBaseController
 {
@@ -42,30 +44,55 @@ class GroupController extends AppBaseController
     {
         $keyword = $request->get('search');
 
-        if (!empty($keyword)) {
-            $groups = $this->groupRepository
-            ->makeModel()
-            ->join('community_groups','community_groups.group_id', '=','groups.id')
-            ->join('communities', 'community_groups.community_id', '=', 'communities.id')
-            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::user()->id)
-            ->orWhere('groups.name', 'LIKE', '%$keyword%')
-            ->select('groups.*')
-            ->distinct()
-            ->paginate(config('global.per_page'));
+        if(Bouncer::is(Auth::user())->a('admin')){
+            $button_create = true;
+
+            if (!empty($keyword)) {
+                $groups = $this->groupRepository
+                ->makeModel()
+                ->join('community_groups','community_groups.group_id', '=','groups.id')
+                ->join('communities', 'community_groups.community_id', '=', 'communities.id')
+                ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+                ->where('community_users.user_id', Auth::user()->id)
+                ->orWhere('groups.name', 'LIKE', '%$keyword%')
+                ->select('groups.*')
+                ->distinct()
+                ->paginate(config('global.per_page'));
+            }else{
+                $groups = $this->groupRepository
+                ->makeModel()
+                ->join('community_groups','community_groups.group_id', '=','groups.id')
+                ->join('communities', 'community_groups.community_id', '=', 'communities.id')
+                ->join('community_users', 'community_users.community_id', '=', 'communities.id')
+                ->where('community_users.user_id', Auth::user()->id)
+                ->select('groups.*')
+                ->distinct()
+                ->paginate(config('global.per_page'));
+            }
         }else{
-            $groups = $this->groupRepository
-            ->makeModel()
-            ->join('community_groups','community_groups.group_id', '=','groups.id')
-            ->join('communities', 'community_groups.community_id', '=', 'communities.id')
-            ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-            ->where('community_users.user_id', Auth::user()->id)
-            ->select('groups.*')
-            ->distinct()
-            ->paginate(config('global.per_page'));
+            $button_create = false;
+
+            if (!empty($keyword)) {
+                $groups = $this->groupRepository
+                ->makeModel()
+                ->where('groups.user_id', Auth::user()->id)
+                ->orWhere('groups.name', 'LIKE', '%$keyword%')
+                ->select('groups.*')
+                ->distinct()
+                ->paginate(config('global.per_page'));
+            }else{
+                $groups = $this->groupRepository
+                ->makeModel()
+                ->where('groups.user_id', Auth::user()->id)
+                ->select('groups.*')
+                ->distinct()
+                ->paginate(config('global.per_page'));
+            }
         }
 
-        return view('groups.index', compact('groups'));
+        
+
+        return view('groups.index', compact('groups', 'button_create'));
     }
 
     /**
@@ -75,18 +102,31 @@ class GroupController extends AppBaseController
      */
     public function create(Request $request)
     {
+        $user = User::findOrfail(Auth::id());
+
+        if(is_null($user->parent_id))
+        {
+            $user_parent = User::where('id', Auth::id());
+            $users = User::where('parent_id', Auth::id())->union($user_parent)->get()->pluck('email', 'id');
+        }else{
+            $user_parent = User::where('id', $user->parent_id);
+            $users = User::where('parent_id', $user->parent_id)->union($user_parent)->get()->pluck('email', 'id');
+        }         
+
         if(!$request->subgroup){
             $communities = Community::communities(Auth::id())->pluck('name','id');
-            return view('groups.create', compact('communities'));
+            $users = User::where('id', Auth::id())->get()->pluck('email', 'id');
+            return view('groups.create', compact('communities', 'users'));
         }else{
             $subgroup = $request->subgroup;
             $levels = Group::where('id', $request->subgroup)->select('level')->get();
+            $users = User::where('id', Auth::id())->get()->pluck('email', 'id');
 
             $communities = CommunityGroups::join('communities', 'community_groups.community_id', '=', 'communities.id')
                 ->where('community_groups.group_id', $request->subgroup)
                 ->pluck('communities.name','communities.id');
 
-            return view('groups.create', compact('subgroup', 'levels', 'communities'));
+            return view('groups.create', compact('subgroup', 'levels', 'communities', 'users'));
         }     
     }
 
@@ -118,9 +158,18 @@ class GroupController extends AppBaseController
      */
     public function show($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        } 
+
         $groups = $this->groupRepository
             ->makeModel()
-            ->qGroup(Auth::id());
+            ->qGroup($user_id);
 
         if ($groups > 0){
             $group = $this->groupRepository->find($id);
@@ -158,9 +207,18 @@ class GroupController extends AppBaseController
      */
     public function edit($id)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        } 
+
         $groups = $this->groupRepository
             ->makeModel()
-            ->qGroup(Auth::id());
+            ->qGroup($user_id);
 
         if ($groups > 0){
             $group = $this->groupRepository->find($id);
@@ -170,13 +228,24 @@ class GroupController extends AppBaseController
 
         $communities = Community::communities(Auth::id())->pluck('name','id');
 
+        $user = User::findOrfail(Auth::id());
+
+        if(is_null($user->parent_id))
+        {
+            $user_parent = User::where('id', Auth::id());
+            $users = User::where('parent_id', Auth::id())->union($user_parent)->get()->pluck('email', 'id');
+        }else{
+            $user_parent = User::where('id', $user->parent_id);
+            $users = User::where('parent_id', $user->parent_id)->union($user_parent)->get()->pluck('email', 'id');
+        }  
+
         if (empty($group)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.groups', 1)]));
 
             return redirect(route('groups.index'));
         }
 
-        return view('groups.edit', compact('group', 'communities'));
+        return view('groups.edit', compact('group', 'communities', 'users'));
     }
 
     /**
@@ -189,9 +258,18 @@ class GroupController extends AppBaseController
      */
     public function update($id, UpdateGroupRequest $request)
     {
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        } 
+
         $groups = $this->groupRepository
             ->makeModel()
-            ->qGroup(Auth::id());
+            ->qGroup($user_id);
 
         if ($groups > 0){
             $group = $this->groupRepository->find($id);

@@ -38,7 +38,7 @@ class MeetingController extends AppBaseController
     {
         $keyword = $request->get('search');
         
-        if(Auth::user()->isAn('reports')){
+        if(Auth::user()->isAn('group_leader')){
             $meetings = $this->meetingRepository
                 ->makeModel()
                 ->where('meetings.user_id', Auth::user()->id);

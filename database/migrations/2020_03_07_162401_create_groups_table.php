@@ -19,6 +19,7 @@ class CreateGroupsTable extends Migration
             $table->string('name');
             $table->text('description')->nullable();
             $table->integer('level');
+            $table->integer('user_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('parent_id')->references('id')->on('groups')->onDelete('cascade');

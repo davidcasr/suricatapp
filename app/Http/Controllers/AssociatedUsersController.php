@@ -116,7 +116,7 @@ class AssociatedUsersController extends Controller
     public function edit($id)
     {
         $user = $this->userRepository->find($id);
-        $roles = array('supervisor' => 'Supervisor', 'reports' => 'Reportes');
+        $roles = array('supervisor' => 'Supervisor', 'group_leader' => 'Líder de grupo');
 
         if (empty($user)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.users', 1)]));

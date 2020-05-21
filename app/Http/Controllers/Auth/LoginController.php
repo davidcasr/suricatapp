@@ -48,8 +48,8 @@ class LoginController extends Controller
             return RouteServiceProvider::HOME;
         }elseif(Auth::user()->isAn('supervisor')){
             return RouteServiceProvider::HOME;
-        }elseif(Auth::user()->isAn('reports')){
-            return RouteServiceProvider::HOME_REPORTS;
+        }elseif(Auth::user()->isAn('group_leader')){
+            return RouteServiceProvider::HOME_GROUP_LEADER;
         }
         
     }

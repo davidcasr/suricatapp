@@ -22,6 +22,7 @@ Auth::routes(['register' => false]);
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::resource('dashboard', 'DashboardController')->middleware('can:dashboard');
+	Route::get('dashboard/detail/{title}', 'DashboardDetailController@index')->middleware('can:dashboard');
 	Route::resource('communities', 'CommunityController')->middleware('can:communities');
 	Route::resource('people', 'PersonController')->middleware('can:people');
 	Route::resource('groups', 'GroupController')->middleware('can:groups');

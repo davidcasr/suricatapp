@@ -13,7 +13,9 @@ class CreateGroupsRelationship extends Migration
      */
     public function up()
     {
-        
+        Schema::table('groups', function (Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+        });
     }
 
     /**
@@ -23,6 +25,8 @@ class CreateGroupsRelationship extends Migration
      */
     public function down()
     {
-        
+        Schema::table('groups', function (Blueprint $table) {
+            $table->dropForeign(['user_id']);
+        });    
     }
 }

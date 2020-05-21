@@ -29,7 +29,8 @@ class Group extends Model implements AuditableContract
         'parent_id',
         'name',
         'description',
-        'level'
+        'level',
+        'user_id'
     ];
 
     /**
@@ -43,6 +44,7 @@ class Group extends Model implements AuditableContract
         'name' => 'string',
         'description' => 'string',
         'level' => 'integer',
+        'user_id' => 'integer'
     ];
 
     /**
@@ -55,6 +57,7 @@ class Group extends Model implements AuditableContract
         'name' => 'required|max:100',
         'description' => 'nullable|max:250',
         'level' => 'required',
+        'user_id' => 'nullable'
     ];
 
     public function subgroup()

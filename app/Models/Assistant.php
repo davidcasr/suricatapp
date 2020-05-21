@@ -64,7 +64,7 @@ class Assistant extends Model implements AuditableContract
 
     public function meetings()
     {
-        return $this->hasMany(Meeting::class);
+        return $this->hasMany(Meeting::class, 'id','meeting_id');
     }
 
     public function scopeQAssitant($query, $user_id)

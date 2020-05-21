@@ -40,7 +40,7 @@
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit( __('buttons.save'), ['class' => 'btn btn-primary']) !!}
-    <a href="{!! route('users.index') !!}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
+    <a href="{!! route('account.index') !!}" class="btn btn-default">{{ __('buttons.cancel') }}</a>
 </div>
 
 

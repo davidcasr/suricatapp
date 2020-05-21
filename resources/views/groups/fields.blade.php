@@ -43,6 +43,21 @@
     {!! Form::textarea('description', null, ['class' => 'form-control ckeditor','maxlength' => 250]) !!}
 </div>
 
+<!-- user_id Field -->
+@if($users != null)
+	@if(isset($subgroup))
+	    <div class="form-group col-sm-12">
+	        {!! Form::label('user_id', 'Líder de grupo') !!}
+	        {!! Form::select('user_id', $users, null, ['class' => 'form-control', 'id' => 'user_id']) !!} 
+	    </div>
+    @else
+    	<div class="form-group col-sm-12">
+    	    {!! Form::label('user_id', 'Líder de grupo') !!}
+    	    {!! Form::select('user_id', $users, null, ['class' => 'form-control', 'id' => 'user_id', 'placeholder' => 'Seleccione líder de grupo']) !!} 
+    	</div>
+    @endif
+@endif
+
 <!-- Submit Field -->
 <div class="form-group col-sm-12">
     {!! Form::submit(__('buttons.save'), ['class' => 'btn btn-primary']) !!}

@@ -15,7 +15,11 @@
                 </div>
             </div>
             <div class="page-title-actions">
-                <a class="btn btn-primary" href="{{ route('groups.create') }}">{{ __('functionalities.create') }} @choice('functionalities.groups', 1)</a>  
+                @if($button_create == true)
+                    <a class="btn btn-primary" href="{{ route('groups.create') }}">{{ __('functionalities.create') }} @choice('functionalities.groups', 1)</a>
+                @else
+                    <a class="btn btn-primary disabled" href="{{ route('groups.create') }}">{{ __('functionalities.create') }} @choice('functionalities.groups', 1)</a>
+                @endif  
             </div>   
         </div>
     </div>

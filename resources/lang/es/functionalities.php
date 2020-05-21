@@ -82,7 +82,8 @@ return [
         'identification' => 'Identificación',
         'name' => 'Nombre',
         'description' => 'Descripción',
-        'subgroups' => 'Subgrupos'
+        'subgroups' => 'Subgrupos',
+        'user_id' => 'Líder de grupo'
     ],
 
     'features'   => 'Característica|Características',

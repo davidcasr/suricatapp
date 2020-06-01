@@ -31,8 +31,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('telescope:prune')->daily();
 
         // Notifications
-        $schedule->command('notification:birthday')->dailyAt('24:00');
-        $schedule->command('notification:nonAttendance')->dailyAt('24:00');
+        $schedule->command('notification:birthday --force')->dailyAt('24:00');
+        $schedule->command('notification:nonAttendance --force')->dailyAt('24:00');
     }
 
     /**

@@ -74,7 +74,7 @@
                         {{ __('functionalities.dashboard_var.assitantsPerMonth') }}
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group">
-                                <a href="{{ url('dashboard/detail/assitantsPerMonth') }}" class="btn btn-info">Detalle</a>
+                                <a href="{{ url('dashboard/detail/assitantsPerMonth') }}" class="btn btn-primary">Detalle</a>
                             </div>
                         </div>
                     </div>
@@ -100,7 +100,7 @@
                         {{ __('functionalities.dashboard_var.assistantsPerMeeting') }}  [Mes {{ \Carbon\Carbon::now()->format('m') }}]
                         <div class="btn-actions-pane-right">
                             <div role="group" class="btn-group-sm btn-group">
-                                <a href="{{ url('dashboard/detail/assistantsPerMeeting') }}" class="btn btn-info">Detalle</a>
+                                <a href="{{ url('dashboard/detail/assistantsPerMeeting') }}" class="btn btn-primary">Detalle</a>
                             </div>
                         </div>
                     </div>

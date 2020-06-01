@@ -4,6 +4,8 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Console\Commands\BirthdayNotificationCommand;
+use App\Console\Commands\NonAttendanceNotificationCommand;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,7 +15,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        BirthdayNotificationCommand::class,
+        NonAttendanceNotificationCommand::class,
     ];
 
     /**
@@ -23,12 +26,13 @@ class Kernel extends ConsoleKernel
      * @return void
      */
     protected function schedule(Schedule $schedule)
-    {
-        // $schedule->command('inspire')
-        //          ->hourly();
-        
+    {        
         // Laravel Telescope Data Pruning
         $schedule->command('telescope:prune')->daily();
+
+        // Notifications
+        $schedule->command('notification:birthday')->dailyAt('24:00');
+        $schedule->command('notification:nonAttendance')->dailyAt('24:00');
     }
 
     /**

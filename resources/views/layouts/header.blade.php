@@ -39,9 +39,13 @@
                     <div class="widget-content-wrapper">
                         <div class="widget-content-left">
                             <div class="btn-group">
-                                <a href="#" class="p-0 btn">
+                                <a href="{{ route('notifications.index') }}" class="p-0 btn">
                                     <img width="32" src="{{ asset('images/global.png') }}" alt="">
-                                    <span class="badge badge-pill badge-danger">1</span>
+                                        @if(count(auth()->user()->unreadNotifications))
+                                           <span class="badge badge-pill badge-danger">
+                                               {{ count(auth()->user()->unreadNotifications) }}
+                                           </span>
+                                        @endif
                                 </a>
                             </div>
 

@@ -44,7 +44,7 @@ class GroupController extends AppBaseController
     {
         $keyword = $request->get('search');
 
-        if(Bouncer::is(Auth::user())->a('admin')){
+        if(Bouncer::is(Auth::user())->a('admin') || Bouncer::is(Auth::user())->a('supervisor')){
             $button_create = true;
 
             if (!empty($keyword)) {
@@ -89,8 +89,6 @@ class GroupController extends AppBaseController
                 ->paginate(config('global.per_page'));
             }
         }
-
-        
 
         return view('groups.index', compact('groups', 'button_create'));
     }

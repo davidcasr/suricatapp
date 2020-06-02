@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\User;
 use App\Models\Person;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationsController extends Controller
 {
@@ -16,6 +18,7 @@ class NotificationsController extends Controller
             ->whereNull('community_people.group_id')
             ->whereNotNull('people.birth')
             ->whereMonth('people.birth', Carbon::now()->format('m'))
+            ->where('community_users.user_id', $this->user_review())
             ->distinct()
             ->get(); 
 
@@ -27,5 +30,19 @@ class NotificationsController extends Controller
     		auth()->user()->unreadNotifications->markAsRead();
     		return redirect()->back();
     	}
+    }
+
+    public function user_review(){
+
+        $user = User::findOrfail(Auth::id());        
+        
+        if(is_null($user->parent_id))
+        {
+            $user_id = Auth::id(); 
+        }else{
+            $user_id = $user->parent_id;
+        }  
+
+        return $user_id;
     }
 }

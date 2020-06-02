@@ -19,6 +19,7 @@ use App\Models\Group;
 use App\Models\Profile;
 use App\Models\Country;
 use App\Models\Meeting;
+use App\Notifications\NewPersonNotification;
 
 class GuestController extends AppBaseController
 {
@@ -99,6 +100,10 @@ class GuestController extends AppBaseController
         $input['status'] = 0;
 
         $person = $this->personRepository->create($input);
+        
+        // Send of notification 
+        $this->sendNotificationNewPerson($person);
+        
         $person->communities()->attach($request->communities);
 
         for($i = 0; $i < count($request->communities); $i++){
@@ -114,5 +119,23 @@ class GuestController extends AppBaseController
         Flash::success(trans('flash.store', ['model' => trans_choice('functionalities.people', 1)]));
 
         return redirect(route('meetings.index'));
+    }
+
+    public function sendNotificationNewPerson($person){
+        $user = User::findOrfail(Auth::id());
+
+        if(is_null($user->parent_id))
+        {
+            $user_parent = User::where('id', Auth::id());
+            $users = User::where('parent_id', Auth::id())->union($user_parent)->get();
+        }else{
+            $user_parent = User::where('id', $user->parent_id);
+            $users = User::where('parent_id', $user->parent_id)->union($user_parent)->get();
+        }
+
+        foreach ($users as $us){
+            $user = User::findOrfail($us->id);
+            $user->notify(new NewPersonNotification($person));
+        } 
     }
 }

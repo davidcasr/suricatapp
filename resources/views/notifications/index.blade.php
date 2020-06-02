@@ -69,6 +69,21 @@
                                 </div>
                             </div>
                         @endif
+                        @if($notification->type === 'App\Notifications\NewPersonNotification')
+                            <div class="card-shadow-primary border mb-2 card card-body border-danger">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <div class="font-icon-wrapper">
+                                            <i class="pe-7s-add-user icon-gradient bg-love-kiss"> </i>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <h5 class="card-title">{{ $notification->data['first_name']. " ". $notification->data['last_name'] }}</h5>
+                                        Es un nuevo usuario, recuerda que los usuarios administradores deben ingresar al usuario, revisar la información y guardar los cambios
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                     @endforeach 
                 @else
                     @include('states.empty_state')

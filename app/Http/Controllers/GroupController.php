@@ -113,12 +113,11 @@ class GroupController extends AppBaseController
 
         if(!$request->subgroup){
             $communities = Community::communities(Auth::id())->pluck('name','id');
-            $users = User::where('id', Auth::id())->get()->pluck('email', 'id');
+            
             return view('groups.create', compact('communities', 'users'));
         }else{
             $subgroup = $request->subgroup;
             $levels = Group::where('id', $request->subgroup)->select('level')->get();
-            $users = User::where('id', Auth::id())->get()->pluck('email', 'id');
 
             $communities = CommunityGroups::join('communities', 'community_groups.community_id', '=', 'communities.id')
                 ->where('community_groups.group_id', $request->subgroup)

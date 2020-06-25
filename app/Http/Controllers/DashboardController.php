@@ -16,6 +16,7 @@ use App\Charts\MeetingsPerMonth;
 use App\Charts\AssitantsPerMonth;
 use App\Charts\AssistantsPerMeeting;
 use App\User;
+use Bouncer;
 
 class DashboardController extends Controller
 {
@@ -28,14 +29,26 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        // Statistics In Line
-    	$statisticsInLine = $this->statisticsInLine();
+        if(Bouncer::is(Auth::user())->a('admin') || Bouncer::is(Auth::user())->a('supervisor')){
+            // Statistics In Line
+            $statisticsInLine = $this->statisticsInLine();
 
-        // Graphics
-        $peoplePerMonth = $this->peoplePerMonth();
-        $meetingsPerMonth = $this->meetingsPerMonth();
-        $assitantsPerMonth = $this->assitantsPerMonth(); 
-        $assistantsPerMeeting = $this->assistantsPerMeeting();  
+            // Graphics
+            $peoplePerMonth = $this->peoplePerMonth();
+            $meetingsPerMonth = $this->meetingsPerMonth();
+            $assitantsPerMonth = $this->assitantsPerMonth(); 
+            $assistantsPerMeeting = $this->assistantsPerMeeting(); 
+        }elseif(Bouncer::is(Auth::user())->a('group_leader')){
+            // Statistics In Line
+            $statisticsInLine = null;
+
+            // Graphics
+            $peoplePerMonth = null;
+            $meetingsPerMonth = null;
+            $assitantsPerMonth = $this->assitantsPerMonth(); 
+            $assistantsPerMeeting = $this->assistantsPerMeeting();
+        }
+         
 
         return view('dashboard.index', 
             compact('statisticsInLine','peoplePerMonth', 'meetingsPerMonth', 'assitantsPerMonth', 'assistantsPerMeeting'
@@ -311,7 +324,11 @@ class DashboardController extends Controller
         {
             $user_id = Auth::id(); 
         }else{
-            $user_id = $user->parent_id;
+            if(Bouncer::is(Auth::user())->a('group_leader')){
+                $user_id = Auth::id();
+            }else{
+                $user_id = $user->parent_id;
+            }            
         }  
 
         return $user_id;

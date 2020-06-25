@@ -18,6 +18,7 @@ use App\Models\Feature;
 use App\Models\Group;
 use App\Models\Profile;
 use App\Models\Country;
+use App\Models\GroupMeetings;
 
 class PersonController extends AppBaseController
 {
@@ -182,6 +183,18 @@ class PersonController extends AppBaseController
                 ->whereNotNull('community_people.group_id')
                 ->distinct()
                 ->paginate(config('global.per_page'));
+
+            if($person->status == 0) {
+                $group_meetings = GroupMeetings::join('meetings', 'group_meetings.meeting_id', '=', 'meetings.id')
+                    ->join('assistants', 'meetings.id', '=', 'assistants.meeting_id')
+                    ->join('groups', 'group_meetings.group_id', '=', 'groups.id')
+                    ->where('assistants.person_id', '=', $id)
+                    ->select('groups.*')
+                    ->distinct()
+                    ->first();
+            }else{
+                $group_meetings = null;
+            }
         }else{
             abort(401);
         }
@@ -192,7 +205,7 @@ class PersonController extends AppBaseController
             return redirect(route('people.index'));
         }
 
-        return view('people.show', compact('person','communities', 'community_people'));
+        return view('people.show', compact('person','communities', 'community_people', 'group_meetings'));
     }
 
     /**

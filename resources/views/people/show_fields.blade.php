@@ -83,6 +83,10 @@
                 <td><b>{!! Form::label('updated_at', __('functionalities.updated_at')) !!}</b></td>
                 <td>{{ $person->updated_at }}</td>
             </tr>
-        </tbody>        
+                    
+        </tbody>       
     </table>
+    @if($person->status == 0)
+        <div class="alert alert-primary fade show" role="alert">Esta persona asistió al grupo <b>{{ $group_meetings->name}}</b> en su primera reunión</div> 
+    @endif
 </div>

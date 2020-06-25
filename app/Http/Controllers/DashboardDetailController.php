@@ -82,8 +82,12 @@ class DashboardDetailController extends Controller
         {
             $user_id = Auth::id(); 
         }else{
-            $user_id = $user->parent_id;
-        }  
+            if(Bouncer::is(Auth::user())->a('group_leader')){
+                $user_id = Auth::id();
+            }else{
+                $user_id = $user->parent_id;
+            }            
+        }
 
         return $user_id;
     }

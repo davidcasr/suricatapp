@@ -50,7 +50,7 @@ return [
 
     'communities_var'   => [
     	'identification' => 'Identificación',
-        'name' => 'Nombre',
+        'name' => 'Nombre *',
         'description' => 'Descripción',
         'address' => 'Dirección',
         'latitude' => 'Latitud',
@@ -60,11 +60,11 @@ return [
     'people'   => 'Persona|Personas',
 
     'people_var'   => [
-        'identification' => 'Id',
-        'first_name' => 'Nombres',
-        'last_name' => 'Apellidos',
-        'email' => 'Correo electrónico',
-        'sex' => 'Sexo',
+        'identification' => 'Id *',
+        'first_name' => 'Nombres *',
+        'last_name' => 'Apellidos *',
+        'email' => 'Correo electrónico *',
+        'sex' => 'Sexo *',
         'address' => 'Dirección',
         'birth' => 'Fecha de cumpleaños',
         'city' => 'Ciudad',
@@ -80,7 +80,7 @@ return [
     'groups_var'   => [
         'parent_id' => 'Grupo Padre',
         'identification' => 'Identificación',
-        'name' => 'Nombre',
+        'name' => 'Nombre *',
         'description' => 'Descripción',
         'subgroups' => 'Subgrupos',
         'user_id' => 'Líder de grupo'
@@ -89,14 +89,14 @@ return [
     'features'   => 'Característica|Características',
 
     'features_var'   => [
-        'name' => 'Nombre',
-        'description' => 'Descripción'
+        'name' => 'Nombre *',
+        'description' => 'Descripción *'
     ],
 
     'profiles'   => 'Perfil|Perfiles',
 
     'profiles_var'   => [
-        'name' => 'Nombre',
+        'name' => 'Nombre *',
         'description' => 'Descripción'
     ],
 
@@ -105,11 +105,11 @@ return [
     'meetings_var'   => [
         'user_id' => 'user_id',
         'person_id' => 'person_id',
-        'name' => 'Título',
+        'name' => 'Título *',
         'description' => 'Descripción',
-        'date' => 'Fecha de la reunión',
-        'time' => 'Hora de la reunión',
-        'address' => 'Dirección',
+        'date' => 'Fecha de la reunión *',
+        'time' => 'Hora de la reunión *',
+        'address' => 'Dirección *',
         'latitude' => 'Latitud',
         'longitude' => 'Longitud'
     ],
@@ -119,16 +119,16 @@ return [
     'meeting_reports_var'   => [
         'user_id' => 'Creado por',
         'person_id' => 'person_id',
-        'meeting_id' => 'Identificador de reunión',
-        'description' => 'Descripción'
+        'meeting_id' => 'Identificador de reunión *',
+        'description' => 'Descripción *'
     ],
 
     'assistants'   => 'Invitado|Invitados',
 
     'assistants_var'   => [
-        'person_id' => 'Persona',
-        'meeting_id' => 'Identificador de Reunión',
-        'confirmation' => 'Asistencia',
+        'person_id' => 'Persona *',
+        'meeting_id' => 'Identificador de Reunión *',
+        'confirmation' => 'Asistencia *',
         'guests' => 'Invitados'
     ],
 
@@ -137,9 +137,9 @@ return [
     'users_var'   => [
         'first_name' => 'Nombres',
         'last_name' => 'Apellidos',
-        'username' => 'Usuario',
-        'email' => 'Correo electrónico',
-        'password' => 'Contraseña',
+        'username' => 'Usuario *',
+        'email' => 'Correo electrónico *',
+        'password' => 'Contraseña *',
         'phone' => 'Teléfono',
         'roles' => 'Roles',
         'fullname' => 'Nombre Completo'
@@ -188,12 +188,12 @@ return [
     'plans' => 'Plan|Planes',
 
     'plans_var'   => [
-        'identification' => 'Identificación',
-        'name' => 'Nombre del plan',
+        'identification' => 'Identificación *',
+        'name' => 'Nombre del plan *',
         'price' => 'Precio',
-        'q_users' => 'Cant. Usuarios',
-        'q_administrators' => 'Cant. Administradores',
-        'q_communities' => 'Cant. Comunidades'
+        'q_users' => 'Cant. Usuarios *',
+        'q_administrators' => 'Cant. Administradores *',
+        'q_communities' => 'Cant. Comunidades *'
     ],
 
     'plan_users' => 'Planes vs Usuarios',

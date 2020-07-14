@@ -30,10 +30,8 @@ class DashboardDetailController extends Controller
 
         if(Bouncer::is(Auth::user())->a('group_leader')){
             $data = Assistant::join('meetings','meetings.id', '=','assistants.meeting_id')
-                    ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
-                    ->join('groups', 'groups.id', '=', 'group_meetings.group_id')
-                    ->where('groups.user_id', Auth::id())
-                    ->whereYear('meetings.created_at', Carbon::now()->format('Y'))
+                    ->where('meetings.user_id', $this->user_review())
+                    ->whereYear('meetings.date', Carbon::now()->format('Y'))
                     ->select('assistants.*')
                     ->get();
         }else{
@@ -42,22 +40,19 @@ class DashboardDetailController extends Controller
                     ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                     ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                     ->where('community_users.user_id', $this->user_review())
-                    ->whereYear('meetings.created_at', Carbon::now()->format('Y'))
+                    ->whereYear('meetings.date', Carbon::now()->format('Y'))
                     ->select('assistants.*')
                     ->get();
         }
     	
-
     	return $data;
     }
 
     public function assistantsPerMeeting(){
         if(Bouncer::is(Auth::user())->a('group_leader')){
             $data = Assistant::join('meetings','meetings.id', '=','assistants.meeting_id')
-                    ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
-                    ->join('groups', 'groups.id', '=', 'group_meetings.group_id')
-                    ->where('groups.user_id', Auth::id())
-                    ->whereYear('meetings.created_at', Carbon::now()->format('m'))
+                    ->where('meetings.user_id', $this->user_review())
+                    ->whereMonth('meetings.date', Carbon::now()->format('m'))
                     ->select('assistants.*')
                     ->get();
         }else{
@@ -66,7 +61,7 @@ class DashboardDetailController extends Controller
                     ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                     ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                     ->where('community_users.user_id', $this->user_review())
-                    ->whereMonth('meetings.created_at', Carbon::now()->format('m'))
+                    ->whereMonth('meetings.date', Carbon::now()->format('m'))
                     ->select('assistants.*')
                     ->get();
         }

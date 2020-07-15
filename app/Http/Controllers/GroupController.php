@@ -401,7 +401,7 @@ class GroupController extends AppBaseController
     public function assistantsPerMeetingFilterGroup($idGroup){
 
         $queryAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                'meetings.name',
+                                'meetings.date as name',
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
@@ -411,7 +411,7 @@ class GroupController extends AppBaseController
                                 ->groupBy('id', 'name')->get();
 
         $queryNoAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                'meetings.name',
+                                'meetings.date as name',
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
@@ -421,7 +421,7 @@ class GroupController extends AppBaseController
                                 ->groupBy('id', 'name')->get();
 
         $queryNewAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                'meetings.name',
+                                'meetings.date as name',
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')

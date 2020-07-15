@@ -157,6 +157,7 @@ class DashboardController extends Controller
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->where('assistants.confirmation', '=', 1)
+                                ->whereNull('meetings.deleted_at')
                                 ->where('meetings.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
@@ -166,6 +167,7 @@ class DashboardController extends Controller
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->where('assistants.confirmation', '=', 0)
+                                ->whereNull('meetings.deleted_at')
                                 ->where('meetings.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
@@ -175,6 +177,7 @@ class DashboardController extends Controller
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->where('assistants.new_assistant', '=', 1)
+                                ->whereNull('meetings.deleted_at')
                                 ->where('meetings.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
@@ -187,6 +190,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.confirmation', '=', 1)
+                                ->whereNull('meetings.deleted_at')
                                 ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
@@ -199,6 +203,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.confirmation', '=', 0)
+                                ->whereNull('meetings.deleted_at')
                                 ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
@@ -211,6 +216,7 @@ class DashboardController extends Controller
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                 ->where('assistants.new_assistant', '=', 1)
+                                ->whereNull('meetings.deleted_at')
                                 ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
@@ -266,65 +272,71 @@ class DashboardController extends Controller
 
         if(Bouncer::is(Auth::user())->a('group_leader')){
             $queryAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                    'meetings.name',
+                                    'meetings.date as name',
                                     DB::raw('COUNT(*) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->where('assistants.confirmation', '=', 1)
+                                    ->whereNull('meetings.deleted_at')
                                     ->where('meetings.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                     ->groupBy('id', 'name')->get();
 
             $queryNoAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                    'meetings.name',
+                                    'meetings.date as name',
                                     DB::raw('COUNT(*) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->where('assistants.confirmation', '=', 0)
+                                    ->whereNull('meetings.deleted_at')
                                     ->where('meetings.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                     ->groupBy('id', 'name')->get();
 
             $queryNewAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                    'meetings.name',
+                                    'meetings.date as name',
                                     DB::raw('COUNT(*) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->where('assistants.new_assistant', '=', 1)
+                                    ->whereNull('meetings.deleted_at')
                                     ->where('meetings.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                     ->groupBy('id', 'name')->get();
         }else{
 
             $queryAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                    'meetings.name',
+                                    'meetings.date as name',
                                     DB::raw('COUNT(*) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                     ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                     ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                     ->where('assistants.confirmation', '=', 1)
+                                    ->whereNull('meetings.deleted_at')
                                     ->where('community_users.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                     ->groupBy('id', 'name')->get();
 
             $queryNoAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                    'meetings.name',
+                                    'meetings.date as name',
                                     DB::raw('COUNT(*) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                     ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                     ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                     ->where('assistants.confirmation', '=', 0)
+                                    ->whereNull('meetings.deleted_at')
                                     ->where('community_users.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                     ->groupBy('id', 'name')->get();
 
             $queryNewAssitantsPerMeeting = Assistant::select('meetings.id', 
-                                    'meetings.name',
+                                    'meetings.date as name',
                                     DB::raw('COUNT(*) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                     ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                     ->join('community_users', 'community_users.community_id', '=', 'communities.id')
                                     ->where('assistants.new_assistant', '=', 1)
+                                    ->whereNull('meetings.deleted_at')
                                     ->where('community_users.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                     ->groupBy('id', 'name')->get();

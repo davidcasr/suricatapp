@@ -322,34 +322,34 @@ class GroupController extends AppBaseController
     }
 
     public function assitantsPerMonthFilterGroup($idGroup){
-        $queryAssitantsPerMonth = Assistant::select(DB::raw('MONTH(assistants.created_at) as id_assistant'),
-                                DB::raw('MONTHNAME(assistants.created_at) as month'), 
+        $queryAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
+                                DB::raw('MONTHNAME(meetings.date) as month'), 
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.confirmation', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
-                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
+                                ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
-        $queryNoAssitantsPerMonth = Assistant::select(DB::raw('MONTH(assistants.created_at) as id_assistant'),
-                                DB::raw('MONTHNAME(assistants.created_at) as month'), 
+        $queryNoAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
+                                DB::raw('MONTHNAME(meetings.date) as month'), 
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.confirmation', '=', 0)
                                 ->where('group_meetings.group_id', $idGroup)
-                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
+                                ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
-        $queryNewAssitantsPerMonth = Assistant::select(DB::raw('MONTH(assistants.created_at) as id_assistant'),
-                                DB::raw('MONTHNAME(assistants.created_at) as month'), 
+        $queryNewAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
+                                DB::raw('MONTHNAME(meetings.date) as month'), 
                                 DB::raw('COUNT(*) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.new_assistant', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
-                                ->whereYear('meetings.created_at', Carbon::now()->format('Y'))                      
+                                ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
         if(!$queryAssitantsPerMonth->isEmpty()){
@@ -407,7 +407,7 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.confirmation', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
-                                ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
+                                ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
         $queryNoAssitantsPerMeeting = Assistant::select('meetings.id', 
@@ -417,7 +417,7 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.confirmation', '=', 0)
                                 ->where('group_meetings.group_id', $idGroup)
-                                ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
+                                ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
         $queryNewAssitantsPerMeeting = Assistant::select('meetings.id', 
@@ -427,26 +427,26 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.new_assistant', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
-                                ->whereMonth('meetings.created_at', Carbon::now()->format('m'))                      
+                                ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
         if(!$queryAssitantsPerMeeting->isEmpty()){
             foreach ($queryAssitantsPerMeeting as $query) {
-                $meetingNamePerMonth[] = $query->name;
+                $meetingNameAssistantsPerMonth[] = $query->name;
                 $nAssitantsPerMeeting[] = $query->n;
             }
         }else{
-            $meetingNamePerMonth[] = "";
+            $meetingNameAssistantsPerMonth[] = "";
             $nAssitantsPerMeeting[] = "";
         }
 
         if(!$queryNoAssitantsPerMeeting->isEmpty()){
             foreach ($queryNoAssitantsPerMeeting as $query) {
-                $meetingNamePerMonth[] = $query->name;
+                $meetingNameNoAssitantsPerMonth[] = $query->name;
                 $nNoAssitantsPerMeeting[] = $query->n;
             }
         }else{
-            $meetingNamePerMonth[] = "";
+            $meetingNameNoAssitantsPerMonth[] = "";
             $nNoAssitantsPerMeeting[] = "";
         }
 
@@ -456,12 +456,12 @@ class GroupController extends AppBaseController
                 $nNewAssitantsPerMeeting[] = $query->n;
             }
         }else{
-            $meetingNamePerMonth[] = "";
+            $meetingNameNewAssitantsPerMonth[] = "";
             $nNewAssitantsPerMeeting[] = "";
         }
 
         $assistantsPerMeeting = new AssistantsPerMeeting;
-        $assistantsPerMeeting->labels($meetingNamePerMonth);
+        $assistantsPerMeeting->labels($meetingNameAssistantsPerMonth);
         $assistantsPerMeeting->height(300);
         $assistantsPerMeeting->dataset('Asistentes', 'bar', $nAssitantsPerMeeting)
             ->color('rgba(30, 60, 114, 0.8)')

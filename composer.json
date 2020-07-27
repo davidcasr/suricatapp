@@ -18,7 +18,8 @@
         "laravel/tinker": "^2.0",
         "laravelcollective/html": "^6.0",
         "owen-it/laravel-auditing": "^9.3",
-        "silber/bouncer": "v1.0.0-rc.7"
+        "silber/bouncer": "v1.0.0-rc.7",
+        "writingink/wink": "0.2"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

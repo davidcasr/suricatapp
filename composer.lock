@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa4d7bbca8f639fe4800aee42db1fc61",
+    "content-hash": "6a86e272e610ef2efd61b2a2f903e18b",
     "packages": [
         {
             "name": "balping/json-raw-encoder",
@@ -580,6 +580,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -626,6 +627,7 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
@@ -3788,6 +3790,59 @@
                 "environment"
             ],
             "time": "2019-09-10T21:37:39+00:00"
+        },
+        {
+            "name": "writingink/wink",
+            "version": "v0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/writingink/wink.git",
+                "reference": "54531693eba59a3d6c193196f897f0d3b04ef965"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/writingink/wink/zipball/54531693eba59a3d6c193196f897f0d3b04ef965",
+                "reference": "54531693eba59a3d6c193196f897f0d3b04ef965",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "~5.7|~6.0|~7.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "nunomaduro/larastan": "^0.3.8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Wink\\WinkServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Wink\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Said",
+                    "email": "mohamed@laravel.com"
+                }
+            ],
+            "description": "Wink Publishing Framework.",
+            "keywords": [
+                "blog",
+                "framework",
+                "laravel"
+            ],
+            "abandoned": "themsaid/wink",
+            "time": "2020-03-06T05:09:18+00:00"
         }
     ],
     "packages-dev": [

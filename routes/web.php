@@ -11,9 +11,8 @@
 |
 */
 
-Route::get('/', function () {  
-	return view('welcome'); 
-});
+Route::get('/', 'Frontend\\FrontendController@index')->name('frontend.index');
+Route::get('/blog/{slug}', 'Frontend\\FrontendController@blog')->name('frontend.blog');
 
 // Default authentication routes
 Auth::routes(['register' => false]);

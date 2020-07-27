@@ -5,7 +5,7 @@
                 <ul class="nav">
                     <li class="nav-item">
                         <span class="nav-link">
-                            <small>Suricatapp <span>&copy; 2020 Resevados todos los derechos</span></small>
+                            <small>Suricatapp <span>&copy; 2020 Reservados todos los derechos</span></small>
                         </span>
                     </li>
                     
@@ -14,9 +14,7 @@
             <div class="app-footer-right">
                 <ul class="nav">
                     <li class="nav-item">
-                         <a href="http://davidcasr.co" class="nav-link">
-                            Made with ❤️ by @davidcasr
-                        </a>
+                        Made with ❤️ by @davidcasr
                     </li>
                 </ul>
             </div>

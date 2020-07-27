@@ -32,7 +32,14 @@
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="{{ asset('images/ms-icon-144x144.png') }}">
     <meta name="theme-color" content="#ffffff">
-    
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700|Rubik:400,600,700" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Rubik", sans-serif;
+        }
+    </style>
 </head>
 <body>
     <div id="app">

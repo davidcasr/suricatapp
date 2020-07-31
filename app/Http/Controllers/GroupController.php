@@ -324,10 +324,9 @@ class GroupController extends AppBaseController
     public function assitantsPerMonthFilterGroup($idGroup){
         $queryAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.confirmation = 1) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
-                                ->where('assistants.confirmation', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
                                 ->whereNull('meetings.deleted_at')
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -335,10 +334,9 @@ class GroupController extends AppBaseController
 
         $queryNoAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.confirmation = 0) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
-                                ->where('assistants.confirmation', '=', 0)
                                 ->where('group_meetings.group_id', $idGroup)
                                 ->whereNull('meetings.deleted_at')
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -346,10 +344,9 @@ class GroupController extends AppBaseController
 
         $queryNewAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.new_assistant = 1) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
-                                ->where('assistants.new_assistant', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
                                 ->whereNull('meetings.deleted_at')
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -405,10 +402,9 @@ class GroupController extends AppBaseController
 
         $queryAssitantsPerMeeting = Assistant::select('meetings.id', 
                                 'meetings.date as name',
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.confirmation = 1) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
-                                ->where('assistants.confirmation', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
                                 ->whereNull('meetings.deleted_at')
                                 ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
@@ -416,10 +412,9 @@ class GroupController extends AppBaseController
 
         $queryNoAssitantsPerMeeting = Assistant::select('meetings.id', 
                                 'meetings.date as name',
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.confirmation = 0) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
-                                ->where('assistants.confirmation', '=', 0)
                                 ->where('group_meetings.group_id', $idGroup)
                                 ->whereNull('meetings.deleted_at')
                                 ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
@@ -427,10 +422,9 @@ class GroupController extends AppBaseController
 
         $queryNewAssitantsPerMeeting = Assistant::select('meetings.id', 
                                 'meetings.date as name',
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.new_assistant = 1) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
-                                ->where('assistants.new_assistant', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
                                 ->whereNull('meetings.deleted_at')
                                 ->whereMonth('meetings.date', Carbon::now()->format('m'))                      

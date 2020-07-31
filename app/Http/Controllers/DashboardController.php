@@ -154,9 +154,8 @@ class DashboardController extends Controller
         if(Bouncer::is(Auth::user())->a('group_leader')){
             $queryAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.confirmation = 1) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
-                                ->where('assistants.confirmation', '=', 1)
                                 ->whereNull('meetings.deleted_at')
                                 ->where('meetings.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -164,9 +163,8 @@ class DashboardController extends Controller
 
             $queryNoAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.confirmation = 0) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
-                                ->where('assistants.confirmation', '=', 0)
                                 ->whereNull('meetings.deleted_at')
                                 ->where('meetings.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -174,9 +172,8 @@ class DashboardController extends Controller
 
             $queryNewAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.new_assistant = 1) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
-                                ->where('assistants.new_assistant', '=', 1)
                                 ->whereNull('meetings.deleted_at')
                                 ->where('meetings.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -184,12 +181,11 @@ class DashboardController extends Controller
         }else{
             $queryAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.confirmation = 1) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-                                ->where('assistants.confirmation', '=', 1)
                                 ->whereNull('meetings.deleted_at')
                                 ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -197,12 +193,11 @@ class DashboardController extends Controller
 
             $queryNoAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.confirmation = 0) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-                                ->where('assistants.confirmation', '=', 0)
                                 ->whereNull('meetings.deleted_at')
                                 ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -210,12 +205,11 @@ class DashboardController extends Controller
 
             $queryNewAssitantsPerMonth = Assistant::select(DB::raw('MONTH(meetings.date) as id_assistant'),
                                 DB::raw('MONTHNAME(meetings.date) as month'), 
-                                DB::raw('COUNT(*) as n'))
+                                DB::raw('COUNT(CASE WHEN(assistants.new_assistant = 1) THEN 0 END) as n'))
                                 ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                 ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                 ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                 ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-                                ->where('assistants.new_assistant', '=', 1)
                                 ->whereNull('meetings.deleted_at')
                                 ->where('community_users.user_id', $this->user_review())
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
@@ -273,9 +267,8 @@ class DashboardController extends Controller
         if(Bouncer::is(Auth::user())->a('group_leader')){
             $queryAssitantsPerMeeting = Assistant::select('meetings.id', 
                                     'meetings.date as name',
-                                    DB::raw('COUNT(*) as n'))
+                                    DB::raw('COUNT(CASE WHEN(assistants.confirmation = 1) THEN 0 END) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
-                                    ->where('assistants.confirmation', '=', 1)
                                     ->whereNull('meetings.deleted_at')
                                     ->where('meetings.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
@@ -283,9 +276,8 @@ class DashboardController extends Controller
 
             $queryNoAssitantsPerMeeting = Assistant::select('meetings.id', 
                                     'meetings.date as name',
-                                    DB::raw('COUNT(*) as n'))
+                                    DB::raw('COUNT(CASE WHEN(assistants.confirmation = 0) THEN 0 END) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
-                                    ->where('assistants.confirmation', '=', 0)
                                     ->whereNull('meetings.deleted_at')
                                     ->where('meetings.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
@@ -293,9 +285,8 @@ class DashboardController extends Controller
 
             $queryNewAssitantsPerMeeting = Assistant::select('meetings.id', 
                                     'meetings.date as name',
-                                    DB::raw('COUNT(*) as n'))
+                                    DB::raw('COUNT(CASE WHEN(assistants.new_assistant = 1) THEN 0 END) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
-                                    ->where('assistants.new_assistant', '=', 1)
                                     ->whereNull('meetings.deleted_at')
                                     ->where('meetings.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
@@ -304,12 +295,11 @@ class DashboardController extends Controller
 
             $queryAssitantsPerMeeting = Assistant::select('meetings.id', 
                                     'meetings.date as name',
-                                    DB::raw('COUNT(*) as n'))
+                                    DB::raw('COUNT(CASE WHEN(assistants.confirmation = 1) THEN 0 END) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                     ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                     ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-                                    ->where('assistants.confirmation', '=', 1)
                                     ->whereNull('meetings.deleted_at')
                                     ->where('community_users.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
@@ -317,12 +307,11 @@ class DashboardController extends Controller
 
             $queryNoAssitantsPerMeeting = Assistant::select('meetings.id', 
                                     'meetings.date as name',
-                                    DB::raw('COUNT(*) as n'))
+                                    DB::raw('COUNT(CASE WHEN(assistants.confirmation = 0) THEN 0 END) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                     ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                     ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-                                    ->where('assistants.confirmation', '=', 0)
                                     ->whereNull('meetings.deleted_at')
                                     ->where('community_users.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
@@ -330,12 +319,11 @@ class DashboardController extends Controller
 
             $queryNewAssitantsPerMeeting = Assistant::select('meetings.id', 
                                     'meetings.date as name',
-                                    DB::raw('COUNT(*) as n'))
+                                    DB::raw('COUNT(CASE WHEN(assistants.new_assistant = 1) THEN 0 END) as n'))
                                     ->join('meetings','meetings.id', '=','assistants.meeting_id')
                                     ->join('community_meetings','community_meetings.meeting_id', '=','meetings.id')
                                     ->join('communities', 'community_meetings.community_id', '=', 'communities.id')
                                     ->join('community_users', 'community_users.community_id', '=', 'communities.id')
-                                    ->where('assistants.new_assistant', '=', 1)
                                     ->whereNull('meetings.deleted_at')
                                     ->where('community_users.user_id', $this->user_review())
                                     ->whereMonth('meetings.date', Carbon::now()->format('m'))                      

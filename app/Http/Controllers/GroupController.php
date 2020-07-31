@@ -329,6 +329,7 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.confirmation', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
+                                ->whereNull('meetings.deleted_at')
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
@@ -339,6 +340,7 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.confirmation', '=', 0)
                                 ->where('group_meetings.group_id', $idGroup)
+                                ->whereNull('meetings.deleted_at')
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
@@ -349,6 +351,7 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.new_assistant', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
+                                ->whereNull('meetings.deleted_at')
                                 ->whereYear('meetings.date', Carbon::now()->format('Y'))                      
                                 ->groupBy('id_assistant', 'month')->get();
 
@@ -407,6 +410,7 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.confirmation', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
+                                ->whereNull('meetings.deleted_at')
                                 ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
@@ -417,6 +421,7 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.confirmation', '=', 0)
                                 ->where('group_meetings.group_id', $idGroup)
+                                ->whereNull('meetings.deleted_at')
                                 ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
@@ -427,6 +432,7 @@ class GroupController extends AppBaseController
                                 ->join('group_meetings', 'meetings.id', '=', 'group_meetings.meeting_id')
                                 ->where('assistants.new_assistant', '=', 1)
                                 ->where('group_meetings.group_id', $idGroup)
+                                ->whereNull('meetings.deleted_at')
                                 ->whereMonth('meetings.date', Carbon::now()->format('m'))                      
                                 ->groupBy('id', 'name')->get();
 
@@ -452,7 +458,7 @@ class GroupController extends AppBaseController
 
         if(!$queryNewAssitantsPerMeeting->isEmpty()){
             foreach ($queryNewAssitantsPerMeeting as $query) {
-                $meetingNamePerMonth[] = $query->name;
+                $meetingNameNewAssitantsPerMonth[] = $query->name;
                 $nNewAssitantsPerMeeting[] = $query->n;
             }
         }else{

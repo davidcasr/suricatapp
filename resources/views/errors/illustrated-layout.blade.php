@@ -6,9 +6,31 @@
 
         <title>@yield('title')</title>
 
+        <link rel="apple-touch-icon" sizes="57x57" href="{{ asset('images/apple-icon-57x57.png') }}">
+        <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('images/apple-icon-60x60.png') }}">
+        <link rel="apple-touch-icon" sizes="72x72" href="{{ asset('images/apple-icon-72x72.png') }}">
+        <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('images/apple-icon-76x76.png') }}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('images/apple-icon-114x114.png') }}">
+        <link rel="apple-touch-icon" sizes="120x120" href="{{ asset('images/apple-icon-120x120.png') }}">
+        <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('images/apple-icon-144x144.png') }}">
+        <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('images/apple-icon-152x152.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/apple-icon-180x180.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('images/android-icon-192x192.png') }}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon-32x32.png') }}">
+        <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('images/favicon-96x96.png') }}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon-16x16.png') }}">
+        <link rel="manifest" href="{{ asset('images/manifest.json') }}">
+        <meta name="msapplication-TileColor" content="#ffffff">
+        <meta name="msapplication-TileImage" content="{{ asset('images/ms-icon-144x144.png') }}">
+        <meta name="theme-color" content="#ffffff">
+
         <!-- Fonts -->
-        <link rel="dns-prefetch" href="//fonts.gstatic.com">
-        <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,600,700|Rubik:400,600,700" rel="stylesheet">
+        <style>
+            body {
+                font-family: "Rubik", sans-serif;
+            }
+        </style>
 
         <!-- Styles -->
         <style>
@@ -472,14 +494,15 @@
 
                     <a href="{{ app('router')->has('home') ? route('home') : url('/') }}">
                         <button class="bg-transparent text-grey-darkest font-bold uppercase tracking-wide py-3 px-6 border-2 border-grey-light hover:border-grey rounded-lg">
-                            {{ __('Go Home') }}
+                            {{ __('Vamos a casa') }}
                         </button>
                     </a>
                 </div>
             </div>
 
-            <div class="relative pb-full md:flex md:pb-0 md:min-h-screen w-full md:w-1/2">
-                @yield('image')
+            <div class="relative pb-full md:flex md:pb-0 md:min-h-screen w-full md:w-1/2">               
+                <div style="background-image: url('{{ asset('images/error.jpg') }}');" class="absolute pin bg-cover bg-no-repeat md:bg-left lg:bg-center">
+                </div>
             </div>
         </div>
     </body>

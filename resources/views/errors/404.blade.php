@@ -1,5 +1,5 @@
-@extends('errors::minimal')
+@extends('errors::illustrated-layout')
 
-@section('title', __('Not Found'))
+@section('title', __('Error 404'))
 @section('code', '404')
-@section('message', __('Not Found'))
+@section('message', __('404 No encontrado | ¿Estás perdido?'))

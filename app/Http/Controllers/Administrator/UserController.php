@@ -132,6 +132,7 @@ class UserController extends AppBaseController
     public function update($id, UpdateUserRequest $request)
     {
         $user = $this->userRepository->find($id);
+        $user->retract($user->roles);
 
         if (empty($user)) {
             Flash::error(trans('flash.error', ['model' => trans_choice('functionalities.users', 1)]));
@@ -140,6 +141,7 @@ class UserController extends AppBaseController
         }
 
         $user = $this->userRepository->update($request->all(), $id);
+        $user->assign($request->input('roles'));
 
         Flash::success(trans('flash.update', ['model' => trans_choice('functionalities.users', 1)]));
 
